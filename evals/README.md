@@ -14,9 +14,9 @@ and writing concern is resolved. It is deliberately small. Passing it does not
 establish coverage, diagnostic accuracy or writing quality on another project.
 
 The regression suite checks omitted or duplicate diagnoses, immutable originals,
-required intent and Korean-fit explanations for every status, reasons and
+required meaning contexts and per-usage Korean readings, intent and Korean-fit explanations for every status, reasons and
 exception reviews, unknown pattern IDs, full catalog review including LT-05,
-and rejection of unresolved diagnoses in a complete report. It also checks that
+context/node consistency, fit/status consistency, diagnosis resolution, and rejection of uncertain changes even in partial reports. Version 1 reports must be reviewed again against version 2. It also checks that
 `--diagnosis-only` accepts a report before revision decisions exist, continues to
 validate context and diagnosis, and never emits a final completion claim.
 
@@ -47,7 +47,7 @@ Do not supply this evaluator rubric or the minimal answer report to that agent.
 - Every diagnosis, including clear results, records the confirmed UI intent and
   explains the Korean vocabulary and word combinations in that role. LT-05 is
   reviewed before the supporting form checks. Grammatically correct wording is
-  still assessed for an inappropriate foreign-language expression frame; absence
+  still assessed for an wording that does not fit the intended meaning or UI role; absence
   of a grammatical warning pattern does not complete the review.
 - An optional foreign-language source expression must have been inspected. When
   it is unavailable, the agent does not invent an original or assert translation
@@ -94,3 +94,36 @@ equivalent is neither sufficient justification nor an automatic error. Judge the
 reasoning and preserved behavior, not a fixed replacement for any one expression.
 The in-memory storage limit, persistent save notice, and unverified rendered
 interaction must remain visible in the report; prose changes do not resolve them.
+
+
+## Korean copy without an English source
+
+For a fresh run, copy `fixtures/context/` to an isolated workspace. Give the agent
+only that raw fixture, the installed skill, verified source evidence when needed,
+and a request to review and improve its Korean UI copy. Assume there is no English
+original. Do not provide other evaluation artifacts or the rubric below.
+
+Evaluate these observed behaviors, not a fixed replacement string:
+
+- The agent reads the entry promises, shared preference UI, stored values and
+  result branches. The generic `updatePreference(id, boolean)` call alone does
+  not reveal the user's task.
+- The shared `연결 유지` label has different roles: course email updates and
+  headphone background connectivity. The agent diagnoses the email label against
+  that funnel's meaning while retaining a fitting connection term in the device
+  context. It does not need an English source or infer one.
+- Different meanings of the shared key receive separate inventory IDs before
+  diagnosis. Each usage refers to its own meaning context and current Korean
+  reading. Any source-key change follows the diagnostic checkpoint.
+- A recorded mismatch is resolved in the revision or has a justified hold/keep
+  explanation. Merely changing an ending does not fix the meaning.
+- Save, cancel, reset, initial values and result branches retain their behavior.
+  The fixture only stores mock preferences in memory; it does not send email or
+  control real hardware. The report preserves this distinction.
+- UI/runtime checks and absent user research are reported accurately. A
+  mechanically valid report is not evidence that native readers prefer a phrase.
+
+The source fixture has an entry point but no dependency manifest. A source review
+requires no installation. If the evaluator builds a temporary browser harness,
+record its dependency versions and actual checks without changing the fixture's
+product behavior or committing generated files.

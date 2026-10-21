@@ -20,7 +20,7 @@ CATALOG = {
     "version": 1,
     "rules": [
         {"id": name, "axis": axis, "sources": ["SRC-001"]}
-        for axis, names in (("ux", ("UX-01", "UX-04")), ("ko", ("KO-01", "KO-04", "KO-05")))
+        for axis, names in (("ux", ("UX-01", "UX-04")), ("ko", ("KO-01", "KO-04", "KO-07")))
         for name in names
     ],
 }
@@ -41,6 +41,35 @@ class AuditTests(unittest.TestCase):
 
     def test_complete_shared_copy_contract_passes(self):
         self.assertEqual([], self.errors())
+
+    def test_version_one_reports_are_explicitly_rejected(self):
+        self.report["version"] = 1
+        self.assertRejected("version: must be 2; version 1 lacks required meaning contexts and usage diagnoses")
+
+    def test_meaning_contexts_are_required_before_revision(self):
+        del self.report["meaning_contexts"]
+        del self.report["decisions"]
+        errors = self.errors(diagnosis_only=True)
+        self.assertTrue(any("meaning_contexts: must be an array" in error for error in errors))
+
+    def test_meaning_context_ids_and_nodes_must_be_valid(self):
+        self.report["meaning_contexts"].append(copy.deepcopy(self.report["meaning_contexts"][0]))
+        self.assertRejected("meaning_contexts: duplicate id")
+        self.report["meaning_contexts"].pop()
+        self.report["meaning_contexts"][0]["node_id"] = "unvisited"
+        self.assertRejected("meaning_contexts.MC-SAVED.node_id: unknown node")
+
+    def test_meaning_context_requires_goal_sequence_and_product_evidence(self):
+        context = self.report["meaning_contexts"][0]
+        for field in ("user_goal", "prior_context", "current_decision", "immediate_outcome", "later_outcome"):
+            with self.subTest(field=field):
+                original = context.pop(field)
+                self.assertRejected(f"meaning_contexts.MC-SAVED.{field}: must be a nonempty string")
+                context[field] = original
+        context["evidence"] = []
+        self.assertRejected("meaning_contexts.MC-SAVED.evidence: must not be empty")
+        context["evidence"] = ["E-NOT-READ"]
+        self.assertRejected("meaning_contexts.MC-SAVED.evidence: unknown evidence")
 
     def test_every_inventory_item_needs_exactly_one_diagnosis(self):
         self.report["translationese"].pop()
@@ -96,6 +125,8 @@ class AuditTests(unittest.TestCase):
     def test_candidate_requires_known_patterns(self):
         diagnosis = self.report["translationese"][0]
         diagnosis.update(status="candidate", patterns=[])
+        diagnosis["context_reviews"][0]["fit"] = "mismatch"
+        self.report["decisions"][0]["diagnosis_resolution"] = "확인한 의미를 유지하면서 후보 표현을 수정했다."
         self.assertRejected("translationese.copy.saved.patterns: must not be empty")
         diagnosis["patterns"] = ["LT-INVENTED"]
         self.assertRejected("unknown diagnostic pattern")
@@ -110,8 +141,113 @@ class AuditTests(unittest.TestCase):
 
     def test_uncertain_diagnosis_allows_partial_but_prevents_completion(self):
         self.report["translationese"][0]["status"] = "uncertain"
+        self.report["translationese"][0]["context_reviews"][0]["fit"] = "uncertain"
+        decision = self.report["decisions"][0]
+        decision.update(status="blocked", after=decision["before"], diagnosis_resolution="문맥이 확인되지 않아 원문을 보류했다.")
         self.assertRejected("uncertain diagnosis prevents completion")
         self.report["complete"] = False
+        self.assertEqual([], self.errors())
+
+    def test_every_usage_site_needs_a_diagnostic_context_review(self):
+        diagnosis = self.report["translationese"][0]
+        diagnosis["context_reviews"].pop()
+        errors = self.errors(diagnosis_only=True)
+        self.assertTrue(any("translationese.copy.saved.context_reviews: must cover each declared usage site exactly once" in error for error in errors))
+
+    def test_missing_diagnostic_context_reviews_are_rejected(self):
+        del self.report["translationese"][0]["context_reviews"]
+        self.assertRejected("translationese.copy.saved.context_reviews: must be an array")
+
+    def test_duplicate_or_foreign_usage_site_in_diagnosis_is_rejected(self):
+        reviews = self.report["translationese"][0]["context_reviews"]
+        reviews.append(copy.deepcopy(reviews[0]))
+        self.assertRejected("duplicate occurrence review")
+        reviews.pop()
+        reviews[0]["occurrence_id"] = "saved.action"
+        self.assertRejected("translationese.copy.saved.context_reviews: must cover each declared usage site exactly once")
+
+    def test_diagnostic_context_must_exist_and_match_occurrence_node(self):
+        review = self.report["translationese"][0]["context_reviews"][0]
+        review["context_id"] = "MC-NOT-READ"
+        self.assertRejected("unknown meaning context")
+        review["context_id"] = "MC-HISTORY"
+        self.assertRejected("meaning context node differs from occurrence node")
+
+    def test_diagnostic_usage_review_requires_reading_reason_and_evidence(self):
+        review = self.report["translationese"][0]["context_reviews"][0]
+        for field in ("korean_reading", "reason"):
+            with self.subTest(field=field):
+                original = review.pop(field)
+                self.assertRejected(f"context_reviews[0].{field}: must be a nonempty string")
+                review[field] = original
+        review["evidence"] = []
+        self.assertRejected("context_reviews[0].evidence: must not be empty")
+        review["evidence"] = ["E-NOT-READ"]
+        self.assertRejected("context_reviews[0].evidence: unknown evidence")
+
+    def test_fit_status_is_required_and_closed(self):
+        review = self.report["translationese"][0]["context_reviews"][0]
+        for fit in (None, "grammatical"):
+            with self.subTest(fit=fit):
+                review["fit"] = fit
+                self.assertRejected("fit: must be fit, mismatch or uncertain")
+
+    def test_clear_cannot_hide_a_mismatch_or_uncertain_usage(self):
+        review = self.report["translationese"][0]["context_reviews"][0]
+        for fit in ("mismatch", "uncertain"):
+            with self.subTest(fit=fit):
+                review["fit"] = fit
+                self.assertRejected("clear requires fit at every usage site")
+
+    def test_candidate_requires_mismatch_and_cannot_hide_uncertainty(self):
+        diagnosis = self.report["translationese"][0]
+        diagnosis.update(status="candidate", patterns=["LT-05"])
+        self.report["decisions"][0]["diagnosis_resolution"] = "확인한 문제를 수정했다."
+        self.assertRejected("candidate requires at least one mismatch and no uncertain usage sites")
+        diagnosis["context_reviews"][0]["fit"] = "mismatch"
+        self.assertEqual([], self.errors())
+        diagnosis["context_reviews"][1]["fit"] = "uncertain"
+        self.assertRejected("candidate requires at least one mismatch and no uncertain usage sites")
+
+    def test_uncertain_requires_an_uncertain_usage_site(self):
+        self.report["translationese"][0]["status"] = "uncertain"
+        self.assertRejected("uncertain requires at least one uncertain usage site")
+
+    def test_candidate_final_decision_must_explain_resolution(self):
+        diagnosis = self.report["translationese"][0]
+        diagnosis.update(status="candidate", patterns=["LT-05"])
+        diagnosis["context_reviews"][0]["fit"] = "mismatch"
+        self.assertEqual([], self.errors(diagnosis_only=True))
+        self.assertRejected("diagnosis_resolution: must be a nonempty string")
+        self.report["decisions"][0]["diagnosis_resolution"] = " "
+        self.assertRejected("diagnosis_resolution: must be a nonempty string")
+        self.report["decisions"][0]["diagnosis_resolution"] = "확인한 의미와 어긋난 부분을 수정했다."
+        self.assertEqual([], self.errors())
+
+    def test_uncertain_cannot_be_changed_or_kept_even_in_partial_audit(self):
+        self.report["complete"] = False
+        diagnosis = self.report["translationese"][0]
+        diagnosis["status"] = "uncertain"
+        diagnosis["context_reviews"][0]["fit"] = "uncertain"
+        decision = self.report["decisions"][0]
+        decision["diagnosis_resolution"] = "아직 맥락을 확인하지 못했다."
+        for status in ("changed", "keep"):
+            with self.subTest(status=status):
+                decision["status"] = status
+                self.assertRejected("uncertain diagnosis does not permit changed or keep")
+        decision.update(status="blocked", after=decision["before"])
+        self.assertEqual([], self.errors())
+        del decision["diagnosis_resolution"]
+        self.assertRejected("diagnosis_resolution: must be a nonempty string")
+
+    def test_uncertain_with_mismatched_usage_can_remain_explicitly_blocked(self):
+        self.report["complete"] = False
+        diagnosis = self.report["translationese"][0]
+        diagnosis.update(status="uncertain", patterns=["LT-05"])
+        diagnosis["context_reviews"][0]["fit"] = "mismatch"
+        diagnosis["context_reviews"][1]["fit"] = "uncertain"
+        decision = self.report["decisions"][0]
+        decision.update(status="blocked", after=decision["before"], diagnosis_resolution="다른 사용처의 맥락을 확인하기 전까지 공유 문구를 보류했다.")
         self.assertEqual([], self.errors())
 
     def test_diagnosis_only_passes_before_decisions_exist(self):

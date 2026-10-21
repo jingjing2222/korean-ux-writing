@@ -2,7 +2,7 @@
 
 [한국어](README.md) · English
 
-An Agent Skill for refining Korean frontend copy. It reviews the screens users move through and how each one works, then uses published UX guidance and Korean-language references to improve awkward translations and unclear instructions.
+An Agent Skill that checks whether Korean frontend copy fits the user’s task and the product’s actual behavior, then refines it. It assumes a product written in Korean with no English source and reads the entire user journey. Published UX guidance and Korean-language references help it find misleading or unsuitable wording before polishing sentences.
 
 ## Install
 
@@ -35,8 +35,8 @@ Review everything from the entry screen through error recovery and completion.
 
 1. **Review the full user journey.** Follow the flow from entry through branches, cancellation, error recovery, and what happens after completion. Check what earlier screens have already told users.
 2. **Find where the copy appears.** Collect buttons, form instructions, errors, empty states, notifications, and accessibility text. Record when and where each item appears.
-3. **Check for translationese before editing.** Look for wording that follows English too closely and sounds unnatural in Korean, even if it is grammatically correct. Check whether it expresses the intended meaning and action naturally in that situation.
-4. **Establish what to communicate, then refine the wording.** Verify actual behavior in code and use UX references to decide what users need to know. Use Korean-language references to refine that content.
+3. **Establish what users need to know here.** Verify behavior in code and use UX references to identify the user’s goal, earlier guidance, current choice, and later consequences.
+4. **Check whether the wording conveys that meaning, then refine it.** Look for words that are unsuitable or unclear in context, even when the grammar is correct. Review shared copy at each usage site, resolve meaning problems, and then polish the sentences.
 5. **Compare the copy before and after editing.** Record each original, its reviewed wording, and the reasons and sources for the decision. Check rendered screens where the environment allows.
 
 Every item is marked **change, keep, or hold**. Preserve actual product behavior, variables, amounts, durations, conditions, and other essential details. If the copy misstates how the product works, correct it using verified facts. When information is missing, put the item on hold and record what still needs to be checked.

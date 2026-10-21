@@ -108,8 +108,8 @@ def validate(audit, catalog, require_complete=False, *, diagnostic_catalog=None,
     diagnostic_catalog = obj(diagnostic_catalog, "diagnostic_catalog")
     if require_complete and diagnosis_only:
         fail("mode", "diagnosis_only and require_complete cannot be combined")
-    if type(audit.get("version")) is not int or audit.get("version") != 1:
-        fail("version", "must be 1")
+    if type(audit.get("version")) is not int or audit.get("version") != 2:
+        fail("version", "must be 2; version 1 lacks required meaning contexts and usage diagnoses")
     complete = audit.get("complete") is True
     if type(audit.get("complete")) is not bool:
         fail("complete", "must be a boolean")
@@ -241,6 +241,16 @@ def validate(audit, catalog, require_complete=False, *, diagnostic_catalog=None,
         if reachable(terminals, reverse) != set(nodes):
             fail("funnel", "some nodes cannot reach a declared terminal")
 
+    meaning_contexts = indexed(audit.get("meaning_contexts"), "meaning_contexts", True)
+    for context_id, context in meaning_contexts.items():
+        path = f"meaning_contexts.{context_id}"
+        node_id = string(context.get("node_id"), path + ".node_id")
+        if node_id not in nodes:
+            fail(path + ".node_id", "unknown node")
+        for field in ("user_goal", "prior_context", "current_decision", "immediate_outcome", "later_outcome"):
+            string(context.get(field), path + f".{field}")
+        refs(context.get("evidence"), path + ".evidence")
+
     inventory = indexed(audit.get("inventory"), "inventory", True)
     occurrence_ids = set()
     occurrence_sites = set()
@@ -300,6 +310,37 @@ def validate(audit, catalog, require_complete=False, *, diagnostic_catalog=None,
         if "source_expression" in diagnosis:
             string(diagnosis.get("source_expression"), path + ".source_expression")
         refs(diagnosis.get("evidence"), path + ".evidence")
+        context_reviews = {}
+        fits = []
+        occurrences = occurrences_by_copy.get(copy_id, {})
+        for i, raw in enumerate(rows(diagnosis.get("context_reviews"), path + ".context_reviews", True)):
+            loc = path + f".context_reviews[{i}]"
+            review = obj(raw, loc)
+            occurrence_id = string(review.get("occurrence_id"), loc + ".occurrence_id")
+            if occurrence_id in context_reviews:
+                fail(path + ".context_reviews", f"duplicate occurrence review {occurrence_id!r}")
+            context_reviews[occurrence_id] = review
+            context_id = string(review.get("context_id"), loc + ".context_id")
+            context = meaning_contexts.get(context_id)
+            if context is None:
+                fail(loc + ".context_id", "unknown meaning context")
+            elif occurrence_id in occurrences and context.get("node_id") != occurrences[occurrence_id].get("node_id"):
+                fail(loc + ".context_id", "meaning context node differs from occurrence node")
+            string(review.get("korean_reading"), loc + ".korean_reading")
+            fit = review.get("fit")
+            if fit not in ("fit", "mismatch", "uncertain"):
+                fail(loc + ".fit", "must be fit, mismatch or uncertain")
+            fits.append(fit)
+            string(review.get("reason"), loc + ".reason")
+            refs(review.get("evidence"), loc + ".evidence")
+        if set(context_reviews) != set(occurrences):
+            fail(path + ".context_reviews", "must cover each declared usage site exactly once")
+        if status == "clear" and any(fit != "fit" for fit in fits):
+            fail(path + ".status", "clear requires fit at every usage site")
+        if status == "candidate" and ("mismatch" not in fits or "uncertain" in fits):
+            fail(path + ".status", "candidate requires at least one mismatch and no uncertain usage sites")
+        if status == "uncertain" and "uncertain" not in fits:
+            fail(path + ".status", "uncertain requires at least one uncertain usage site")
         if complete and status == "uncertain":
             fail(path, "uncertain diagnosis prevents completion")
 
@@ -317,6 +358,11 @@ def validate(audit, catalog, require_complete=False, *, diagnostic_catalog=None,
         before = string(decision.get("before"), path + ".before")
         after = string(decision.get("after"), path + ".after", False)
         string(decision.get("reason"), path + ".reason")
+        diagnosis_status = diagnoses.get(copy_id, {}).get("status")
+        if diagnosis_status in ("candidate", "uncertain"):
+            string(decision.get("diagnosis_resolution"), path + ".diagnosis_resolution")
+        if diagnosis_status == "uncertain" and status in ("changed", "keep"):
+            fail(path + ".status", "uncertain diagnosis does not permit changed or keep; update the diagnosis with new evidence first")
         item = inventory.get(copy_id, {})
         if before != item.get("original"):
             fail(path + ".before", "does not match immutable inventory original")

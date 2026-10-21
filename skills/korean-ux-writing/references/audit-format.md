@@ -1,197 +1,192 @@
-# Audit report contract
+# Audit report contract — version 2
 
-Use this format after reading the workflow. The report records the declared funnel,
-all discovered strings, and each usage site. It is not a replacement for inspecting
-the source, rendered UI, external content, or later consequences of an action.
+This report records the declared funnel, intended meaning, current Korean reading,
+and revision decision at every discovered usage site. Assume a product written in
+Korean with no English source. The report does not require or infer a translation
+history. It does not replace reading the product or checking the rendered UI.
 
-Before the first copy edit, save the original inventory and completed diagnostic
-review as `diagnosis.json`, with `complete: false`. Run the diagnostic checkpoint:
+## Before the first copy edit
+
+Read the funnel and fix the original inventory first. Reconstruct what each
+screen/state needs to communicate, then compare the current Korean at each usage
+site with that meaning. Save the completed review as `diagnosis.json`, with
+`complete: false`:
 
 ```sh
 python3 /path/to/korean-ux-writing/scripts/audit.py /path/to/diagnosis.json --diagnosis-only
 ```
 
-This checks context, funnel, inventory and diagnosis without requiring decisions
-or `unresolved`. It does not authorize a rewrite or certify a completed audit.
-Preserve this snapshot. In the final report, retain the same inventory originals
-and diagnostic copy IDs, and record the snapshot location in `diagnosis_ref`. If
-later evidence changes a diagnosis, retain the original snapshot and explain the
-new evidence. The validator compares fields within one report; it does not read
-the referenced snapshot or prove that diagnosis preceded editing.
+This validates context, funnel, inventory, meaning contexts and diagnosis without
+requiring revision decisions or `unresolved`. It does not authorize a rewrite.
+Preserve this snapshot, keep the same originals and IDs in the final report, and
+record its location in `diagnosis_ref`.
 
-After the UX and Korean reviews, run the final validator. It reads its adjacent
-installed writing-rule and diagnostic-pattern catalogs:
+If new evidence changes a diagnosis, retain the old snapshot and explain the new
+evidence in a new snapshot. If a later discovery requires splitting a copy ID,
+retain an explicit old-to-new mapping and every original occurrence. Revalidate
+the new diagnosis before dependent edits. The validator does not read snapshots
+or prove that diagnosis preceded editing.
+
+After revision, run:
 
 ```sh
 python3 /path/to/korean-ux-writing/scripts/audit.py /path/to/audit.json --require-complete
 ```
 
-Without `--require-complete`, a well-formed partial report can pass. A failed audit
-exits with status 1. `--diagnosis-only` and `--require-complete` cannot be combined.
-Add `--json` for `{valid, complete, mode, errors, limitation}` output.
-`complete` in that output is true only when the input claims completeness and the
-final declared contract passes. Diagnostic-only output always has `complete:
-false` and `mode: "diagnosis-only"`. This is not an independent quality certification.
+Without `--require-complete`, a well-formed partial report can pass. Failures exit
+with status 1. `--diagnosis-only` and `--require-complete` cannot be combined. Add
+`--json` for `{valid, complete, mode, errors, limitation}`. Diagnostic output always
+has `complete: false`. Final output is complete only if the input claims it and
+the declared contract passes; this is not independent quality certification.
 
-## Required fields
+## Fields
 
-Unknown extra fields are allowed for project-specific observations. Required keys,
-IDs and references are checked; duplicate JSON keys are rejected.
+Unknown extra fields are allowed. Duplicate JSON keys are rejected. Every
+referenced ID must exist; every required explanation must be nonempty.
 
 | Field | Content |
 | --- | --- |
-| `version` | Integer `1`. |
-| `complete` | Boolean; false while any coverage, context or product fact is unresolved. |
-| `diagnostic_patterns_reviewed` | Every installed `references/translationese.json` pattern ID exactly once; records the catalog review, not a keyword search. |
-| `scope.files` | Unique project-relative source/content files in the affected scope. Include shared copy, route definitions, validation and API adapters needed to understand the funnel. |
-| `scope.routes`, `scope.states` | Unique routes and states; all must have declared nodes before completion. Name hidden, conditional, loading, failure and success states separately. |
-| `scope.discovery` | `{methods: [string], evidence: [evidence ID], limitations: [string]}`. Describe actual discovery methods, not intended checks. |
-| `scope.exclusions` | `[{target, reason, evidence: [evidence ID]}]`. Discovered but excluded UI prevents a whole-scope completion claim. Non-UI files need not enter the scope in the first place. Explain scope selection in an optional `scope.rationale`. |
-| `evidence` | `[{id, kind, ref, detail}]`; kind is `code`, `runtime`, `spec` or `user`. Record an inspectable location and what was actually observed. These establish product facts, not writing standards. |
-| `context_reads` | `[{file, evidence: [evidence ID]}]`; every scoped file must be covered before completion. |
-| `funnel.nodes` | `[{id, route, state, kind, reviewed, evidence: [evidence ID], context_files: [file]}]`; kind is `entry`, `screen` or `terminal`. Terminal means an actual outcome or verified boundary, not an unvisited destination. |
-| `funnel.edges` | `[{id, from, to, trigger, reviewed, evidence: [evidence ID]}]`; include normal, back, cancel, error and recovery transitions. |
-| `inventory` | `[{id, original, protected_tokens: [string], occurrences: [occurrence]}]`; original remains unchanged in this ledger throughout revision. |
-| Occurrence | `{id, node_id, file, anchor, state, role}`. Use a stable key/AST or component anchor rather than only a shifting line number. Every occurrence ID is globally unique. |
-| `translationese` | `[{id, before, status, patterns: [pattern ID], intent, korean_fit, reason, exception_review, evidence: [evidence ID]}]`; exactly one diagnosis per inventory ID. Optional `source_expression` contains a foreign-language original actually inspected. |
-| `decisions` | `[{id, status, before, after, reason, ux: [basis], ko: [basis], occurrence_reviews: [review]}]`; exactly one decision per inventory ID. |
-| Basis | `{rule, reason, evidence: [evidence ID]}`. `rule` must exist in installed `references/rules.json` under the matching axis. Explain the rule's applicability and the product fact separately. |
-| Review | `{occurrence_id, evidence: [evidence ID], note}`; assess that usage site's context and consequence. |
-| `unresolved` | `[{id, reason, evidence: [evidence ID]}]`; include inaccessible screens, missing business facts and unverified behaviors. |
+| `version` | Integer `2`. Version 1 is rejected; migration requires a real contextual review, not just changing this number. |
+| `complete` | Boolean; false while coverage, context or product facts remain unresolved. |
+| `diagnostic_patterns_reviewed` | Every installed `translationese.json` pattern ID exactly once. Records catalog review, not a keyword search. |
+| `scope.files` | Unique project-relative files needed to understand all affected copy and its funnel, including routes, shared resources, validation and service adapters. |
+| `scope.routes`, `scope.states` | Unique routes and states. All must have declared nodes before completion. Distinguish conditional, loading, failure and success states. |
+| `scope.discovery` | `{methods: [string], evidence: [evidence ID], limitations: [string]}`. Record discovery work actually performed. |
+| `scope.exclusions` | `[{target, reason, evidence: [evidence ID]}]`. Excluded discovered UI prevents a whole-scope completion claim. Optional `scope.rationale` explains scope selection. |
+| `evidence` | `[{id, kind, ref, detail}]`; kind is `code`, `runtime`, `spec` or `user`. An inspectable location and observed product fact, not a writing standard. |
+| `context_reads` | `[{file, evidence: [evidence ID]}]`. Every scoped file must be covered before completion. Reading a file does not prove understanding its meaning. |
+| `funnel.nodes` | `[{id, route, state, kind, reviewed, evidence: [evidence ID], context_files: [file]}]`; kind is `entry`, `screen` or `terminal`. Terminal means a verified outcome/boundary, not an unvisited destination. |
+| `funnel.edges` | `[{id, from, to, trigger, reviewed, evidence: [evidence ID]}]`. Include normal, back, cancel, error and recovery transitions. |
+| `meaning_contexts` | `[{id, node_id, user_goal, prior_context, current_decision, immediate_outcome, later_outcome, evidence: [evidence ID]}]`. All five explanations are required. |
+| `inventory` | `[{id, original, protected_tokens: [string], occurrences: [occurrence]}]`. Keep the original unchanged. Split different meanings of a shared source key into separate IDs before diagnosis, preserving the original key/location. Do not edit source code at this stage. |
+| Occurrence | `{id, node_id, file, anchor, state, role}`. Globally unique ID and a stable key/AST/component anchor. |
+| `translationese` | `[{id, before, status, patterns: [pattern ID], intent, korean_fit, reason, exception_review, evidence: [evidence ID], context_reviews: [context review]}]`. Exactly one diagnosis per inventory ID. The field name does not imply a known translation origin. |
+| Context review | `{occurrence_id, context_id, korean_reading, fit, reason, evidence: [evidence ID]}`. Exactly one per declared usage, referencing a meaning context with the same node. `fit` is `fit`, `mismatch` or `uncertain`. |
+| `decisions` | `[{id, status, before, after, reason, ux: [basis], ko: [basis], occurrence_reviews: [review]}]`. Exactly one per inventory ID. `diagnosis_resolution` is also required for candidate/uncertain diagnoses. |
+| Basis | `{rule, reason, evidence: [evidence ID]}`. Rule must exist in `rules.json` under the matching axis. Explain its applicability and the product fact separately. |
+| Review | `{occurrence_id, evidence: [evidence ID], note}`. Check the final wording's role and consequence at each usage. |
+| `unresolved` | `[{id, reason, evidence: [evidence ID]}]`. Include missing business facts, inaccessible screens and unverified behavior. |
 
-`decisions` and `unresolved` are required for the final audit, but not for the
-diagnostic checkpoint. `diagnosis_ref` is a workflow provenance field; its path
-and the snapshot contents require manual comparison.
+`decisions` and `unresolved` are required only for the final audit. The tool reads
+its adjacent installed rule and pattern catalogs. `diagnosis_ref` and any
+old-to-new mappings are provenance fields that require manual comparison.
 
-## Diagnosis before revision
+## Meaning before wording
 
-Read the diagnostic catalog's cited criteria and exceptions, then inspect each
-original in its funnel and all declared usage sites. Begin with lexical and
-pragmatic fit: identify what this UI is actually communicating or doing, then
-explain whether its Korean word choices and combinations express that intent in
-this role. A grammatically valid phrase can still follow an unsuitable
-foreign-language expression frame. Absence of a suspicious grammatical form is
-not sufficient to finish the diagnosis. Review LT-05 first; LT-01 through LT-04
-provide supporting checks and do not replace this contextual assessment.
+Use product facts and the applicable `UX-*` guidance to write `meaning_contexts`.
+Explain the user's goal, what earlier steps promised or collected, what must be
+understood or decided now, and the immediate and later consequences. A handler
+name, resource key or paraphrase of the current copy is not enough. Code-derived
+intent is an interpretation of product behavior, not a user-research finding.
 
-`translationese.status` is:
+Several strings can reference one meaning context if they share the task, state
+and consequences. Different meanings need separate contexts. For passive status
+text, `current_decision` can explain what the user needs to know rather than invent
+a choice. If there is no prior step or further consequence, explain the verified
+boundary. If it is unknown, say what is unknown and retain the uncertainty.
 
-- `candidate`: a cited diagnostic pattern may apply in this context. This requires
-  at least one known pattern ID. It neither proves translation origin nor permits
-  automatic correction.
-- `clear`: the reviewed patterns do not establish a translationese problem in the
-  inspected context. UX, repetition, spelling or other Korean-expression issues
-  may still require revision.
-- `uncertain`: the available context or evidence cannot resolve the diagnosis.
-  Explain what remains uncertain; this prevents `complete: true`.
+Compare the current Korean with that context in every `context_review`:
 
-Every diagnosis requires the following, including `clear` decisions:
+- `korean_reading`: the action, referent or relationship the expression conveys in
+  this usage. This is the reviewer's interpretation, not an observed user quote.
+- `fit`: whether that reading and expression fit the intended message and UI role.
+  Grammatical correctness or being able to guess the feature is not sufficient.
+- `reason`: the concrete agreement, mismatch or missing evidence. Include the
+  relevant product evidence; diagnostic pattern references supply the external
+  criteria and exceptions.
 
-- `intent`: the communicated meaning or executed action confirmed in the product's
-  code, specification or other cited product evidence.
-- `korean_fit`: a concrete explanation of why the current Korean vocabulary and
-  word combinations fit or conflict with that intent and UI role. A statement
-  that a keyword or grammatical pattern was not found is insufficient.
-- `reason`, `exception_review` and product `evidence`: the diagnosis, the applicable
-  exceptions and the inspected context that supports it.
-
-`before` must equal the immutable inventory original. All listed pattern IDs must
-exist in the installed catalog; `patterns` may be empty for `clear` or `uncertain`.
-Record any considered pattern and why its exception applies rather than assuming
-that a passive, noun form or loanword is necessarily translationese. Diagnostic
-pattern references supply the external criteria; product evidence supplies the
-actual context. The validator checks that explanations are present, not whether
-they demonstrate the required reasoning.
-
-If an actual foreign-language original is available, `source_expression` may
-record it; cite where it was observed in product `evidence`. Omit this field when
-the original is unavailable, and do not reconstruct or assert a translation
-origin from the Korean phrase alone. No example expression or suggested
-alternative is a universal answer independent of the UI's actual role.
-
-## Revision decisions
-
-`decisions.status` is `changed`, `keep`, `blocked`, or `excluded`. Both `changed` and `keep`
-require nonempty UX and Korean bases and reviews for every declared occurrence.
-Keeping suitable wording is an outcome, not a skipped review. Blocked and excluded
-items preserve the original text and remain in the inventory. Empty basis arrays
-are permitted only for those unfinished decisions.
-
-`before` must equal the inventory original. A changed decision must have different
-`after` text; other statuses must preserve it. To remove redundant text, retain the
-inventory entry and use `status: "changed"`, `after: ""`, with reasons. Do not delete
-the ledger row. If a shared string needs different replacements in different
-contexts, first split it into distinct stable inventory IDs/source keys while
-retaining all original occurrences and their provenance; never apply one global
-replacement to incompatible uses.
-
-## Example: one shared message
-
-This excerpt shows one inventory/diagnosis/decision set, not a complete report. Full reports
-also need scope, evidence, context reads, `diagnostic_patterns_reviewed` and the
-entire funnel graph above. Rule
-IDs here illustrate the reference shape; choose rules by their actual meaning.
+For example, this is the shape of a context and one usage review, not a complete
+report or a fixed answer for every saved message:
 
 ```json
 {
-  "inventory": [{
-    "id": "copy.saved",
-    "original": "설정이 성공적으로 저장되었습니다",
-    "protected_tokens": [],
-    "occurrences": [
-      {"id": "saved.toast", "node_id": "saved", "file": "copy.ts", "anchor": "views.saved.message", "state": "saved", "role": "status"},
-      {"id": "history.message", "node_id": "history", "file": "copy.ts", "anchor": "views.history.message", "state": "history", "role": "status"}
-    ]
+  "meaning_contexts": [{
+    "id": "context.saved",
+    "node_id": "saved",
+    "user_goal": "선택한 표시 설정을 적용한다.",
+    "prior_context": "설정 화면에서 표시 방식을 선택하고 저장했다.",
+    "current_decision": "저장이 끝났는지 확인한다.",
+    "immediate_outcome": "확인한 저장 처리 이후 결과 알림이 나타난다.",
+    "later_outcome": "설정 화면으로 돌아가 저장된 값을 다시 변경할 수 있다.",
+    "evidence": ["E-SAVED"]
   }],
-  "translationese": [{
-    "id": "copy.saved",
-    "before": "설정이 성공적으로 저장되었습니다",
-    "status": "clear",
-    "patterns": [],
-    "intent": "완료가 확인된 설정 저장 사실을 저장 직후와 기록 화면에서 안내함.",
-    "korean_fit": "설정과 저장되었다의 결합은 이미 일어난 저장 결과를 가리키므로 두 화면의 상태 안내 의도와 맞음. 수식의 중복과 제품 말투는 별도로 검토함.",
-    "reason": "저장 어휘와 완료 결과를 알리는 서술이 실제 역할에 맞음. 외국어 원문 없이 번역 기원을 추측하지 않음.",
-    "exception_review": "피동형이나 격식체만으로 번역투로 판정하지 않고 저장 결과를 전하는 맥락을 확인함.",
-    "evidence": ["E-SAVED", "E-VOICE"]
-  }],
-  "decisions": [{
-    "id": "copy.saved",
-    "status": "changed",
-    "before": "설정이 성공적으로 저장되었습니다",
-    "after": "설정을 저장했어요",
-    "reason": "저장 결과를 유지하면서 불필요한 수식과 긴 표현을 줄임.",
-    "ux": [{"rule": "UX-04", "reason": "실제로 확인한 저장 결과만 전달함.", "evidence": ["E-SAVED"]}],
-    "ko": [{"rule": "KO-01", "reason": "제품 말투와 문장 맥락을 확인한 뒤 표현을 다듬음.", "evidence": ["E-VOICE"]}],
-    "occurrence_reviews": [
-      {"occurrence_id": "saved.toast", "evidence": ["E-SAVED"], "note": "저장 직후의 결과 안내를 확인함."},
-      {"occurrence_id": "history.message", "evidence": ["E-SAVED"], "note": "기록 화면에서도 같은 저장 사실을 가리킴."}
-    ]
+  "context_reviews": [{
+    "occurrence_id": "saved.toast",
+    "context_id": "context.saved",
+    "korean_reading": "설정 저장이 완료되었다는 결과 안내로 읽힌다.",
+    "fit": "fit",
+    "reason": "설정이 성공적으로 저장되었습니다의 대상·행동·완료 시점이 확인한 저장 결과와 맞는다. 중복 수식과 말투는 별도로 검토한다.",
+    "evidence": ["E-SAVED"]
   }]
 }
 ```
 
-## Completion and invariants
+Place `context_reviews` inside the corresponding `translationese` item in a real
+report. `intent` and `korean_fit` summarize the usage reviews; they do not replace
+them. `reason`, `exception_review` and product evidence remain required for every
+diagnosis, including `clear`.
 
-A complete report must have every node and transition reviewed, all scoped context
-files read, every route/state represented, every node reachable from an entry, and
-every node able to reach a terminal. Every discovered copy ID needs a diagnosis
-and a decision, with the same immutable original; all diagnostic patterns must
-have been reviewed. An uncertain diagnosis prevents completion;
-every reviewed copy needs every usage site checked. Limitations, exclusions,
-unresolved issues, and blocked/excluded decisions all prevent completion.
+## Diagnosis outcomes
 
-The validator preserves a multiset of common `{name}`, `{{name}}`, `${expression}`,
-positional braces, printf-style tokens and ICU argument headers. It also compares
-common ICU branch selectors, offsets and number markers. It is not a full ICU,
-JavaScript or template parser. Use explicit `protected_tokens` for additional
-syntax, prices, dates, product names or legally meaningful fragments. Each listed
-token must exist in the original and retain the same occurrence count. Validate
-framework syntax and meaning with the project's actual tooling as well.
+Review LT-05 first, then LT-01 through LT-04 as supporting checks. These describe
+review categories, not exhaustive detection of all unsuitable Korean.
 
-The validator cannot discover omitted UI, verify that an evidence note is true,
-detect translation origin, establish diagnostic accuracy, judge Korean fluency,
-prove the order of diagnosis and editing, or prove a proposed revision was applied. Source inventory,
-funnel inspection, rendered checks and diff verification are separate required
-work. Do not turn a mechanically passing report into an unsupported completion
-claim. If a destination cannot be inspected, record it as unreviewed and explain
-the gap; do not relabel it as a terminal or silently narrow the scope.
+- `candidate`: at least one usage has `mismatch`, none has `uncertain`, and at least
+  one known diagnostic pattern applies. It is a reasoned review candidate, not
+  proof of translation origin or automatic rewrite authority.
+- `clear`: all usages have `fit`. The reviewed patterns do not establish a problem
+  in those contexts. UX facts, repetition, spelling or other concerns can still
+  require revision; do not relabel all issues as translationese.
+- `uncertain`: at least one usage has `uncertain`. Other usages may fit or mismatch.
+  Explain what cannot be resolved. This prevents overall completion.
+
+`before` must equal the inventory original. All pattern IDs must be known;
+`patterns` may be empty for clear/uncertain results. Ordinary passives, noun
+labels and familiar technical terms are not automatically unsuitable.
+
+Normally there is no foreign-language original. Do not search for one as a
+prerequisite, invent one, or infer translation origin from the Korean alone. Only
+when an actual source expression is supplied or encountered may the optional
+`source_expression` record it, with evidence of where it was inspected. It is
+supplementary context, never the default standard for judging Korean copy.
+
+## Revision decisions
+
+Status is `changed`, `keep`, `blocked` or `excluded`. Both changed and keep require
+nonempty UX and Korean bases and reviews of every declared usage. Keeping suitable
+copy is a reviewed outcome. Blocked/excluded decisions preserve the original and
+may have empty basis arrays.
+
+For candidate/uncertain diagnoses, `diagnosis_resolution` explains how the final
+decision addresses the finding or why it remains on hold. A smoother ending alone
+does not resolve a mismatch in the action, referent or outcome. Uncertain diagnoses
+cannot be changed or kept, even in a partial audit: obtain evidence, update the
+diagnosis and save a new checkpoint before editing. Preserve the old snapshot.
+
+Changed decisions must have different `after` text; other statuses must preserve
+it. Removing redundant text is `changed` with `after: ""`; retain the inventory row.
+Different replacements for different meanings require distinct inventory IDs
+before diagnosis, as described above. Source-key separation, if needed, follows
+diagnosis and preserves behavior and every call site.
+
+## Completion and preservation
+
+Before completion, every node/edge is reviewed, every scoped file is read, every
+route/state has a node, every node is reachable from an entry and can reach a
+terminal. Every copy ID has a diagnosis and decision preserving its original.
+Every occurrence has both contextual diagnosis and final review; all diagnostic
+patterns have been reviewed. Limitations, exclusions, unresolved items, uncertain
+diagnoses and blocked/excluded decisions prevent completion.
+
+The validator preserves multisets of common `{name}`, `{{name}}`, `${expression}`,
+positional braces, printf-style tokens and ICU argument headers. It compares
+common ICU branch selectors, offsets and number markers, but is not a full ICU,
+JavaScript or template parser. Use `protected_tokens` for additional syntax or
+material facts. Each token must exist in the original and keep its occurrence
+count. Also validate syntax and behavior with the product's actual tooling.
+
+These checks verify record consistency. They cannot discover omitted UI, verify
+product evidence, judge the truth of a Korean interpretation, certify fluency,
+prove diagnosis happened first, or prove a revision was applied. Inspect actual
+artifacts and rendered states separately. Never turn a passing report into an
+unsupported completeness claim or relabel an unread destination as a terminal.

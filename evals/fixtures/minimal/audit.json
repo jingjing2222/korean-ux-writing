@@ -1,81 +1,332 @@
 {
-  "version": 1,
+  "version": 2,
   "complete": true,
   "phase": "proposal-example",
-  "diagnostic_patterns_reviewed": ["LT-05", "LT-01", "LT-02", "LT-03", "LT-04"],
+  "diagnostic_patterns_reviewed": [
+    "LT-05",
+    "LT-01",
+    "LT-02",
+    "LT-03",
+    "LT-04"
+  ],
   "scope": {
-    "files": ["copy.ts"],
-    "routes": ["/settings/saved", "/settings/history"],
-    "states": ["saved", "history"],
+    "files": [
+      "copy.ts"
+    ],
+    "routes": [
+      "/settings/saved",
+      "/settings/history"
+    ],
+    "states": [
+      "saved",
+      "history"
+    ],
     "rationale": "This source-only contract fixture declares two views and one transition. It is not a rendered product audit.",
-    "discovery": {"methods": ["source-scan", "route-state-review"], "evidence": ["E-CODE"], "limitations": []},
+    "discovery": {
+      "methods": [
+        "source-scan",
+        "route-state-review"
+      ],
+      "evidence": [
+        "E-CODE"
+      ],
+      "limitations": []
+    },
     "exclusions": []
   },
   "evidence": [
-    {"id": "E-CODE", "kind": "code", "ref": "copy.ts:views, transitions", "detail": "The fixture declares two routes, two states, a shared message, one link and one transition."},
-    {"id": "E-SAVED", "kind": "code", "ref": "copy.ts:productContext.saveResult", "detail": "The fixture declares saveResult as confirmed. Both views display that saved result."},
-    {"id": "E-VOICE", "kind": "code", "ref": "copy.ts:productContext.messageTone", "detail": "The fixture product context declares 해요체 for messages."}
+    {
+      "id": "E-CODE",
+      "kind": "code",
+      "ref": "copy.ts:views, transitions",
+      "detail": "The fixture declares two routes, two states, a shared message, one link and one transition."
+    },
+    {
+      "id": "E-SAVED",
+      "kind": "code",
+      "ref": "copy.ts:productContext.saveResult",
+      "detail": "The fixture declares saveResult as confirmed. Both views display that saved result."
+    },
+    {
+      "id": "E-VOICE",
+      "kind": "code",
+      "ref": "copy.ts:productContext.messageTone",
+      "detail": "The fixture product context declares 해요체 for messages."
+    }
   ],
-  "context_reads": [{"file": "copy.ts", "evidence": ["E-CODE", "E-SAVED", "E-VOICE"]}],
+  "context_reads": [
+    {
+      "file": "copy.ts",
+      "evidence": [
+        "E-CODE",
+        "E-SAVED",
+        "E-VOICE"
+      ]
+    }
+  ],
   "funnel": {
     "nodes": [
-      {"id": "saved", "route": "/settings/saved", "state": "saved", "kind": "entry", "reviewed": true, "evidence": ["E-CODE", "E-SAVED"], "context_files": ["copy.ts"]},
-      {"id": "history", "route": "/settings/history", "state": "history", "kind": "terminal", "reviewed": true, "evidence": ["E-CODE", "E-SAVED"], "context_files": ["copy.ts"]}
+      {
+        "id": "saved",
+        "route": "/settings/saved",
+        "state": "saved",
+        "kind": "entry",
+        "reviewed": true,
+        "evidence": [
+          "E-CODE",
+          "E-SAVED"
+        ],
+        "context_files": [
+          "copy.ts"
+        ]
+      },
+      {
+        "id": "history",
+        "route": "/settings/history",
+        "state": "history",
+        "kind": "terminal",
+        "reviewed": true,
+        "evidence": [
+          "E-CODE",
+          "E-SAVED"
+        ],
+        "context_files": [
+          "copy.ts"
+        ]
+      }
     ],
-    "edges": [{"id": "open-history", "from": "saved", "to": "history", "trigger": "저장 기록 보기", "reviewed": true, "evidence": ["E-CODE"]}]
+    "edges": [
+      {
+        "id": "open-history",
+        "from": "saved",
+        "to": "history",
+        "trigger": "저장 기록 보기",
+        "reviewed": true,
+        "evidence": [
+          "E-CODE"
+        ]
+      }
+    ]
   },
   "inventory": [
     {
-      "id": "copy.saved", "original": "설정이 성공적으로 저장되었습니다", "protected_tokens": [],
+      "id": "copy.saved",
+      "original": "설정이 성공적으로 저장되었습니다",
+      "protected_tokens": [],
       "occurrences": [
-        {"id": "saved.message", "node_id": "saved", "file": "copy.ts", "anchor": "views.saved.message", "state": "saved", "role": "status"},
-        {"id": "history.message", "node_id": "history", "file": "copy.ts", "anchor": "views.history.message", "state": "history", "role": "status"}
+        {
+          "id": "saved.message",
+          "node_id": "saved",
+          "file": "copy.ts",
+          "anchor": "views.saved.message",
+          "state": "saved",
+          "role": "status"
+        },
+        {
+          "id": "history.message",
+          "node_id": "history",
+          "file": "copy.ts",
+          "anchor": "views.history.message",
+          "state": "history",
+          "role": "status"
+        }
       ]
     },
     {
-      "id": "copy.back", "original": "저장 기록 보기", "protected_tokens": [],
-      "occurrences": [{"id": "saved.action", "node_id": "saved", "file": "copy.ts", "anchor": "views.saved.action", "state": "saved", "role": "link"}]
+      "id": "copy.back",
+      "original": "저장 기록 보기",
+      "protected_tokens": [],
+      "occurrences": [
+        {
+          "id": "saved.action",
+          "node_id": "saved",
+          "file": "copy.ts",
+          "anchor": "views.saved.action",
+          "state": "saved",
+          "role": "link"
+        }
+      ]
     }
   ],
   "translationese": [
     {
-      "id": "copy.saved", "before": "설정이 성공적으로 저장되었습니다", "status": "clear", "patterns": [],
+      "id": "copy.saved",
+      "before": "설정이 성공적으로 저장되었습니다",
+      "status": "clear",
+      "patterns": [],
       "intent": "완료가 확인된 설정 저장 사실을 저장 직후와 기록 화면에서 안내함.",
       "korean_fit": "설정과 저장되었다의 결합은 두 화면에서 이미 일어난 저장 결과를 가리키므로 상태 안내의 의도와 맞음. 성공적으로의 정보 중복과 격식체는 별도 윤문 문제로 검토함.",
       "reason": "저장이라는 어휘와 완료 결과를 알리는 서술이 실제 역할에 맞음. 외국어 원문은 확인하지 않았으므로 번역 기원을 추측하지 않음.",
       "exception_review": "피동형이나 격식체라는 이유만으로 번역투로 판정하지 않음. 두 화면 모두 저장된 설정을 설명하는 맥락을 확인함.",
-      "evidence": ["E-CODE", "E-SAVED", "E-VOICE"]
+      "evidence": [
+        "E-CODE",
+        "E-SAVED",
+        "E-VOICE"
+      ],
+      "context_reviews": [
+        {
+          "occurrence_id": "saved.message",
+          "context_id": "MC-SAVED",
+          "korean_reading": "설정 저장이 이미 끝났다는 결과로 읽힌다.",
+          "fit": "fit",
+          "reason": "직후 표시되는 확인된 저장 결과와 저장되었다의 의미가 맞는다. 성공적으로의 중복은 후속 윤문에서 따로 다룬다.",
+          "evidence": [
+            "E-CODE",
+            "E-SAVED"
+          ]
+        },
+        {
+          "occurrence_id": "history.message",
+          "context_id": "MC-HISTORY",
+          "korean_reading": "기록에 남은 설정 저장이 완료됐다는 뜻으로 읽힌다.",
+          "fit": "fit",
+          "reason": "기록 화면도 앞선 저장의 확인된 결과를 보여 주므로 완료를 나타내는 서술이 맞는다.",
+          "evidence": [
+            "E-CODE",
+            "E-SAVED"
+          ]
+        }
+      ]
     },
     {
-      "id": "copy.back", "before": "저장 기록 보기", "status": "clear", "patterns": [],
+      "id": "copy.back",
+      "before": "저장 기록 보기",
+      "status": "clear",
+      "patterns": [],
       "intent": "저장 기록을 보여 주는 화면으로 이동하며 새로운 저장을 실행하지 않음.",
       "korean_fit": "저장 기록은 이동할 화면의 내용을, 보기는 열람 행동을 나타내므로 링크 역할과 어휘 결합이 맞음.",
       "reason": "목적지와 열람 행동을 전달하는 한국어 표현이므로 유지함. 외국어 원문 없이 직역 여부나 번역 기원을 단정하지 않음.",
       "exception_review": "짧은 링크 레이블의 명사·명사형 사용은 일반 서술문과 구분하며 완결된 문장으로 강제하지 않음.",
-      "evidence": ["E-CODE"]
+      "evidence": [
+        "E-CODE"
+      ],
+      "context_reviews": [
+        {
+          "occurrence_id": "saved.action",
+          "context_id": "MC-SAVED",
+          "korean_reading": "저장 기록이 있는 화면을 열어 내용을 본다는 뜻으로 읽힌다.",
+          "fit": "fit",
+          "reason": "보기는 기록 열람을 나타내며 실제로 기록 화면을 여는 동작과 맞고 새 저장을 약속하지 않는다.",
+          "evidence": [
+            "E-CODE"
+          ]
+        }
+      ]
     }
   ],
   "decisions": [
     {
-      "id": "copy.saved", "status": "changed", "before": "설정이 성공적으로 저장되었습니다", "after": "설정을 저장했어요",
+      "id": "copy.saved",
+      "status": "changed",
+      "before": "설정이 성공적으로 저장되었습니다",
+      "after": "설정을 저장했어요",
       "reason": "확정된 저장 결과와 기존 메시지 말투를 유지하면서 결과를 반복하는 수식을 줄임.",
-      "ux": [{"rule": "UX-04", "reason": "두 화면 모두 처리 중이 아니라 확정된 저장 결과를 표시함.", "evidence": ["E-SAVED"]}],
+      "ux": [
+        {
+          "rule": "UX-04",
+          "reason": "두 화면 모두 처리 중이 아니라 확정된 저장 결과를 표시함.",
+          "evidence": [
+            "E-SAVED"
+          ]
+        }
+      ],
       "ko": [
-        {"rule": "KO-01", "reason": "저장 완료를 전달하므로 성공적으로를 덜어도 같은 정보를 전달함.", "evidence": ["E-SAVED"]},
-        {"rule": "KO-04", "reason": "제품에 정해진 메시지 해요체를 따름.", "evidence": ["E-VOICE"]}
+        {
+          "rule": "KO-01",
+          "reason": "저장 완료를 전달하므로 성공적으로를 덜어도 같은 정보를 전달함.",
+          "evidence": [
+            "E-SAVED"
+          ]
+        },
+        {
+          "rule": "KO-04",
+          "reason": "제품에 정해진 메시지 해요체를 따름.",
+          "evidence": [
+            "E-VOICE"
+          ]
+        }
       ],
       "occurrence_reviews": [
-        {"occurrence_id": "saved.message", "evidence": ["E-SAVED", "E-CODE"], "note": "저장 직후 표시하는 확정 결과를 확인함."},
-        {"occurrence_id": "history.message", "evidence": ["E-SAVED", "E-CODE"], "note": "기록 화면에서도 동일한 저장 사실을 나타냄."}
+        {
+          "occurrence_id": "saved.message",
+          "evidence": [
+            "E-SAVED",
+            "E-CODE"
+          ],
+          "note": "저장 직후 표시하는 확정 결과를 확인함."
+        },
+        {
+          "occurrence_id": "history.message",
+          "evidence": [
+            "E-SAVED",
+            "E-CODE"
+          ],
+          "note": "기록 화면에서도 동일한 저장 사실을 나타냄."
+        }
       ]
     },
     {
-      "id": "copy.back", "status": "keep", "before": "저장 기록 보기", "after": "저장 기록 보기",
+      "id": "copy.back",
+      "status": "keep",
+      "before": "저장 기록 보기",
+      "after": "저장 기록 보기",
       "reason": "실제 목적지와 간결한 동작 표현이 일치하므로 유지함.",
-      "ux": [{"rule": "UX-01", "reason": "이 링크는 기록 화면으로 이동하며 즉시 다른 저장을 실행하지 않음.", "evidence": ["E-CODE"]}],
-      "ko": [{"rule": "KO-05", "reason": "목적어와 동작으로 이루어진 짧은 레이블이므로 유지함.", "evidence": ["E-CODE"]}],
-      "occurrence_reviews": [{"occurrence_id": "saved.action", "evidence": ["E-CODE"], "note": "saved에서 history로 이어지는 실제 전이를 확인함."}]
+      "ux": [
+        {
+          "rule": "UX-01",
+          "reason": "이 링크는 기록 화면으로 이동하며 즉시 다른 저장을 실행하지 않음.",
+          "evidence": [
+            "E-CODE"
+          ]
+        }
+      ],
+      "ko": [
+        {
+          "rule": "KO-07",
+          "reason": "저장 기록이라는 대상과 보기라는 열람 행동의 결합이 실제 이동 목적을 전달하므로 유지한다.",
+          "evidence": [
+            "E-CODE"
+          ]
+        }
+      ],
+      "occurrence_reviews": [
+        {
+          "occurrence_id": "saved.action",
+          "evidence": [
+            "E-CODE"
+          ],
+          "note": "saved에서 history로 이어지는 실제 전이를 확인함."
+        }
+      ]
     }
   ],
-  "unresolved": []
+  "unresolved": [],
+  "meaning_contexts": [
+    {
+      "id": "MC-SAVED",
+      "node_id": "saved",
+      "user_goal": "방금 저장한 설정이 반영됐는지 확인한다.",
+      "prior_context": "설정 저장이 완료된 상태로 이 예제에 진입한다. 저장 요청 이전 화면은 이 계약 예제의 범위에 없다.",
+      "current_decision": "저장 결과를 확인하고 필요하면 저장 기록을 연다.",
+      "immediate_outcome": "확인된 저장 결과가 표시되며 기록 보기 링크는 기록 화면으로 이동한다.",
+      "later_outcome": "기록 화면에서도 동일하게 확인된 저장 사실을 읽는다. 새 저장은 실행되지 않는다.",
+      "evidence": [
+        "E-CODE",
+        "E-SAVED"
+      ]
+    },
+    {
+      "id": "MC-HISTORY",
+      "node_id": "history",
+      "user_goal": "앞서 저장한 설정의 결과를 기록에서 확인한다.",
+      "prior_context": "저장 완료 화면에서 저장 기록 보기 링크를 선택해 들어온다.",
+      "current_decision": "저장된 결과를 읽는다. 이 예제에는 추가 선택 동작이 없다.",
+      "immediate_outcome": "저장 완료 화면과 같은 확인된 저장 결과를 표시한다.",
+      "later_outcome": "기록 열람이 이 예제에서 확인 가능한 종료 지점이다. 이후 전이는 선언되지 않았다.",
+      "evidence": [
+        "E-CODE",
+        "E-SAVED"
+      ]
+    }
+  ]
 }
