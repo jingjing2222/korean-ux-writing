@@ -112,12 +112,19 @@ names and the equivalence reason as additional provenance.
 For a complete report, every original occurrence must appear in `paths`, every
 declared node and edge must be covered by `paths` or `recheck`, and each step must
 list every audit target at that node: originals in `paths`, effective final
-locations of originals plus additions in `recheck`. A review on one path cannot
-stand in for the same usage on another. Changed original copy needs recheck
+locations of originals plus additions in `recheck`. Changed original copy needs recheck
 coverage at every usage before completion. Every declared relocation also needs
 recheck coverage at its final location, including text retained with `keep`.
 In a partial report, an original usage absent from `paths` must have an
 `uncertain` context diagnosis and remain blocked or excluded in the final audit.
+
+Those automated checks aggregate occurrence coverage and the union of recorded
+edges; they do not compare the complete set of pre-edit and final paths. Manually
+confirm that every affected current path was rechecked, including distinct
+actions between the same nodes. A recheck on one path cannot stand in for another
+unless their available information and consequences remain equivalent after the
+change and that equivalence is recorded. Keep any unverified path in `limitations`
+and `unresolved`, even when the structural validator would otherwise pass.
 
 Findings require at least one known `node_id`; a referenced occurrence must have
 its baseline or final node included, and the prose identifies the reviewed phase.
