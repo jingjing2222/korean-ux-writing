@@ -48,6 +48,14 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         if: runner.os == 'Windows'
       - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Verify the published bundles
+        if: github.ref == 'refs/heads/main'
+        run: pnpm validate --require-all-binaries
+      - name: Test the shipped executable
+        if: github.ref == 'refs/heads/main'
+        run: pnpm test
+      - name: Remove old bundles before rebuilding this host
+        run: node --input-type=module -e "import { rmSync } from 'node:fs'; rmSync('skills/korean-ux-writing/scripts/bin', { recursive:true, force:true });"
       - run: pnpm build
         env:
           MACOSX_DEPLOYMENT_TARGET: '14.0'
