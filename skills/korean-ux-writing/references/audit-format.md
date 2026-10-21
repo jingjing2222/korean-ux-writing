@@ -7,6 +7,13 @@ history. It does not replace reading the product or checking the rendered UI.
 
 ## Before the first copy edit
 
+Follow [the user-perspective review](user-perspective.md) before judging copy.
+Save `user-perspective.json` and link it as `user_perspective_ref` in the diagnosis
+and final audit. Record what this user could know on this entry path and the
+pre-action expectation separately from the actual outcome. The v2 native validator
+does not inspect this companion file; manual comparison is required. It is not a
+replacement for the required per-usage diagnosis below.
+
 Read the funnel and fix the original inventory first. Reconstruct what each
 screen/state needs to communicate, then compare the current Korean at each usage
 site with that meaning. Save the completed review as `diagnosis.json`, with
@@ -53,7 +60,7 @@ referenced ID must exist; every required explanation must be nonempty.
 | `scope.routes`, `scope.states` | Unique routes and states. All must have declared nodes before completion. Distinguish conditional, loading, failure and success states. |
 | `scope.discovery` | `{methods: [string], evidence: [evidence ID], limitations: [string]}`. Record discovery work actually performed. |
 | `scope.exclusions` | `[{target, reason, evidence: [evidence ID]}]`. Excluded discovered UI prevents a whole-scope completion claim. Optional `scope.rationale` explains scope selection. |
-| `evidence` | `[{id, kind, ref, detail}]`; kind is `code`, `runtime`, `spec` or `user`. An inspectable location and observed product fact, not a writing standard. |
+| `evidence` | `[{id, kind, ref, detail}]`; kind is `code`, `runtime`, `spec` or `user`. An inspectable location and observed product fact, not a writing standard. `user` may identify the task requester; specify who supplied it. A developer/requester statement is not evidence of end-user knowledge or observation. |
 | `context_reads` | `[{file, evidence: [evidence ID]}]`. Every scoped file must be covered before completion. Reading a file does not prove understanding its meaning. |
 | `funnel.nodes` | `[{id, route, state, kind, reviewed, evidence: [evidence ID], context_files: [file]}]`; kind is `entry`, `screen` or `terminal`. Terminal means a verified outcome/boundary, not an unvisited destination. |
 | `funnel.edges` | `[{id, from, to, trigger, reviewed, evidence: [evidence ID]}]`. Include normal, back, cancel, error and recovery transitions. |
@@ -65,7 +72,7 @@ referenced ID must exist; every required explanation must be nonempty.
 | `decisions` | `[{id, status, before, after, reason, ux: [basis], ko: [basis], occurrence_reviews: [review]}]`. Exactly one per inventory ID. `diagnosis_resolution` is also required for candidate/uncertain diagnoses. |
 | Basis | `{rule, reason, evidence: [evidence ID]}`. Rule must exist in `rules.json` under the matching axis. Explain its applicability and the product fact separately. |
 | Review | `{occurrence_id, evidence: [evidence ID], note}`. Check the final wording's role and consequence at each usage. |
-| `unresolved` | `[{id, reason, evidence: [evidence ID]}]`. Include missing business facts, inaccessible screens and unverified behavior. |
+| `unresolved` | `[{id, reason, evidence: [evidence ID]}]`. Include missing business facts, inaccessible screens, unverified behavior and unresolved flow findings from the user-perspective review. |
 
 `decisions` and `unresolved` are required only for the final audit. The tool reads
 its adjacent installed rule and pattern catalogs. `diagnosis_ref` and any
@@ -73,11 +80,14 @@ old-to-new mappings are provenance fields that require manual comparison.
 
 ## Meaning before wording
 
-Use product facts and the applicable `UX-*` guidance to write `meaning_contexts`.
-Explain the user's goal, what earlier steps promised or collected, what must be
-understood or decided now, and the immediate and later consequences. A handler
-name, resource key or paraphrase of the current copy is not enough. Code-derived
-intent is an interpretation of product behavior, not a user-research finding.
+Use a supported user goal (or an explicitly labeled task hypothesis), the
+applicable `UX-*` guidance and verified product facts to write `meaning_contexts`.
+Internal implementation establishes behavior, not user needs or understanding.
+`prior_context` describes information actually provided along this entry path,
+not the reviewer's session knowledge or another branch. Explain what must be
+understood or decided now and the actual immediate and later consequences. Those
+consequences must not be used to retroactively fill gaps in the user's pre-action
+knowledge. A handler name, resource key or paraphrase of the copy is not enough.
 
 Several strings can reference one meaning context if they share the task, state
 and consequences. Different meanings need separate contexts. For passive status
@@ -85,10 +95,19 @@ text, `current_decision` can explain what the user needs to know rather than inv
 a choice. If there is no prior step or further consequence, explain the verified
 boundary. If it is unknown, say what is unknown and retain the uncertainty.
 
+The same rendered screen can require separate nodes, meaning contexts and
+occurrences when entry paths provide different prior information and lead to
+different interpretations or guidance needs. Keep a shared inventory ID if the
+copy's meaning remains the same, but diagnose and review each path's occurrence.
+If equivalent paths are grouped, record the paths and the reason their available
+context is equivalent. Do not apply a normal-entry finding to an unseen direct entry.
+
 Compare the current Korean with that context in every `context_review`:
 
 - `korean_reading`: the action, referent or relationship the expression conveys in
-  this usage. This is the reviewer's interpretation, not an observed user quote.
+  this usage using information available to the user at this point. This is the
+  reviewer's interpretation, not an observed user quote or the meaning revealed
+  by implementation details or a later screen.
 - `fit`: whether that reading and expression fit the intended message and UI role.
   Grammatical correctness or being able to guess the feature is not sufficient.
 - `reason`: the concrete agreement, mismatch or missing evidence. Include the
@@ -170,6 +189,13 @@ before diagnosis, as described above. Source-key separation, if needed, follows
 diagnosis and preserves behavior and every call site.
 
 ## Completion and preservation
+
+Compare the companion user-perspective record manually at completion. Missing
+prerequisite context is a flow issue: identify where the user first needed it,
+rather than resolving it by adding an explanation to the current string.
+Copy-only improvements do not close a flow finding. Reference unresolved flow
+findings in `unresolved`, which prevents a complete audit. Record the actual review
+method and limitations; an independent agent walkthrough is not participant testing.
 
 Before completion, every node/edge is reviewed, every scoped file is read, every
 route/state has a node, every node is reachable from an entry and can reach a

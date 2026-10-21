@@ -1,6 +1,6 @@
 {
-  "version": "2.0.0",
-  "policy": "Assume a Korean product with no English source. Reconstruct the user task and intended meaning from product context, diagnose the current Korean in every usage, then rewrite. These are scoped review categories, not a blacklist, a translation-origin detector or a fluency score.",
+  "version": "3.1.0",
+  "policy": "Assume a Korean product with no English source. Establish the user task or an explicitly labeled task hypothesis, then judge Korean using information available on the user’s actual path. Check product behavior separately. Missing prerequisite context is a flow issue before wording. These are scoped review categories, not a blacklist, a translation-origin detector or a fluency score.",
   "patterns": [
     {
       "id": "LT-05",
@@ -14,9 +14,9 @@
         "하나의 공유 문구가 서로 다른 목적·역할을 맡아 일부 사용처에서 의미가 맞지 않는다."
       ],
       "review": [
-        "사용자의 과업·앞선 약속·현재 선택·직후와 이후 결과를 제품 근거로 재구성한다. 키·핸들러 이름을 반복하는 설명으로 대신하지 않는다.",
-        "의미 맥락과 각 사용처를 연결하고 현재 한국어로 읽히는 뜻, 적합성, 판단 이유를 context_reviews에 기록한다.",
-        "영어 원문이 없음을 기본으로 한국어 문구와 제품 맥락을 직접 대조한다. 가상의 영문을 복원하지 않는다. 실제 영문 자료가 있을 때만 보조로 참고하며 번역 기원을 단정하지 않는다.",
+        "사용자 과업과 해당 경로에서 실제로 제공된 안내를 먼저 확인한다. 실제 결과는 제품 근거로 대조하되 사용자가 이미 아는 내용으로 소급하지 않는다. UX-12·13에 따라 선행 맥락 누락과 표현 자체의 문제를 구분한다.",
+        "의미 맥락과 각 사용처를 연결하고, 사용자에게 제공된 정보만으로 읽히는 한국어의 뜻·적합성·판단 이유를 context_reviews에 기록한다. 내부 사실을 알고서만 가능한 해석으로 clear를 정하지 않는다.",
+        "영어 원문이 없음을 기본으로 한국어 문구와 사용자에게 전달된 맥락을 대조하고 실제 동작은 따로 확인한다. 가상의 영문을 복원하지 않는다. 실제 영문 자료가 있을 때만 보조로 참고하며 번역 기원을 단정하지 않는다.",
         "문법·맞춤법, 전달 의도, 사용 상황의 적합성을 별도로 확인한다. 문법 통과나 주변 설명으로 기능을 짐작할 수 있음만으로 clear라고 하지 않는다.",
         "한국어 통상성에 관한 판단은 해당 맥락의 사용례·언어 자료·사용자 연구와 대조한다. 다른 언어의 연구 결과로 특정 한국어 대체어를 정당화하지 않는다."
       ],

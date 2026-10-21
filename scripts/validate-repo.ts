@@ -8,7 +8,9 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SKILL = join(ROOT, 'skills/korean-ux-writing');
 const PLUGIN_NAME = 'korean-ux-writing';
-const VERSION = '3.0.0';
+const PLUGIN_VERSION = '3.1.0';
+// Skill and evidence releases can reuse the same verified native executable.
+const NATIVE_TOOL_VERSION = '3.0.0';
 const TARGETS = ['darwin-arm64', 'darwin-x64', 'linux-arm64', 'linux-x64', 'win32-x64'];
 const LICENSES = ['scriptc-runtime.txt', 'v8-number-radix.txt', 'mbedtls.txt', 'quickjs-ng.txt', 'zlib.txt', 'unicode.txt', 'ryu.txt'];
 const SOURCE_FILES = ['src/cli.ts', 'src/audit.ts', 'src/evidence.ts', 'src/json.ts', 'pnpm-lock.yaml'];
@@ -128,6 +130,8 @@ function main(): number {
   const frontmatter = frontmatterMatch?.[1] ?? '';
   check(/^name: korean-ux-writing$/m.test(frontmatter), 'Unexpected skill name');
   check(/^description: \S.+/m.test(frontmatter), 'Missing discovery description');
+  const skillVersion = /^  version:\s*["']?([^"'\s]+)["']?\s*$/m.exec(frontmatter)?.[1];
+  check(skillVersion === PLUGIN_VERSION, 'Skill metadata version must match the plugin release');
   const documents = [join(ROOT, 'README.md'), join(ROOT, 'README.en.md'), ...markdownFiles(SKILL), ...markdownFiles(join(ROOT, 'docs')), join(ROOT, 'evals/README.md')];
   for (const document of documents) {
     // Only Markdown link destinations are paths. Inline code examples are not links.
@@ -141,11 +145,11 @@ function main(): number {
   }
 
   const packageInfo = readJson(join(ROOT, 'package.json'));
-  check(packageInfo.version === VERSION, 'Package version must match the plugin release');
+  check(packageInfo.version === PLUGIN_VERSION, 'Package version must match the plugin release');
   for (const file of ['plugin.json', '.codex-plugin/plugin.json', '.claude-plugin/plugin.json']) {
     const manifest = readJson(join(ROOT, file));
     check(manifest.name === PLUGIN_NAME, `${file}: unexpected plugin identity`);
-    check(manifest.version === VERSION, `${file}: expected version ${VERSION}`);
+    check(manifest.version === PLUGIN_VERSION, `${file}: expected version ${PLUGIN_VERSION}`);
   }
   const codex = readJson(join(ROOT, '.codex-plugin/plugin.json'));
   check(codex.skills === './skills/' && existsSync(join(ROOT, 'skills')), 'Codex plugin must expose the existing ./skills/ directory');
@@ -185,7 +189,7 @@ function main(): number {
     check(existsSync(manifestPath), `${target}: missing build.json`);
     if (!existsSync(manifestPath)) continue;
     const build = readJson(manifestPath);
-    check(build.version === VERSION && build.target === target && build.compiler === 'scriptc@0.4.0', `${target}: unexpected build version, target or compiler`);
+    check(build.version === NATIVE_TOOL_VERSION && build.target === target && build.compiler === 'scriptc@0.4.0', `${target}: unexpected native tool version, target or compiler`);
     check(build.sourceSha256 === sourceSha256, `${target}: binary source digest differs from current source files`);
     const binary = join(directory, target.startsWith('win32-') ? 'kuw.exe' : 'kuw');
     check(existsSync(binary), `${target}: missing native executable`);

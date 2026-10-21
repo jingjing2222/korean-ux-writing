@@ -7,6 +7,8 @@ import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+// Independent of the plugin release: docs and skills need no native rebuild.
+const NATIVE_TOOL_VERSION = '3.0.0';
 const platform = process.platform;
 const architecture = process.arch;
 const supported = ['darwin-arm64', 'darwin-x64', 'linux-arm64', 'linux-x64', 'win32-x64'];
@@ -30,7 +32,9 @@ try {
 }
 if (platform !== 'win32') chmodSync(output, 0o755);
 console.log(`Built ${target}: ${statSync(output).size} bytes`);
-execFileSync(output, ['--version'], { cwd: root, stdio: 'inherit' });
+const nativeVersion = execFileSync(output, ['--version'], { cwd: root, encoding: 'utf8' }).trim();
+if (nativeVersion !== NATIVE_TOOL_VERSION) throw new Error(`Expected native tool ${NATIVE_TOOL_VERSION}, received ${nativeVersion}`);
+console.log(nativeVersion);
 
 const runtimeTarget = platform === 'linux' ? `${target}-gnu` : platform === 'win32' ? `${target}-msvc` : target;
 const compilerRequire = createRequire(realpathSync(resolve(root, 'node_modules/scriptc/package.json')));
@@ -41,7 +45,7 @@ const sourceFiles = ['src/cli.ts', 'src/audit.ts', 'src/evidence.ts', 'src/json.
 const sourceDigest = createHash('sha256');
 for (const file of sourceFiles) sourceDigest.update(file + '\0').update(readFileSync(resolve(root, file)));
 writeFileSync(resolve(outDir, 'build.json'), JSON.stringify({
-  version: '3.0.0', target, compiler: 'scriptc@0.4.0',
+  version: NATIVE_TOOL_VERSION, target, compiler: 'scriptc@0.4.0',
   sha256: createHash('sha256').update(readFileSync(output)).digest('hex'),
   sourceSha256: sourceDigest.digest('hex'),
 }, null, 2) + '\n');

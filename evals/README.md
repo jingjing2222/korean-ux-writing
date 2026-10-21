@@ -130,3 +130,33 @@ The source fixture has an entry point but no dependency manifest. A source revie
 requires no installation. If the evaluator builds a temporary browser harness,
 record its dependency versions and actual checks without changing the fixture's
 product behavior or committing generated files.
+
+## User perspective and missing prerequisites
+
+For a fresh evaluation, give the agent a realistic user goal, raw user-facing
+screens in navigable order, the skill, and product sources for later fact checks.
+Keep evaluator conclusions and implementation explanations out of a separate
+screen-only reviewer's input. Include both a normal entry and a direct entry,
+a choice with consequences disclosed only afterwards, and a control case whose
+needed context is already available. This is an agent evaluation, not participant
+research. Static screen transcripts do not establish visual discoverability.
+
+Inspect the actual artifacts and work order:
+
+- Before-action interpretations are saved before later screens or implementation
+  details are revealed. If that was impossible, the reviewer records its prior
+  knowledge instead of claiming an independent first encounter.
+- Product facts, user-visible information, task hypotheses, and real participant
+  evidence remain distinct. A different entry path does not inherit unseen context.
+- Missing prerequisite context produces a flow finding that identifies where the
+  context first becomes necessary. A longer label, inline explanation or tooltip
+  at the current point does not close that finding.
+- Safe copy edits can proceed independently, but behavior stays within the task's
+  authorization. Unresolved flow issues remain in the final audit's `unresolved`.
+- Already adequate guidance is retained; technical information is assessed for
+  the actual audience and task rather than removed categorically.
+- The companion user-perspective record is manually compared with every usage
+  and the final audit. The native v2 validator does not validate that companion
+  file or certify user understanding.
+
+Do not give this rubric or a target replacement sentence to the evaluating agent.

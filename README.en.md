@@ -2,13 +2,13 @@
 
 [한국어](README.md) · English
 
-A skill that checks whether Korean frontend copy fits the user’s goal and the product’s actual behavior, then improves it. It traces what users have already been told, their current choices, and what happens next. No English source text is needed.
+A skill that reviews and improves Korean frontend copy from the user’s perspective. It checks whether the information users have actually received helps them understand what to do next and what to expect. No English source text is needed.
 
-Published UX guidance and Korean-language references help it identify wording that does not fit its context before refining the phrasing.
+The review uses published UX guidance and Korean-language references. If earlier steps have not provided the context users need, it identifies the flow problem before refining the wording.
 
 ## Install
 
-Install as a Codex or Claude Code plugin. The tools are included as executables, so you do not need to install Node.js or Python separately to use this skill.
+Install as a Codex or Claude Code plugin.
 
 ### Codex
 
@@ -43,16 +43,16 @@ sources for the decision. Apply the changes to the code.
 To start with a specific flow:
 
 ```text
-Use korean-ux-writing to improve the signup flow.
+Use korean-ux-writing to improve the copy in the signup flow.
 Review everything from the entry screen through error recovery and completion.
 ```
 
 ## How it works
 
-1. **The agent reviews the full user journey.** It follows the flow from entry through branches, cancellation, error recovery, and what happens after completion. It also checks what earlier screens have already told users.
+1. **The agent follows the user’s task.** It reviews the journey from entry through choices, cancellation, error recovery, and completion. At each step, it checks what users have been told and what they can expect to happen.
 2. **It finds where the copy appears.** It collects button labels, form instructions, errors, empty states, notifications, and accessibility text, and records when and where each item appears.
-3. **It establishes what users need to know at each step.** It verifies behavior in code and uses UX references to identify the user’s goal, earlier guidance, current choice, and later consequences.
-4. **It checks whether the wording fits that meaning, then refines it.** It looks for words that are unsuitable or unclear in context, even when the grammar is correct. It reviews shared copy wherever it appears, resolves meaning problems, and then polishes the sentences.
+3. **It distinguishes wording problems from flow problems.** If earlier steps have not provided necessary context, it proposes where to introduce it. It does not assume users share the developer’s knowledge or treat extra explanation in the current copy as a fix for the flow.
+4. **It checks whether the wording fits the user’s task, then refines it.** It looks for words that are unsuitable or unclear in context, even when the grammar is correct. It reviews shared copy wherever it appears, resolves meaning problems, and then polishes the sentences.
 5. **It compares the original and final wording.** It records both, along with the reasons and sources for each decision. It also checks rendered screens where the environment allows.
 
 Every item is marked **change, keep, or hold**. The agent preserves actual product behavior, variables, amounts, durations, conditions, and other essential details. If the copy misstates how the product works, it corrects the wording using verified facts. When information is missing, it puts the item on hold and records why and what still needs to be checked.
@@ -71,7 +71,7 @@ Official guidance, usability findings, and expert recommendations are treated as
 
 This skill reviews and improves existing Korean UI copy. Translating a product into Korean for the first time or writing new content requires a separate request.
 
-The review also records screens and states that could not be checked. Automated checks alone cannot determine whether every phrase sounds natural or every interaction is easy to use.
+The review also records inaccessible screens and unresolved flow problems. An agent’s preliminary review is kept distinct from usability testing with real participants.
 
 See [SKILL.md](skills/korean-ux-writing/SKILL.md) for the workflow and completion criteria.
 
