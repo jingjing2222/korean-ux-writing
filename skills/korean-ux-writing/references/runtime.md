@@ -12,8 +12,8 @@ for the host. On Windows x64, use `<skill-directory>\scripts\kuw.cmd` or invoke 
 | --- | --- |
 | macOS 14+, Apple silicon | `scripts/bin/darwin-arm64/kuw` |
 | macOS 14+, Intel | `scripts/bin/darwin-x64/kuw` |
-| Linux, ARM64, glibc | `scripts/bin/linux-arm64/kuw` |
-| Linux, x64, glibc | `scripts/bin/linux-x64/kuw` |
+| Linux, ARM64, glibc 2.35+ | `scripts/bin/linux-arm64/kuw` |
+| Linux, x64, glibc 2.35+ | `scripts/bin/linux-x64/kuw` |
 | Windows, x64 | `scripts/bin/win32-x64/kuw.exe` |
 
 Use the packaged binary for the current host. Unsupported architectures and Linux

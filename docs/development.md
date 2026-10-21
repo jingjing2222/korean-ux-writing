@@ -27,7 +27,10 @@ source hashes. Tests exercise that executable, including execution without Node
 or Python on `PATH`.
 
 The CI matrix builds and tests macOS ARM64/x64, Linux ARM64/x64, and Windows x64
-on their respective hosts. Before publishing, include all five tested bundles and
+on their respective hosts after a required Linux `tsrs` check. The pinned tsrs
+release supplies binaries for Linux and Apple silicon; Windows and Intel Mac
+contributors can use that CI check. This does not limit the bundled plugin's
+supported platforms. Before publishing, include all five tested bundles and
 run `pnpm validate --require-all-binaries`. Artifact downloads may lose executable
 permissions; restore those permissions for macOS and Linux binaries before
 committing. Source hashes include the TypeScript sources and pnpm lockfile, so
