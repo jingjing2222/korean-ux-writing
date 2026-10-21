@@ -39,7 +39,7 @@ Review everything from the entry screen through error recovery and completion.
 4. **Establish what to communicate, then refine the wording.** Verify actual behavior in code and use UX references to decide what users need to know. Use Korean-language references to refine that content.
 5. **Compare the copy before and after editing.** Record each original, its reviewed wording, and the reasons and sources for the decision. Check rendered screens where the environment allows.
 
-Every item is marked **change, keep, or hold**. Preserve actual product behavior, variables, amounts, dates, conditions, and other essential details. If the copy misstates how the product works, correct it using verified facts. When information is missing, put the item on hold and record what still needs to be checked.
+Every item is marked **change, keep, or hold**. Preserve actual product behavior, variables, amounts, durations, conditions, and other essential details. If the copy misstates how the product works, correct it using verified facts. When information is missing, put the item on hold and record what still needs to be checked.
 
 ## Where the guidance comes from
 
