@@ -6,20 +6,7 @@ permissions:
   contents: read
 
 jobs:
-  typecheck:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v4
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile --ignore-scripts
-      - run: pnpm typecheck
-
   native:
-    needs: typecheck
     strategy:
       fail-fast: false
       matrix:
@@ -45,9 +32,12 @@ jobs:
         with:
           node-version: '24'
           cache: pnpm
-      - uses: ilammy/msvc-dev-cmd@v1
+      - uses: vercel-labs/setup-zig@v1
         if: runner.os == 'Windows'
+        with:
+          version: '0.16.0'
       - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm typecheck
       - name: Verify the published bundles
         if: github.ref == 'refs/heads/main'
         run: pnpm validate --require-all-binaries

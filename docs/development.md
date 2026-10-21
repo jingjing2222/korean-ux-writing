@@ -5,10 +5,12 @@ tools below are only needed when changing and rebuilding this repository.
 
 - Node.js 24 or later runs development scripts and the test harness.
 - pnpm 11.17.0 manages dependencies; `pnpm-lock.yaml` pins their versions.
-- [tsrs](https://github.com/oxc-project/tsrs) checks TypeScript types.
+- [TypeScript 7.1.0-beta](https://github.com/microsoft/TypeScript) checks types.
+  Version 7.1 is currently a prerelease; its exact version is pinned.
 - [scriptc 0.4.0](https://github.com/vercel-labs/scriptc/releases/tag/v0.4.0)
   compiles the tools into native executables. It needs the host platform's
-  linker and SDK, such as Xcode Command Line Tools or Visual Studio Build Tools.
+  linker and SDK: Xcode Command Line Tools on macOS, a C/C++ toolchain on Linux,
+  or Zig 0.16.0 on Windows.
 
 From the repository root:
 
@@ -27,10 +29,8 @@ source hashes. Tests exercise that executable, including execution without Node
 or Python on `PATH`.
 
 The CI matrix builds and tests macOS ARM64/x64, Linux ARM64/x64, and Windows x64
-on their respective hosts after a required Linux `tsrs` check. The pinned tsrs
-release supplies binaries for Linux and Apple silicon; Windows and Intel Mac
-contributors can use that CI check. This does not limit the bundled plugin's
-supported platforms. Before publishing, include all five tested bundles and
+on their respective hosts, including TypeScript checks. Before publishing,
+include all five tested bundles and
 run `pnpm validate --require-all-binaries`. Artifact downloads may lose executable
 permissions; restore those permissions for macOS and Linux binaries before
 committing. Source hashes include the TypeScript sources and pnpm lockfile, so

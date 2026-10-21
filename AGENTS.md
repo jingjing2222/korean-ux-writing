@@ -8,4 +8,4 @@ Assume a product written in Korean with no English source. Compare its Korean co
 
 Keep the two READMEs concise and equivalent. Run the repository validator and behavioral tests before publishing changes. Do not add local work reports, private checklists, credentials, or workstation paths.
 
-Use pnpm for development dependencies, tsrs for type checking, and scriptc for native builds. Follow `docs/development.md`. Ship the executables inside the Codex and Claude Code plugins; installing the skill must not require Node.js, Python, or a WebAssembly runner.
+Use pnpm for development dependencies, TypeScript 7.1 for type checking, and scriptc for native builds. Follow `docs/development.md`. Ship the executables inside the Codex and Claude Code plugins; installing the skill must not require Node.js, Python, or a WebAssembly runner.

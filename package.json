@@ -11,12 +11,12 @@
   "scripts": {
     "build": "node scripts/build-native.ts",
     "test": "node --test tests/*.test.ts",
-    "typecheck": "tsrs --noEmit",
+    "typecheck": "tsc --noEmit",
     "validate": "node scripts/validate-repo.ts"
   },
   "devDependencies": {
     "@types/node": "26.6.5",
     "scriptc": "0.4.0",
-    "tsrs": "0.18.0-ts7.1.0-dev.20260929"
+    "typescript": "7.1.0-beta"
   }
 }
