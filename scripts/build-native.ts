@@ -33,7 +33,7 @@ console.log(`Built ${target}: ${statSync(output).size} bytes`);
 execFileSync(output, ['--version'], { cwd: root, stdio: 'inherit' });
 
 const runtimeTarget = platform === 'linux' ? `${target}-gnu` : platform === 'win32' ? `${target}-msvc` : target;
-const compilerRequire = createRequire(resolve(root, 'node_modules/scriptc/package.json'));
+const compilerRequire = createRequire(realpathSync(resolve(root, 'node_modules/scriptc/package.json')));
 const nativePackage = dirname(compilerRequire.resolve(`@scriptc/cli-${runtimeTarget}/package.json`));
 const licenses = resolve(nativePackage, 'dist/lib', `runtime-${runtimeTarget}`, 'artifacts/licenses');
 cpSync(licenses, resolve(outDir, 'licenses'), { recursive: true });
