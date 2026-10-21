@@ -1,5 +1,5 @@
 {
-  "version": "3.1.1",
+  "version": "3.1.2",
   "policy": "Writing criteria are scoped summaries of the cited original publications. Workflow and preservation checks implement the user's task requirements. Read the pinned evidence before applying a rule.",
   "rules": [
     {

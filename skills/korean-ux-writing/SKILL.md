@@ -1,9 +1,9 @@
 ---
 name: korean-ux-writing
-description: Review Korean UI from what users can actually know at each step, diagnose intent and wording across the full journey, then improve the copy. Use for 한국어 UX 문구 검토, 번역투·직역체 진단, 한국어 윤문, and frontend copy audits. Keeps user-visible information separate from developer context and UX evidence separate from language evidence.
+description: Review and polish existing Korean UI copy using the user's available context across the full journey. Use for 한국어 UX 문구 검토, 번역투·직역체 진단 and 한국어 윤문. Preserve existing English and other languages, including spans inside Korean copy; Korean copy review does not authorize translation or editing other languages.
 license: MIT
 metadata:
-  version: "3.1.1"
+  version: "3.1.2"
 ---
 
 # Korean UX Writing
@@ -13,6 +13,8 @@ metadata:
 **검토자가 아는 맥락으로 사용자가 모르는 내용을 메우지 않는다.** 전체 퍼널은 실제 동작을 확인하기 위해 읽는다. 이해 가능성은 사용자가 그 경로에서 지금까지 접할 수 있는 정보로 판단한다. 세션의 설명, 내부 구현, 다른 분기나 다음 화면에서만 알 수 있는 사실로 현재 안내를 합리화하지 않는다.
 
 **영어 원문이 없는 한국어 제품을 기본으로 검토한다.** 영어를 먼저 개발했거나 현재 문구가 번역문이라고 가정하지 않는다. 한국어로 처음 작성한 문구도 퍼널의 뜻과 어긋날 수 있다.
+
+**수정 대상은 이미 있는 한국어다.** 퍼널을 이해하려고 읽는 영어·다른 언어의 문구를 번역하거나 교정하지 않는다. 혼합 문장에서도 영문 구절·제품명·약어·명령어·식별자는 원문을 보존하고 한국어 부분만 다듬는다. 다른 언어의 작성·번역·교정은 사용자가 별도로 요청한 범위에서만 수행한다. 한국어가 없으면 수정하지 않고 그 사실을 알린다.
 
 제품 코드·사양은 실제 동작을 확인하는 자료다. UX 근거는 필요한 안내를 결정하고, 한국어·현지화 근거는 그 안내가 한국어로 적절하게 전달되는지 판단하는 데 쓴다. 프로젝트 읽기 권한이 필요하다. 검증 도구의 플랫폼별 실행 경로는 [실행 안내](references/runtime.md)를 따른다.
 
@@ -38,7 +40,7 @@ metadata:
 
 ## 2. 문구와 사용처를 대장에 고정한다
 
-제목·본문·버튼·링크·입력 안내·오류·로딩·빈 화면·알림·모달·접근성 이름·대체 텍스트·문서 제목을 수집한다. 동적 문장과 분기, 서버/CMS, 이미지 속 문구도 조사하고 사용자 콘텐츠는 구분한다.
+제목·본문·버튼·링크·입력 안내·오류·로딩·빈 화면·알림·모달·접근성 이름·대체 텍스트·문서 제목을 수집한다. 동적 문장과 분기, 서버/CMS, 이미지 속 문구도 조사하고 사용자 콘텐츠는 구분한다. 한국어 윤문 대장에는 기존 한국어와 한국어가 포함된 문구만 넣는다. 다른 언어의 문구는 원문 그대로 맥락 자료에 남기며 한국어 적합성 판정을 만들지 않는다. 자세한 구분과 보존 검사는 [워크플로](references/workflow.md#읽는-범위와-수정하는-범위)를 따른다.
 
 **소스 키와 의미 단위는 다르다.** 같은 키라도 퍼널에서 뜻이 다르면 진단 전에 사용처별 inventory ID로 나누고 원래 키·문구·위치를 남긴다. 실제 코드는 아직 바꾸지 않는다. 뜻이 같은 공유 문구는 한 ID 아래 모든 사용처를 연결한다. 조각난 JSX는 하나의 문장으로 읽되 위치를 모두 보존한다.
 
@@ -87,7 +89,7 @@ metadata:
 
 ## 6. 같은 퍼널에서 다시 검증한다
 
-원문·진단·결정을 1:1로 대조하고 모든 사용처와 분기를 다시 읽는다. 수정 전 점검 기록을 보존한 채 설명이나 정답 경로를 주지 않고 같은 과업을 다시 점검한다. 고친 문구도 독자의 질문에 구체적으로 답하는지 확인한다. 앞 단계의 약속, 뒤 단계의 결과, 선택지 간 구별과 용어가 맞는지 확인한다. 가능한 환경에서 실제 화면·줄바꿈·접근성·동적 값도 확인한다.
+원문·진단·결정을 1:1로 대조하고 모든 사용처와 분기를 다시 읽는다. 원래 영어·다른 언어였던 문구, 다른 로케일의 리소스, 혼합 문장 속 보존 대상이 바뀌지 않았는지도 원문과 diff로 확인한다. 수정 전 점검 기록을 보존한 채 설명이나 정답 경로를 주지 않고 같은 과업을 다시 점검한다. 고친 문구도 독자의 질문에 구체적으로 답하는지 확인한다. 앞 단계의 약속, 뒤 단계의 결과, 선택지 간 구별과 용어가 맞는지 확인한다. 가능한 환경에서 실제 화면·줄바꿈·접근성·동적 값도 확인한다.
 
 ```sh
 <skill-directory>/scripts/kuw audit .reports/korean-ux-writing/audit.json --require-complete

@@ -8,7 +8,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const SKILL = join(ROOT, 'skills/korean-ux-writing');
 const PLUGIN_NAME = 'korean-ux-writing';
-const PLUGIN_VERSION = '3.1.1';
+const PLUGIN_VERSION = '3.1.2';
 // Skill and evidence releases can reuse the same verified native executable.
 const NATIVE_TOOL_VERSION = '3.0.1';
 const TARGETS = ['darwin-arm64', 'darwin-x64', 'linux-arm64', 'linux-x64', 'win32-x64'];

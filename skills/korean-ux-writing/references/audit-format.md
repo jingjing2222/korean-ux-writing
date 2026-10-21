@@ -5,6 +5,23 @@ and revision decision at every discovered usage site. Assume a product written i
 Korean with no English source. The report does not require or infer a translation
 history. It does not replace reading the product or checking the rendered UI.
 
+The revision inventory covers existing Korean and mixed-language copy whose
+Korean parts can be polished. Reading the whole funnel does not authorize
+translating or editing English or other languages. Preserve foreign-language
+spans in mixed copy and declare them in `protected_tokens`. Record other-language
+copy verbatim with its location in context evidence and the companion's available
+information, outside the Korean inventory. Do not manufacture a Korean diagnosis
+or mark it as an unfinished `excluded` item. State this editing boundary in
+`scope.rationale`; completion refers to the declared Korean review, including
+the required contextual UX checks. Unresolved UX findings still prevent completion.
+
+If there is no Korean to review, report that fact without edits or a fabricated
+nonempty inventory. The validator compares declared protected tokens; it neither
+classifies languages nor detects undeclared foreign-language changes. Compare
+the actual final diff and locale resources with the originals. An explicitly
+requested translation or other-language edit is a separate task, not a Korean
+diagnosis. Keep it outside this report's Korean-only completion claim.
+
 ## Before the first copy edit
 
 Follow [the user-perspective review](user-perspective.md) before judging copy.

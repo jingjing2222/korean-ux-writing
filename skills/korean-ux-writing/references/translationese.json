@@ -1,6 +1,6 @@
 {
-  "version": "3.1.1",
-  "policy": "Assume a Korean product with no English source. Establish the user task or an explicitly labeled task hypothesis, then judge Korean using information available on the user’s actual path. Check product behavior separately. Missing prerequisite context is a flow issue before wording. These are scoped review categories, not a blacklist, a translation-origin detector or a fluency score.",
+  "version": "3.1.2",
+  "policy": "Assume a Korean product with no English source. Establish the user task or an explicitly labeled task hypothesis, then judge Korean using information available on the user’s actual path. Check product behavior separately. Missing prerequisite context is a flow issue before wording. Only existing Korean is a revision target; retain foreign-language spans and do not translate other-language copy. These are scoped review categories, not a blacklist, a translation-origin detector or a fluency score.",
   "patterns": [
     {
       "id": "LT-05",

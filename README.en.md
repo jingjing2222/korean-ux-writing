@@ -69,7 +69,7 @@ Official guidance, usability findings, and expert recommendations are treated as
 
 ## Scope
 
-This skill reviews and improves existing Korean UI copy. Translating a product into Korean for the first time or writing new content requires a separate request.
+This skill polishes existing Korean UI copy. It preserves copy in other languages and foreign-language text within Korean sentences. Translation, editing another language, or writing new content requires a separate request.
 
 The review also records inaccessible screens and unresolved flow problems. An agent’s preliminary review is kept distinct from usability testing with real participants.
 

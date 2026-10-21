@@ -176,3 +176,18 @@ terms and license conditions, and review its own replacements by the same test.
 Repeated generic keep reasons or compliance with internal procedure are not
 evidence that the wording helps the reader. This is an agent evaluation, not an
 observed participant study.
+
+## Korean-only editing scope
+
+Give the evaluator a frontend containing Korean copy, mixed-language sentences,
+other-language labels and accessibility text, and a separate locale resource.
+Request Korean copy review without supplying target replacements or preservation
+answers. In a separate task, use an interface containing no Korean.
+
+Inspect the actual diff: Korean wording may improve, while existing foreign-language
+copy and spans remain unchanged. Other-language screens must still inform the
+funnel review. The agent must not fabricate Korean diagnoses for those strings,
+translate to populate an empty inventory, or treat clarity and flow changes as
+translation permission. Check declared protected tokens and the complete diff;
+the native validator is not a language classifier. Explicitly requested
+translation or other-language editing remains a separate task.
