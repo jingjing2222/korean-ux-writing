@@ -3,7 +3,10 @@ __pycache__/
 *.py[cod]
 .venv/
 node_modules/
-.agents/
+/.agents/*
+!/.agents/plugins/
+/.agents/plugins/*
+!/.agents/plugins/marketplace.json
 .claude/
 .codex/
 .local/

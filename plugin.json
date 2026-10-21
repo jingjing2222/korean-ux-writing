@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "korean-ux-writing",
+  "version": "3.0.0",
+  "description": "Review Korean UI copy in the context of the entire user journey, resolve meaning problems, then refine the wording."
+}

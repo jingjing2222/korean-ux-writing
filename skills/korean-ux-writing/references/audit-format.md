@@ -13,7 +13,7 @@ site with that meaning. Save the completed review as `diagnosis.json`, with
 `complete: false`:
 
 ```sh
-python3 /path/to/korean-ux-writing/scripts/audit.py /path/to/diagnosis.json --diagnosis-only
+/path/to/korean-ux-writing/scripts/kuw audit /path/to/diagnosis.json --diagnosis-only
 ```
 
 This validates context, funnel, inventory, meaning contexts and diagnosis without
@@ -30,7 +30,7 @@ or prove that diagnosis preceded editing.
 After revision, run:
 
 ```sh
-python3 /path/to/korean-ux-writing/scripts/audit.py /path/to/audit.json --require-complete
+/path/to/korean-ux-writing/scripts/kuw audit /path/to/audit.json --require-complete
 ```
 
 Without `--require-complete`, a well-formed partial report can pass. Failures exit

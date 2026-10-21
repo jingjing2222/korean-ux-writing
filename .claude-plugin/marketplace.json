@@ -1,0 +1,14 @@
+{
+  "name": "korean-ux-writing",
+  "description": "A plugin for reviewing Korean frontend copy in context.",
+  "owner": {
+    "name": "jingjing2222"
+  },
+  "plugins": [
+    {
+      "name": "korean-ux-writing",
+      "source": "./",
+      "description": "Review Korean UI copy across the user journey, then refine it using published references."
+    }
+  ]
+}

@@ -88,7 +88,7 @@ UI 코드에서 핸들러와 상태 업데이트, 호출하는 서비스·API �
 
 ## 출처를 적용하는 범위
 
-`sources.lock.json`은 전체 증적 레지스트리의 고정 커밋과 SHA-256을 가리킨다. `scripts/evidence.py`로 검증된 파일을 읽고, 규칙의 `sources`에 해당하는 항목을 찾는다. 각 항목의 `locator`, `claim`, `scope`, `limitations`, `verification`을 확인한다. 필요한 경우 원문 링크에서 해당 구절을 더 읽는다.
+`sources.lock.json`은 전체 증적 레지스트리의 고정 커밋과 SHA-256을 가리킨다. `scripts/kuw evidence`로 검증된 파일을 읽고, 규칙의 `sources`에 해당하는 항목을 찾는다. 각 항목의 `locator`, `claim`, `scope`, `limitations`, `verification`을 확인한다. 필요한 경우 원문 링크에서 해당 구절을 더 읽는다.
 
 `partial` 자료는 조사 후보이며 이 버전의 실행 규칙을 정당화하지 않는다. 규칙이 요구하는 주장이 증적에 없거나, 원문·증적을 확인할 수 없거나, 적용 범위가 현재 UI와 다르면 해당 판단을 보류한다. URL이 있다는 사실만으로 근거가 충족되지는 않는다.
 

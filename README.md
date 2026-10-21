@@ -6,13 +6,27 @@
 
 ## 설치
 
-[Vercel의 skills CLI](https://github.com/vercel-labs/skills)로 설치합니다. Node.js 22.20 이상과 Python 3.10 이상이 필요합니다.
+Codex와 Claude Code의 플러그인으로 설치합니다. 검토 도구는 실행 파일로 함께 제공하므로 Node.js나 Python을 따로 설치할 필요가 없습니다.
+
+### Codex
+
+터미널에서 실행하세요.
 
 ```sh
-npx skills add jingjing2222/korean-ux-writing --skill korean-ux-writing
+codex plugin marketplace add jingjing2222/korean-ux-writing
+codex plugin add korean-ux-writing@korean-ux-writing
 ```
 
-Claude Code, Codex 등 Agent Skills를 지원하는 도구에서 쓰도록 만들었습니다. 설치 위치와 사용법은 도구마다 다를 수 있습니다.
+### Claude Code
+
+Claude Code 대화창에서 실행하고 설치를 선택하세요.
+
+```text
+/plugin marketplace add jingjing2222/korean-ux-writing
+/plugin install korean-ux-writing@korean-ux-writing
+```
+
+설치한 뒤 새 대화에서 사용하세요. 이 저장소의 마켓플레이스를 통해 배포하며, 두 제품의 공식 디렉터리에 등록된 플러그인은 아닙니다.
 
 ## 이렇게 요청하세요
 
@@ -58,6 +72,10 @@ korean-ux-writing 스킬로 회원가입 흐름의 문구를 다듬어 줘.
 
 자세한 검토 절차와 완료 기준은 [SKILL.md](skills/korean-ux-writing/SKILL.md)에서 확인할 수 있습니다.
 
+[지원 환경](skills/korean-ux-writing/references/runtime.md) · [개발 안내](docs/development.md)
+
 ## 라이선스
 
 이 저장소의 자체 작성물은 [MIT 라이선스](LICENSE)를 따릅니다. 참고한 외부 문서의 권리는 각 권리자에게 있으며, 해당 문서의 이용 조건이 별도로 적용됩니다.
+
+함께 제공하는 실행 파일의 런타임 라이선스는 각 파일 옆의 `licenses/`에 있습니다.

@@ -6,13 +6,27 @@ An Agent Skill that checks whether Korean frontend copy fits the user’s task a
 
 ## Install
 
-Install with [Vercel's skills CLI](https://github.com/vercel-labs/skills). Requires Node.js 22.20+ and Python 3.10+.
+Install as a Codex or Claude Code plugin. The review tools ship as executables, so you do not need a separate Node.js or Python installation.
+
+### Codex
+
+Run in your terminal:
 
 ```sh
-npx skills add jingjing2222/korean-ux-writing --skill korean-ux-writing
+codex plugin marketplace add jingjing2222/korean-ux-writing
+codex plugin add korean-ux-writing@korean-ux-writing
 ```
 
-Built for tools that support Agent Skills, including Claude Code and Codex. Where you install the skill and how you use it may vary by tool.
+### Claude Code
+
+Run in a Claude Code session, then select an install option:
+
+```text
+/plugin marketplace add jingjing2222/korean-ux-writing
+/plugin install korean-ux-writing@korean-ux-writing
+```
+
+Start a new conversation after installing. The plugin is distributed through this repository's marketplace; it is not listed in either product's official directory.
 
 ## Try it
 
@@ -59,6 +73,10 @@ The review also records screens and states that could not be checked. Automated 
 
 See [SKILL.md](skills/korean-ux-writing/SKILL.md) for the workflow and completion criteria.
 
+[Supported platforms](skills/korean-ux-writing/references/runtime.md) · [Development](docs/development.md)
+
 ## License
 
 Original work in this repository is available under the [MIT License](LICENSE). Referenced external materials remain subject to their respective owners' rights and terms.
+
+Bundled runtime licenses are included in the `licenses/` directory beside each executable.

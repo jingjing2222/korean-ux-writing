@@ -3,8 +3,11 @@
 Run the mechanical regression suite from the repository root:
 
 ```sh
-python3 -m unittest discover -s tests -v
-python3 skills/korean-ux-writing/scripts/audit.py evals/fixtures/minimal/audit.json --require-complete
+pnpm install --frozen-lockfile --ignore-scripts
+pnpm typecheck
+pnpm build
+pnpm test
+skills/korean-ux-writing/scripts/kuw audit evals/fixtures/minimal/audit.json --require-complete
 ```
 
 The minimal fixture demonstrates the report contract, including one shared string

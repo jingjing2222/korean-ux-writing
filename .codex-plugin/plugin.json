@@ -1,0 +1,25 @@
+{
+  "name": "korean-ux-writing",
+  "version": "3.0.0",
+  "description": "Review Korean UI copy in the context of the entire user journey, resolve meaning problems, then refine the wording.",
+  "author": {
+    "name": "jingjing2222",
+    "url": "https://github.com/jingjing2222"
+  },
+  "homepage": "https://github.com/jingjing2222/korean-ux-writing",
+  "repository": "https://github.com/jingjing2222/korean-ux-writing",
+  "license": "MIT",
+  "keywords": ["korean", "ux-writing", "frontend", "copy-editing"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Korean UX Writing",
+    "shortDescription": "Review Korean UI copy in context",
+    "longDescription": "Read the whole user journey, check whether Korean UI copy conveys the intended meaning, and refine it using published UX and Korean-language references.",
+    "developerName": "jingjing2222",
+    "category": "Productivity",
+    "websiteURL": "https://github.com/jingjing2222/korean-ux-writing",
+    "defaultPrompt": [
+      "프론트엔드의 전체 사용자 흐름을 읽고 한국어 문구가 목적과 실제 동작에 맞는지 검토한 뒤 다듬어 줘."
+    ]
+  }
+}

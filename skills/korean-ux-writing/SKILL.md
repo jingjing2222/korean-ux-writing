@@ -3,7 +3,7 @@ name: korean-ux-writing
 description: Diagnose whether Korean UI copy fits the entire affected user journey, then improve the wording. Use for 한국어 UX 문구 검토, 번역투·직역체 진단, 한국어 윤문, and frontend copy audits. Reconstructs intent before judging Korean expressions and keeps UX and language evidence separate.
 license: MIT
 metadata:
-  version: "2.0.0"
+  version: "3.0.0"
 ---
 
 # Korean UX Writing
@@ -12,7 +12,7 @@ metadata:
 
 **영어 원문이 없는 한국어 제품을 기본으로 검토한다.** 영어를 먼저 개발했거나 현재 문구가 번역문이라고 가정하지 않는다. 한국어로 처음 작성한 문구도 퍼널의 뜻과 어긋날 수 있다.
 
-제품 코드·사양은 실제 동작을 확인하는 자료다. UX 근거는 필요한 안내를 결정하고, 한국어·현지화 근거는 그 안내가 한국어로 적절하게 전달되는지 판단하는 데 쓴다. 프로젝트 읽기 권한과 Python 3.10 이상이 필요하다.
+제품 코드·사양은 실제 동작을 확인하는 자료다. UX 근거는 필요한 안내를 결정하고, 한국어·현지화 근거는 그 안내가 한국어로 적절하게 전달되는지 판단하는 데 쓴다. 프로젝트 읽기 권한이 필요하다. 검증 도구는 네이티브 실행 파일로 포함되어 있으며 Node.js나 Python을 설치할 필요가 없다. 플랫폼별 실행 경로는 [실행 안내](references/runtime.md)를 따른다.
 
 ## 시작할 때
 
@@ -21,7 +21,7 @@ metadata:
 3. [감사 기록 형식](references/audit-format.md)의 **version 2**로 원문 대장을 만든다. 문구를 발견하는 대로 고치거나 대안부터 만들지 않는다.
 
 ```sh
-python3 <skill-directory>/scripts/evidence.py --out .reports/korean-ux-writing/sources.json
+<skill-directory>/scripts/kuw evidence --out .reports/korean-ux-writing/sources.json
 ```
 
 `<skill-directory>`는 설치된 이 파일의 디렉터리다. 원본 체크아웃에서는 `--source docs/evidence/sources.json`으로 같은 해시의 로컬 증적을 사용할 수 있다. 설치된 스킬 밖에 원본 레포가 있다고 가정하지 않는다.
@@ -64,7 +64,7 @@ python3 <skill-directory>/scripts/evidence.py --out .reports/korean-ux-writing/s
 이어 `LT-01~04`의 구문·복수·전치사구·일한 간섭을 보조 확인한다. 형태 검사를 의도·어휘 진단의 대용으로 쓰지 않는다. 각 문구를 `candidate`·`clear`·`uncertain`으로 기록하고 첫 수정 전에 저장한다.
 
 ```sh
-python3 <skill-directory>/scripts/audit.py .reports/korean-ux-writing/diagnosis.json --diagnosis-only
+<skill-directory>/scripts/kuw audit .reports/korean-ux-writing/diagnosis.json --diagnosis-only
 ```
 
 검사기는 사용처·의미 맥락의 연결과 판정 일관성을 확인한다. 문구의 자연스러움이나 해석의 타당성은 증명하지 않는다. `uncertain` 항목은 새 근거로 진단을 갱신하기 전까지 고치지 않는다. 원래 진단을 보존하고 갱신 사유를 남긴다.
@@ -84,7 +84,7 @@ python3 <skill-directory>/scripts/audit.py .reports/korean-ux-writing/diagnosis.
 원문·진단·결정을 1:1로 대조하고 모든 사용처와 분기를 다시 읽는다. 앞 단계의 약속, 뒤 단계의 결과, 선택지 간 구별과 용어가 맞는지 확인한다. 가능한 환경에서 실제 화면·줄바꿈·접근성·동적 값도 확인한다.
 
 ```sh
-python3 <skill-directory>/scripts/audit.py .reports/korean-ux-writing/audit.json --require-complete
+<skill-directory>/scripts/kuw audit .reports/korean-ux-writing/audit.json --require-complete
 ```
 
 검사는 기록과 토큰의 일관성을 확인한다. 모든 문구를 발견했다거나 한국어 품질을 보장하지 않는다. 실행하지 못한 검증과 미확인 경로를 결과에 남기며, 이를 범위에서 빼서 완료율을 높이지 않는다.
