@@ -38,8 +38,15 @@ changing either requires rebuilding every bundle.
 
 The audit report format remains version 2; plugin and executable releases have
 independent versions. A skill or evidence update can reuse the same verified
-native executable. The user-perspective companion record is reviewed manually;
-the v2 validator does not inspect it. See [behavioral evaluations](../evals/README.md) for the report
+native executable. Native tool 3.0.1 enforces the documented user-perspective
+companion requirement: the file is resolved relative to the report directory,
+its links and declared coverage are checked, and open findings must remain in
+the final audit. Authorized new copy uses a separate `additions` collection;
+original inventory and diagnosis remain unchanged. Existing v2 reports need
+the structured companion described in [the report contract](../skills/korean-ux-writing/references/audit-format.md).
+Review order, evidence truth and reader understanding still require human or
+agent review; passing structural validation does not establish them.
+See [behavioral evaluations](../evals/README.md) for the report
 contract and skill evaluation procedure. Passing automated tests does not grade
 the quality of Korean copy.
 

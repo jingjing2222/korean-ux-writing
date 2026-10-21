@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { copyFileSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, isAbsolute, join, resolve } from 'node:path';
 import { test, type TestContext } from 'node:test';
@@ -21,6 +21,7 @@ function run(t: TestContext, content: string | Buffer) {
   t.after(() => rmSync(directory, { recursive: true, force: true }));
   const report = join(directory, 'report.json');
   writeFileSync(report, content);
+  copyFileSync(join(ROOT, 'evals/fixtures/minimal/user-perspective.json'), join(directory, 'user-perspective.json'));
   const result = spawnSync(BIN, ['audit', report, '--json', '--skill-dir', SKILL], {
     encoding: 'utf8', cwd: directory, timeout: 15_000, maxBuffer: 2_000_000,
   });

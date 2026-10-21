@@ -6,8 +6,14 @@ type Index = Map<string, Row>;
 export const LIMITATION =
   "Checks declared coverage, references and string invariants only. " +
   "It does not prove exhaustive discovery, evidence truth, semantic preservation, " +
-  "translation origin, diagnostic accuracy, review order, Korean quality, " +
+  "authorization truth, user understanding, translation origin, diagnostic accuracy, review order, Korean quality, " +
   "accessibility or rendered UI behavior.";
+
+/** A companion is a local JSON file below the report directory, on every OS. */
+export function isCompanionReference(value: unknown): value is string {
+  if (typeof value !== "string" || !value.endsWith(".json") || /[\\\u0000-\u001f:]/u.test(value)) return false;
+  return value.split("/").every(part => part !== "" && part !== "." && part !== "..");
+}
 
 // Match Python's Unicode \w and whitespace, rather than JavaScript's ASCII \w.
 const WORD = "[\\p{L}\\p{N}_]";
@@ -156,6 +162,7 @@ export function validate(
   diagnosticCatalogValue: unknown,
   requireComplete = false,
   diagnosisOnly = false,
+  perspectiveValue: unknown = undefined,
 ): string[] {
   const errors: string[] = [];
   function fail(path: string, message: string): void { errors.push(path + ": " + message); }
@@ -214,6 +221,7 @@ export function validate(
   const complete = own(audit, "complete") === true;
   if (typeof own(audit, "complete") !== "boolean") fail("complete", "must be a boolean");
   if (requireComplete && !complete) fail("complete", "a complete report is required");
+  if (!isCompanionReference(own(audit, "user_perspective_ref"))) fail("user_perspective_ref", "must be a relative JSON path below the report directory without traversal");
 
   const rules = indexed(own(catalog, "rules"), "rules.rules", true);
   for (const [id, rule] of rules) {
@@ -237,6 +245,18 @@ export function validate(
     const ids = strings(value, path, required);
     for (const id of ids) if (!evidence.has(id)) fail(path, "unknown evidence " + quote(id));
     return ids;
+  }
+  function bases(value: unknown, path: string, axis: string, required: boolean): void {
+    const values = rows(value, path, required);
+    for (let i = 0; i < values.length; i += 1) {
+      const loc = path + "[" + i + "]";
+      const basis = obj(values[i], loc);
+      const ruleId = string(own(basis, "rule"), loc + ".rule", true);
+      if (!rules.has(ruleId)) fail(path, "unknown installed rule " + quote(ruleId));
+      else if (own(getRow(rules, ruleId), "axis") !== axis) fail(path, "rule " + quote(ruleId) + " belongs to the wrong axis");
+      string(own(basis, "reason"), loc + ".reason", true);
+      refs(own(basis, "evidence"), loc + ".evidence", true);
+    }
   }
 
   const scope = obj(own(audit, "scope"), "scope");
@@ -339,29 +359,218 @@ export function validate(
   const inventory = indexed(own(audit, "inventory"), "inventory", true);
   const occurrenceIds = new Set<string>();
   const occurrenceSites = new Set<string>();
+  const allOccurrences = new Map<string, Row>();
   const occurrencesByCopy = new Map<string, Index>();
+  function location(occurrence: Row, loc: string, needsContext: boolean): string {
+    const nodeId = string(own(occurrence, "node_id"), loc + ".node_id", true);
+    const file = string(own(occurrence, "file"), loc + ".file", true);
+    const anchor = string(own(occurrence, "anchor"), loc + ".anchor", true);
+    const state = string(own(occurrence, "state"), loc + ".state", true);
+    const role = string(own(occurrence, "role"), loc + ".role", true);
+    if (!nodes.has(nodeId)) fail(loc, "unknown node");
+    else if (state !== own(getRow(nodes, nodeId), "state")) fail(loc, "state differs from node state");
+    if (!files.has(file)) fail(loc, "file outside scope");
+    if (needsContext) {
+      const contextId = string(own(occurrence, "context_id"), loc + ".context_id", true);
+      const context = meaningContexts.get(contextId);
+      if (context === undefined) fail(loc + ".context_id", "unknown meaning context");
+      else if (own(context, "node_id") !== nodeId) fail(loc + ".context_id", "meaning context node differs from occurrence node");
+    }
+    return JSON.stringify([nodeId, file, anchor, state, role]);
+  }
+  function usages(item: Row, path: string, needsContext: boolean): Index {
+    const occurrences = indexed(own(item, "occurrences"), path + ".occurrences", true);
+    for (const [occurrenceId, occurrence] of occurrences) {
+      const loc = path + ".occurrences." + occurrenceId;
+      if (occurrenceIds.has(occurrenceId)) fail(loc, "occurrence id is not globally unique");
+      occurrenceIds.add(occurrenceId);
+      allOccurrences.set(occurrenceId, occurrence);
+      const site = location(occurrence, loc, needsContext);
+      if (occurrenceSites.has(site)) fail(loc, "duplicate usage site");
+      occurrenceSites.add(site);
+    }
+    return occurrences;
+  }
   for (const [copyId, item] of inventory) {
     const path = "inventory." + copyId;
     const original = string(own(item, "original"), path + ".original", true);
     const tokens = strings(own(item, "protected_tokens"), path + ".protected_tokens", false);
     for (const token of tokens) if (!original.includes(token)) fail(path + ".protected_tokens", "token absent from original: " + quote(token));
-    const occurrences = indexed(own(item, "occurrences"), path + ".occurrences", true);
-    occurrencesByCopy.set(copyId, occurrences);
-    for (const [occurrenceId, occurrence] of occurrences) {
-      const loc = path + ".occurrences." + occurrenceId;
-      if (occurrenceIds.has(occurrenceId)) fail(loc, "occurrence id is not globally unique");
-      occurrenceIds.add(occurrenceId);
-      const nodeId = string(own(occurrence, "node_id"), loc + ".node_id", true);
-      const file = string(own(occurrence, "file"), loc + ".file", true);
-      const anchor = string(own(occurrence, "anchor"), loc + ".anchor", true);
-      const state = string(own(occurrence, "state"), loc + ".state", true);
-      const role = string(own(occurrence, "role"), loc + ".role", true);
-      if (!nodes.has(nodeId)) fail(loc, "unknown node");
-      else if (state !== own(getRow(nodes, nodeId), "state")) fail(loc, "state differs from node state");
-      if (!files.has(file)) fail(loc, "file outside scope");
-      const site = JSON.stringify([nodeId, file, anchor, state, role]);
-      if (occurrenceSites.has(site)) fail(loc, "duplicate usage site across inventory");
-      occurrenceSites.add(site);
+    occurrencesByCopy.set(copyId, usages(item, path, false));
+  }
+  const originalOccurrences = new Set(occurrenceIds);
+  // Original locations describe the baseline; added copy occupies final sites.
+  occurrenceSites.clear();
+  const additions = indexed(hasOwn(audit, "additions") ? own(audit, "additions") : [], "additions", false);
+  const addedOccurrences = new Set<string>();
+  const occurrencesByAddition = new Map<string, Index>();
+  if (diagnosisOnly && additions.size > 0) fail("additions", "new copy belongs in the final audit, not the original diagnosis");
+  for (const [copyId, item] of additions) {
+    const path = "additions." + copyId;
+    if (inventory.has(copyId)) fail(path, "id collides with immutable inventory");
+    for (const field of ["original", "before", "translationese"]) {
+      if (hasOwn(item, field)) fail(path + "." + field, "new copy must not fabricate an original or diagnosis");
+    }
+    string(own(item, "text"), path + ".text", true);
+    string(own(item, "reason"), path + ".reason", true);
+    const authorization = refs(own(item, "authorization"), path + ".authorization", true);
+    for (const id of authorization) {
+      if (evidence.has(id) && own(getRow(evidence, id), "kind") !== "user") fail(path + ".authorization", "must reference user evidence of the requester's authorization");
+    }
+    for (const axis of ["ux", "ko"]) bases(own(item, axis), path + "." + axis, axis, true);
+    const occurrences = usages(item, path, true);
+    occurrencesByAddition.set(copyId, occurrences);
+    for (const occurrenceId of occurrences.keys()) addedOccurrences.add(occurrenceId);
+  }
+
+  const decisions = diagnosisOnly ? new Map<string, Row>() : indexed(own(audit, "decisions"), "decisions", true);
+  const finalOccurrences = new Map(allOccurrences);
+  const relocatedOccurrences = new Set<string>();
+  const removedOccurrences = new Set<string>();
+  for (const [copyId, decision] of decisions) {
+    const occurrences = occurrencesByCopy.get(copyId) ?? new Map<string, Row>();
+    if (own(decision, "status") === "changed" && own(decision, "after") === "") {
+      for (const id of occurrences.keys()) removedOccurrences.add(id);
+    }
+    const reviews = own(decision, "occurrence_reviews");
+    if (!Array.isArray(reviews)) continue;
+    for (let i = 0; i < reviews.length; i += 1) {
+      const raw = reviews[i];
+      if (raw === null || typeof raw !== "object" || Array.isArray(raw)) continue;
+      const review = raw as Row;
+      if (!hasOwn(review, "final_location")) continue;
+      const loc = "decisions." + copyId + ".occurrence_reviews[" + i + "].final_location";
+      const finalLocation = obj(own(review, "final_location"), loc);
+      location(finalLocation, loc, true);
+      if (own(decision, "status") !== "changed" && own(decision, "status") !== "keep") fail(loc, "blocked or excluded copy cannot declare a final relocation");
+      const id = own(review, "occurrence_id");
+      if (typeof id === "string" && occurrences.has(id)) {
+        finalOccurrences.set(id, finalLocation);
+        relocatedOccurrences.add(id);
+      }
+    }
+  }
+  const finalSites = new Set<string>();
+  for (const [id, occurrence] of finalOccurrences) {
+    // Removed copy remains an absence-check target, not an occupied final site.
+    if (removedOccurrences.has(id)) continue;
+    const site = JSON.stringify([own(occurrence, "node_id"), own(occurrence, "file"), own(occurrence, "anchor"), own(occurrence, "state"), own(occurrence, "role")]);
+    if (finalSites.has(site)) fail("final_occurrences." + id, "duplicate usage site in final locations");
+    finalSites.add(site);
+  }
+
+  const perspective = obj(perspectiveValue, "user_perspective");
+  if (own(perspective, "version") !== 1) fail("user_perspective.version", "must be 1");
+  const method = own(perspective, "method");
+  if (method !== "participant-observation" && method !== "independent-agent" && method !== "informed-expert") fail("user_perspective.method", "must be participant-observation, independent-agent or informed-expert");
+  for (const field of ["task", "reviewer_knowledge"]) string(own(perspective, field), "user_perspective." + field, true);
+  const perspectiveLimitations = strings(own(perspective, "limitations"), "user_perspective.limitations", false);
+  if (complete && perspectiveLimitations.length > 0) fail("user_perspective.limitations", "unverified review prevents completion");
+  const baselineCoverage = new Set<string>();
+  const recheckCoverage = new Set<string>();
+  const pathNodes = new Set<string>();
+  const pathEdges = new Set<string>();
+  const pathIds = new Set<string>();
+  for (const collection of ["paths", "recheck"]) {
+    const locations = collection === "paths" ? allOccurrences : finalOccurrences;
+    const paths = indexed(own(perspective, collection), "user_perspective." + collection, false);
+    for (const [pathId, entry] of paths) {
+      const path = "user_perspective." + collection + "." + pathId;
+      if (pathIds.has(pathId)) fail(path, "path id must be unique across paths and recheck");
+      pathIds.add(pathId);
+      const entryNodeId = string(own(entry, "entry_node_id"), path + ".entry_node_id", true);
+      if (!nodes.has(entryNodeId) || own(getRow(nodes, entryNodeId), "kind") !== "entry") fail(path + ".entry_node_id", "must reference a declared entry node");
+      const steps = indexed(own(entry, "steps"), path + ".steps", true);
+      let previousNode: string | undefined;
+      for (const [stepId, step] of steps) {
+        const loc = path + ".steps." + stepId;
+        const nodeId = string(own(step, "node_id"), loc + ".node_id", true);
+        if (!nodes.has(nodeId)) fail(loc + ".node_id", "unknown node");
+        else pathNodes.add(nodeId);
+        if (previousNode === undefined) {
+          if (nodeId !== entryNodeId) fail(loc + ".node_id", "first step must match the path entry");
+          if (hasOwn(step, "via_edge_id")) fail(loc + ".via_edge_id", "first step has no incoming transition");
+        } else {
+          const matches: string[] = [];
+          for (const [edgeId, edge] of edges) if (own(edge, "from") === previousNode && own(edge, "to") === nodeId) matches.push(edgeId);
+          if (hasOwn(step, "via_edge_id")) {
+            const edgeId = string(own(step, "via_edge_id"), loc + ".via_edge_id", true);
+            if (!matches.includes(edgeId)) fail(loc + ".via_edge_id", "must identify the transition between adjacent steps");
+            else pathEdges.add(edgeId);
+          } else if (matches.length === 1) pathEdges.add(matches[0]);
+          else if (matches.length === 0) fail(loc, "adjacent steps have no declared transition");
+          else fail(loc + ".via_edge_id", "required to distinguish parallel transitions between adjacent steps");
+        }
+        previousNode = nodeId;
+        const usageIds = strings(own(step, "occurrence_ids"), loc + ".occurrence_ids", false);
+        for (const id of usageIds) {
+          if (!locations.has(id)) fail(loc + ".occurrence_ids", "unknown occurrence " + quote(id));
+          else if (own(getRow(locations, id), "node_id") !== nodeId) fail(loc + ".occurrence_ids", "occurrence node differs from step node");
+          else if (collection === "paths" && addedOccurrences.has(id)) fail(loc + ".occurrence_ids", "new copy belongs in recheck, not the preserved pre-edit paths");
+          else if (collection === "paths") baselineCoverage.add(id);
+          else recheckCoverage.add(id);
+        }
+        if (complete) {
+          const expected = new Set<string>();
+          for (const [id, usage] of locations) {
+            if (own(usage, "node_id") === nodeId && (collection === "recheck" || originalOccurrences.has(id))) expected.add(id);
+          }
+          if (!equalSets(new Set(usageIds), expected)) fail(loc + ".occurrence_ids", "must cover every declared usage at this node on each complete path");
+        }
+        const information = rows(own(step, "available_information"), loc + ".available_information", false);
+        for (let i = 0; i < information.length; i += 1) {
+          const infoPath = loc + ".available_information[" + i + "]";
+          const info = obj(information[i], infoPath);
+          string(own(info, "detail"), infoPath + ".detail", true);
+          string(own(info, "ref"), infoPath + ".ref", true);
+        }
+        for (const field of ["before_action", "after_action"]) string(own(step, field), loc + "." + field, true);
+      }
+    }
+  }
+  if (complete) {
+    if (!equalSets(baselineCoverage, originalOccurrences)) fail("user_perspective.paths", "must cover every original occurrence before completion; missing=" + list(difference(originalOccurrences, baselineCoverage)));
+    if (!equalSets(pathNodes, keys(nodes))) fail("user_perspective", "paths and recheck must cover every declared node before completion");
+    if (!equalSets(pathEdges, keys(edges))) fail("user_perspective", "paths and recheck must cover every declared transition before completion");
+  }
+  if (difference(addedOccurrences, recheckCoverage).length > 0) fail("user_perspective.recheck", "must cover every added occurrence; missing=" + list(difference(addedOccurrences, recheckCoverage)));
+  if (complete && difference(relocatedOccurrences, recheckCoverage).length > 0) fail("user_perspective.recheck", "must cover every relocated occurrence at its final location before completion");
+
+  const findings = indexed(own(perspective, "ux_findings"), "user_perspective.ux_findings", false);
+  const openFindings = new Set<string>();
+  for (const [id, finding] of findings) {
+    const path = "user_perspective.ux_findings." + id;
+    const type = own(finding, "type");
+    if (type !== "copy" && type !== "flow" && type !== "mixed") fail(path + ".type", "must be copy, flow or mixed");
+    const nodeIds = new Set(strings(own(finding, "node_ids"), path + ".node_ids", true));
+    for (const nodeId of nodeIds) if (!nodes.has(nodeId)) fail(path + ".node_ids", "unknown node " + quote(nodeId));
+    const usageIds = strings(own(finding, "occurrence_ids"), path + ".occurrence_ids", false);
+    for (const usageId of usageIds) {
+      const usage = allOccurrences.get(usageId);
+      if (usage === undefined) fail(path + ".occurrence_ids", "unknown occurrence " + quote(usageId));
+      else if (!nodeIds.has(String(own(usage, "node_id"))) && !nodeIds.has(String(own(getRow(finalOccurrences, usageId), "node_id")))) fail(path + ".occurrence_ids", "baseline or final occurrence node must be included in finding node_ids");
+    }
+    for (const field of ["missing_context", "first_needed", "proposal", "applied_scope"]) string(own(finding, field), path + "." + field, true);
+    refs(own(finding, "facts"), path + ".facts", true);
+    bases(own(finding, "ux"), path + ".ux", "ux", true);
+    const status = own(finding, "status");
+    if (status !== "open" && status !== "resolved") fail(path + ".status", "must be open or resolved");
+    const remaining = string(own(finding, "remaining"), path + ".remaining", status === "open");
+    if (status === "resolved" && remaining !== "") fail(path + ".remaining", "resolved findings must have no remaining issue");
+    if (status === "open") {
+      openFindings.add(id);
+      if (complete) fail(path, "open UX finding prevents completion");
+    }
+  }
+  for (const [id, addition] of additions) {
+    const path = "additions." + id + ".finding_ids";
+    const ids = strings(own(addition, "finding_ids"), path, true);
+    for (const findingId of ids) {
+      if (!findings.has(findingId)) fail(path, "unknown user-perspective finding " + quote(findingId));
+      else {
+        const type = own(getRow(findings, findingId), "type");
+        if (type !== "flow" && type !== "mixed") fail(path, "added flow copy must link a flow or mixed finding");
+      }
     }
   }
 
@@ -395,6 +604,7 @@ export function validate(
       string(own(review, "korean_reading"), loc + ".korean_reading", true);
       const fit = own(review, "fit");
       if (fit !== "fit" && fit !== "mismatch" && fit !== "uncertain") fail(loc + ".fit", "must be fit, mismatch or uncertain");
+      if (occurrences.has(occurrenceId) && !baselineCoverage.has(occurrenceId) && fit !== "uncertain") fail(loc + ".fit", "usage absent from user-perspective paths must remain uncertain");
       fits.push(fit);
       string(own(review, "reason"), loc + ".reason", true);
       refs(own(review, "evidence"), loc + ".evidence", true);
@@ -407,7 +617,6 @@ export function validate(
   }
   if (diagnosisOnly) return errors;
 
-  const decisions = indexed(own(audit, "decisions"), "decisions", true);
   if (!equalSets(keys(decisions), keys(inventory))) fail("decisions", "must match inventory ids exactly; missing=" + list(difference(keys(inventory), keys(decisions))) + ", extra=" + list(difference(keys(decisions), keys(inventory))));
   for (const [copyId, decision] of decisions) {
     const path = "decisions." + copyId;
@@ -432,20 +641,16 @@ export function validate(
     }
     if (complete && (status === "blocked" || status === "excluded")) fail(path, "blocked or excluded copy prevents completion");
     const reviewed = status === "changed" || status === "keep";
-    for (const axis of ["ux", "ko"]) {
-      const bases = rows(own(decision, axis), path + "." + axis, reviewed);
-      for (let i = 0; i < bases.length; i += 1) {
-        const loc = path + "." + axis + "[" + i + "]";
-        const basis = obj(bases[i], loc);
-        const ruleId = string(own(basis, "rule"), loc + ".rule", true);
-        if (!rules.has(ruleId)) fail(path + "." + axis, "unknown installed rule " + quote(ruleId));
-        else if (own(getRow(rules, ruleId), "axis") !== axis) fail(path + "." + axis, "rule " + quote(ruleId) + " belongs to the wrong axis");
-        string(own(basis, "reason"), loc + ".reason", true);
-        refs(own(basis, "evidence"), loc + ".evidence", true);
-      }
+    for (const axis of ["ux", "ko"]) bases(own(decision, axis), path + "." + axis, axis, reviewed);
+    reviewOccurrences(decision, path, occurrencesByCopy.get(copyId) ?? new Map<string, Row>(), reviewed);
+    if (complete && status === "changed") {
+      const expected = keys(occurrencesByCopy.get(copyId) ?? new Map<string, Row>());
+      if (difference(expected, recheckCoverage).length > 0) fail(path, "changed copy requires user-perspective recheck at every usage before completion");
     }
+  }
+  function reviewOccurrences(item: Row, path: string, occurrences: Index, required: boolean): void {
     const reviews = new Map<string, Row>();
-    const rawReviews = rows(own(decision, "occurrence_reviews"), path + ".occurrence_reviews", reviewed);
+    const rawReviews = rows(own(item, "occurrence_reviews"), path + ".occurrence_reviews", required);
     for (let i = 0; i < rawReviews.length; i += 1) {
       const loc = path + ".occurrence_reviews[" + i + "]";
       const review = obj(rawReviews[i], loc);
@@ -455,14 +660,16 @@ export function validate(
       refs(own(review, "evidence"), loc + ".evidence", true);
       string(own(review, "note"), loc + ".note", true);
     }
-    const expected = keys(occurrencesByCopy.get(copyId) ?? new Map<string, Row>());
-    if (difference(keys(reviews), expected).length > 0 || (reviewed && !equalSets(keys(reviews), expected))) fail(path + ".occurrence_reviews", "must cover each declared usage site exactly once");
+    const expected = keys(occurrences);
+    if (difference(keys(reviews), expected).length > 0 || (required && !equalSets(keys(reviews), expected))) fail(path + ".occurrence_reviews", "must cover each declared usage site exactly once");
   }
+  for (const [id, addition] of additions) reviewOccurrences(addition, "additions." + id, occurrencesByAddition.get(id) ?? new Map<string, Row>(), true);
   const unresolved = indexed(own(audit, "unresolved"), "unresolved", false);
   for (const [id, item] of unresolved) {
     string(own(item, "reason"), "unresolved." + id + ".reason", true);
     refs(own(item, "evidence"), "unresolved." + id + ".evidence", true);
   }
+  for (const id of openFindings) if (!unresolved.has(id)) fail("unresolved", "must link open user-perspective finding with the same id: " + quote(id));
   if (complete && unresolved.size > 0) fail("unresolved", "unresolved issues prevent completion");
   return errors;
 }

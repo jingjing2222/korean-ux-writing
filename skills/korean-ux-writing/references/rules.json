@@ -1,5 +1,5 @@
 {
-  "version": "3.1.0",
+  "version": "3.1.1",
   "policy": "Writing criteria are scoped summaries of the cited original publications. Workflow and preservation checks implement the user's task requirements. Read the pinned evidence before applying a rule.",
   "rules": [
     {
@@ -344,6 +344,30 @@
         "SRC-061",
         "SRC-062",
         "SRC-075"
+      ]
+    },
+    {
+      "id": "KO-08",
+      "axis": "ko",
+      "title": "독자가 필요한 뜻을 구체적으로 알 수 있게 쓴다",
+      "instruction": "독자에게 불필요한 전문 용어·추상적인 명사 묶음을 줄이고, 이 위치에서 필요한 대상·행동·결과·조건이 드러나도록 표현한다. 내부 분류를 그대로 설명하거나 뜻이 비어 있는 절차 문장으로 대신하지 않는다.",
+      "scope": "한국어 UI 설명·제목·도움말과 요청된 README·이용 안내. 문구를 읽는 사람과 그 사람이 알아야 할 내용을 먼저 확인한다.",
+      "exceptions": [
+        "독자에게 익숙하거나 정확성에 필요한 전문 용어는 유지한다. 한 분야의 전문가를 모든 분야의 전문가로 가정하지 않는다.",
+        "모든 명사형·한자어·법률 용어를 금지하지 않는다. 짧은 레이블은 주변에 제공된 맥락과 함께 판단한다.",
+        "권리·의무·적용 대상·조건·예외를 보존한다. 권리를 가진 사람을 작성자와 동일시하거나 이용 허용 범위를 넓히지 않는다.",
+        "GOV.UK의 영어 어형·단어 수·정부 말투를 한국어의 정답으로 적용하지 않는다. 독자 질문·현재 답·유지 이유를 기록하는 절차는 이 근거를 적용한 운영 설계다."
+      ],
+      "sources": [
+        "SRC-008",
+        "SRC-043",
+        "SRC-044",
+        "SRC-049",
+        "SRC-075",
+        "SRC-084",
+        "SRC-085",
+        "SRC-086",
+        "SRC-087"
       ]
     }
   ]

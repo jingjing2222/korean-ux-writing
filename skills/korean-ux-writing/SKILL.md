@@ -3,7 +3,7 @@ name: korean-ux-writing
 description: Review Korean UI from what users can actually know at each step, diagnose intent and wording across the full journey, then improve the copy. Use for 한국어 UX 문구 검토, 번역투·직역체 진단, 한국어 윤문, and frontend copy audits. Keeps user-visible information separate from developer context and UX evidence separate from language evidence.
 license: MIT
 metadata:
-  version: "3.1.0"
+  version: "3.1.1"
 ---
 
 # Korean UX Writing
@@ -19,7 +19,7 @@ metadata:
 ## 시작할 때
 
 1. [워크플로](references/workflow.md)와 [사용자 관점 점검](references/user-perspective.md)을 읽는다. 가능한 경우 구현 설명을 읽기 전에 사용자에게 보이는 첫 화면부터 과업을 따라가고 행동 전 예상과 실제 결과를 분리해 기록한다. 이미 내부 맥락을 알면 그 한계를 밝힌다. 파일 하나를 요청받아도 관련 퍼널의 앞뒤 맥락과 분기를 확인한다.
-2. [규칙](references/rules.json), [한국어 맥락 적합성·번역투 진단 기준](references/translationese.json)을 읽고 아래 도구로 고정된 증적을 가져온다. 적용할 출처의 확인 위치·주장·조건·예외를 읽는다.
+2. [규칙](references/rules.json), [한국어 맥락 적합성·번역투 진단 기준](references/translationese.json), [독자 이해 점검](references/reader-language.md)을 읽고 아래 도구로 고정된 증적을 가져온다. 적용할 출처의 확인 위치·주장·조건·예외를 읽는다.
 3. [감사 기록 형식](references/audit-format.md)의 **version 2**로 원문 대장을 만든다. 문구를 발견하는 대로 고치거나 대안부터 만들지 않는다.
 
 ```sh
@@ -59,6 +59,8 @@ metadata:
 
 먼저 `LT-05`로 각 사용처를 검토한다. `context_reviews`에 해당 의미 맥락과 사용처를 연결하고, 현재 표현으로 읽히는 뜻(`korean_reading`), 적합성(`fit`), 이유와 사실 근거를 남긴다. `intent`와 `korean_fit`에는 전체 판단을 요약한다.
 
+현재 문구의 독자가 여기서 알아야 할 것과 실제로 알 수 있는 답을 대조한다. 내부의 절차·분류·전문 용어를 정확히 옮겼어도 대상·행동·결과가 드러나지 않으면 지나치지 않는다. README나 도움말을 요청받았다면 그 문서의 독자를 제품의 최종 사용자나 내부 검토자와 구분한다. 구체적인 판단은 [독자 이해 점검](references/reader-language.md)을 따른다.
+
 사전적으로 맞는 단어라도 이 상황의 행동·대상·관계와 어긋나는지, 내부 용어·영어 관용 표현·범용 동사를 따라 쓰느라 안내 의도가 흐려졌는지 본다. 주변 제목·설명·선택지를 해당 경로에서 노출된 순서로 대조한다. 사용자가 행동을 찾고, 선택지의 차이와 결과를 예상하고, 이후 진행 상태를 알아볼 수 있는지 점검한다. 미래 화면의 설명으로 현재의 빈틈을 메우지 않는다. 한국어로 읽히는 뜻은 검토자의 해석이며 실제 사용자 반응을 관찰한 결과와 구분한다.
 
 한국어 문구와 사용자에게 전달된 맥락으로 적합성을 판단하고 실제 동작은 별도로 대조한다. 영문을 찾아내거나 상상해 복원하는 단계를 두지 않는다. 실제 영문 자료가 제공된 경우에만 보조로 대조하며 번역 기원은 단정하지 않는다. 문법적으로 맞음, 원문 낱말과 대응함, 기존 제품에서 쓰임, 영어 원문이 없음은 `clear`의 충분한 이유가 아니다. 익숙한 전문 용어나 실제 연결 기능의 ‘연결’처럼 적절한 표현은 유지한다.
@@ -81,15 +83,17 @@ metadata:
 
 좋은 문구는 `keep`, 근거나 맥락이 부족한 문구는 `blocked`로 남긴다. 기준이 부족하면 출처 없는 새 규칙을 만들지 않는다.
 
+허용된 흐름 구현으로 새 안내를 추가했다면 `additions`에 따로 기록한다. 없던 원문이나 수정 전 진단을 만들어 기존 대장에 넣지 않는다. 추가 이유·허용 범위·관련 흐름 문제와 각 사용처의 UX·한국어 근거를 연결하고 새 경로를 다시 검토한다.
+
 ## 6. 같은 퍼널에서 다시 검증한다
 
-원문·진단·결정을 1:1로 대조하고 모든 사용처와 분기를 다시 읽는다. 수정 전 점검 기록을 보존한 채 설명이나 정답 경로를 주지 않고 같은 과업을 다시 점검한다. 앞 단계의 약속, 뒤 단계의 결과, 선택지 간 구별과 용어가 맞는지 확인한다. 가능한 환경에서 실제 화면·줄바꿈·접근성·동적 값도 확인한다.
+원문·진단·결정을 1:1로 대조하고 모든 사용처와 분기를 다시 읽는다. 수정 전 점검 기록을 보존한 채 설명이나 정답 경로를 주지 않고 같은 과업을 다시 점검한다. 고친 문구도 독자의 질문에 구체적으로 답하는지 확인한다. 앞 단계의 약속, 뒤 단계의 결과, 선택지 간 구별과 용어가 맞는지 확인한다. 가능한 환경에서 실제 화면·줄바꿈·접근성·동적 값도 확인한다.
 
 ```sh
 <skill-directory>/scripts/kuw audit .reports/korean-ux-writing/audit.json --require-complete
 ```
 
-검사는 기록과 토큰의 일관성을 확인한다. `user-perspective.json`의 판단과 순서는 자동 검사 대상이 아니므로 별도로 검토한다. 해결되지 않은 UX 문제와 실행하지 못한 검증은 최종 감사의 `unresolved`에도 연결한다. 이를 범위에서 빼서 완료율을 높이지 않는다.
+검사는 기록과 토큰의 일관성, 사용자 관점 기록의 존재와 연결, 추가 문구와 남은 흐름 문제의 연결을 확인한다. 실제 점검 순서와 판단의 타당성은 따로 검토한다. 해결되지 않은 UX 문제와 실행하지 못한 검증은 최종 감사의 `unresolved`에도 연결한다. 이를 범위에서 빼서 완료율을 높이지 않는다.
 
 ## 결과 보고
 

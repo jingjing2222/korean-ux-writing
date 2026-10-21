@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 // Independent of the plugin release: docs and skills need no native rebuild.
-const NATIVE_TOOL_VERSION = '3.0.0';
+const NATIVE_TOOL_VERSION = '3.0.1';
 const platform = process.platform;
 const architecture = process.arch;
 const supported = ['darwin-arm64', 'darwin-x64', 'linux-arm64', 'linux-x64', 'win32-x64'];

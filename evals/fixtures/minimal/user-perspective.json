@@ -1,0 +1,86 @@
+{
+  "version": 1,
+  "method": "informed-expert",
+  "task": "Contract-test scenario: confirm the saved setting and inspect its history, based on copy.ts. This is an illustrative task hypothesis, not observed demand.",
+  "reviewer_knowledge": "The fixture author already knows copy.ts and the expected destination. These are illustrative source-only records, not independent first impressions, rendered UI verification, or participant testing.",
+  "paths": [
+    {
+      "id": "original-history-path",
+      "entry_node_id": "saved",
+      "steps": [
+        {
+          "id": "saved-step",
+          "node_id": "saved",
+          "occurrence_ids": [
+            "saved.message",
+            "saved.action"
+          ],
+          "available_information": [
+            {
+              "detail": "The fixture declares the saved result message and the history link on this view. Visibility is specified by the fixture, not observed in a browser.",
+              "ref": "copy.ts:views.saved"
+            }
+          ],
+          "before_action": "Illustrative expert expectation with product facts already known: the message reports a completed save; the link should open its history without saving again.",
+          "after_action": "Source-declared result: open-history leads to the history view. This is a contract example, not a participant observation."
+        },
+        {
+          "id": "history-step",
+          "node_id": "history",
+          "occurrence_ids": [
+            "history.message"
+          ],
+          "available_information": [
+            {
+              "detail": "The history view repeats the confirmed save result after following the history link.",
+              "ref": "copy.ts:views.history"
+            }
+          ],
+          "before_action": "Illustrative expert reading: the view should show the existing save result; no further action is declared in this fixture.",
+          "after_action": "Source-declared boundary: the history view has no further transition in this fixture."
+        }
+      ]
+    }
+  ],
+  "ux_findings": [],
+  "recheck": [
+    {
+      "id": "revised-history-path",
+      "entry_node_id": "saved",
+      "steps": [
+        {
+          "id": "saved-step",
+          "node_id": "saved",
+          "occurrence_ids": [
+            "saved.message",
+            "saved.action"
+          ],
+          "available_information": [
+            {
+              "detail": "The fixture declares the saved result message and the history link on this view. Visibility is specified by the fixture, not observed in a browser.",
+              "ref": "copy.ts:views.saved"
+            }
+          ],
+          "before_action": "Illustrative expert expectation with product facts already known: the proposed message reports a completed save; the link should open its history without saving again.",
+          "after_action": "Source-declared result: open-history leads to the history view. This is a contract example, not a participant observation. Proposed wording preserves this source-declared result."
+        },
+        {
+          "id": "history-step",
+          "node_id": "history",
+          "occurrence_ids": [
+            "history.message"
+          ],
+          "available_information": [
+            {
+              "detail": "The history view repeats the confirmed save result after following the history link.",
+              "ref": "copy.ts:views.history"
+            }
+          ],
+          "before_action": "Illustrative expert reading: the view should show the existing save result; no further action is declared in this fixture.",
+          "after_action": "Source-declared boundary: the history view has no further transition in this fixture. Proposed wording preserves this source-declared result."
+        }
+      ]
+    }
+  ],
+  "limitations": []
+}

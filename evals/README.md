@@ -155,8 +155,24 @@ Inspect the actual artifacts and work order:
   authorization. Unresolved flow issues remain in the final audit's `unresolved`.
 - Already adequate guidance is retained; technical information is assessed for
   the actual audience and task rather than removed categorically.
-- The companion user-perspective record is manually compared with every usage
-  and the final audit. The native v2 validator does not validate that companion
-  file or certify user understanding.
+- The native tool loads the required companion and checks its structure, usage
+  coverage, paths and unresolved finding links. Missing files or open findings
+  cannot be bypassed by an otherwise complete audit. Review order, visibility,
+  evidence truth and user understanding still need substantive review.
 
 Do not give this rubric or a target replacement sentence to the evaluating agent.
+
+## Reader-facing explanations
+
+For an independent evaluation, supply raw user-facing documentation and verified
+product facts, with a concrete reader goal. Include an explanation built from
+internal categories, a vague action/object combination, a scoped reuse notice,
+and an appropriate familiar technical term. Do not supply this rubric, a list of
+problem words, expected replacements or previous review conclusions.
+
+Check that the agent identifies what the reader needs to know and what the text
+actually conveys. It should improve concrete meaning, retain necessary technical
+terms and license conditions, and review its own replacements by the same test.
+Repeated generic keep reasons or compliance with internal procedure are not
+evidence that the wording helps the reader. This is an agent evaluation, not an
+observed participant study.

@@ -10,4 +10,6 @@ Assume a product written in Korean with no English source. Interpret its Korean 
 
 Keep the two READMEs concise and equivalent. Run the repository validator and behavioral tests before publishing changes. Do not add local work reports, private checklists, credentials, or workstation paths.
 
+Review public instructions for the intended reader, not the internal procedure they describe. Explain concrete actors, objects, actions and outcomes where the reader needs them. A generic keep reason or accurate internal terminology does not establish clarity. Apply the same reader check to revised copy; preserve license scope and necessary specialist terms.
+
 Use pnpm for development dependencies, TypeScript 7.1 for type checking, and scriptc for native builds. Follow `docs/development.md`. Ship the executables inside the Codex and Claude Code plugins; installing the skill must not require Node.js, Python, or a WebAssembly runner.

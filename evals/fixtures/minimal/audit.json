@@ -328,5 +328,6 @@
         "E-SAVED"
       ]
     }
-  ]
+  ],
+  "user_perspective_ref": "user-perspective.json"
 }

@@ -1,6 +1,6 @@
 {
   "name": "korean-ux-writing",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "Review Korean UI copy in the context of the entire user journey, resolve meaning problems, then refine the wording.",
   "author": {
     "name": "jingjing2222",
@@ -9,5 +9,10 @@
   "homepage": "https://github.com/jingjing2222/korean-ux-writing",
   "repository": "https://github.com/jingjing2222/korean-ux-writing",
   "license": "MIT",
-  "keywords": ["korean", "ux-writing", "frontend", "copy-editing"]
+  "keywords": [
+    "korean",
+    "ux-writing",
+    "frontend",
+    "copy-editing"
+  ]
 }
