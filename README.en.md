@@ -49,10 +49,10 @@ Review everything from the entry screen through error recovery and completion.
 
 ## How it works
 
-1. **The agent follows the user’s task.** It reviews the journey from entry through choices, cancellation, error recovery, and completion. At each step, it checks what users have been told and what they can expect to happen.
+1. **The agent reviews the screens with the user’s goal in mind.** It follows the journey from the first screen through choices, cancellation, error recovery, and completion. At each step, it checks what users have been told and what they can expect to happen.
 2. **It finds where the copy appears.** It collects button labels, form instructions, errors, empty states, notifications, and accessibility text, and records when and where each item appears.
-3. **It distinguishes wording problems from flow problems.** If earlier steps have not provided necessary context, it proposes where to introduce it. It does not assume users share the developer’s knowledge or treat extra explanation in the current copy as a fix for the flow.
-4. **It checks whether the wording fits the user’s task, then refines it.** It looks for words that are unsuitable or unclear in context, even when the grammar is correct. It reviews shared copy wherever it appears, resolves meaning problems, and then polishes the sentences.
+3. **It identifies unclear wording and steps where information is missing.** If users lack information they need before making a choice, it proposes adding that information at the first step where it is needed. It does not assume users know what developers know or count a longer explanation in the current copy as a fix for an earlier gap.
+4. **It checks whether the wording matches the user’s goal and what the product actually does.** It looks for words that are unsuitable or unclear in context, even when the grammar is correct. It reviews the meaning of shared copy wherever it appears, resolves mismatches, and then polishes the sentences.
 5. **It compares the original and final wording.** It records both, along with the reasons and sources for each decision. It also checks rendered screens where the environment allows.
 
 Every item is marked **change, keep, or hold**. The agent preserves actual product behavior, variables, amounts, durations, conditions, and other essential details. If the copy misstates how the product works, it corrects the wording using verified facts. When information is missing, it puts the item on hold and records why and what still needs to be checked.
@@ -79,6 +79,6 @@ See [SKILL.md](skills/korean-ux-writing/SKILL.md) for the workflow and completio
 
 ## License
 
-Original work in this repository is available under the [MIT License](LICENSE). Referenced external materials remain subject to their respective owners' rights and terms.
+The code, documentation, and other original work created for this repository are covered by the [MIT License](LICENSE). This repository’s MIT License does not cover the external documents cited here. When using those documents, follow each document’s own terms of use.
 
 Bundled runtime licenses are included in the `licenses/` directory beside each executable.
