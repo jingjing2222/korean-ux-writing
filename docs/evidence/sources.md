@@ -978,3 +978,107 @@
 - 예외·한계: 개별 금융 용어에 대한 결론은 저자의 비평이다. 금융 용어 정오표나 고유어 우월 규칙으로 가져오지 않고 맥락·의미 보존 방법만 참고한다.
 - 운영상 적용 해석: 사전상 유사어라는 이유만으로 교체하지 않고 목적어와 행위 종류를 함께 검토한다. 익숙함을 주장하려면 해당 사용자·도메인의 근거를 적고, 외래어 자체를 결함으로 처리하지 않는다.
 - 확인 상태: `passage-checked` · 2026-10-21. 기록한 본문 구절을 직접 확인했다. 사례·직무 철학·저자 제안을 독립적인 사용성 실험 결과로 취급하지 않는다.
+
+<a id="src-076"></a>
+
+## SRC-076 · Turn User Goals into Task Scenarios for Usability Testing
+
+- 원문: [Turn User Goals into Task Scenarios for Usability Testing](https://www.nngroup.com/articles/task-scenarios-usability-testing/)
+- 발행 주체·자료 성격: Nielsen Norman Group — Marieke McCloskey · 사용성 테스트 과업 작성 지침
+- 확인 위치: What Users Need To Be Able To Do; Engage Users with Task Scenarios, §2 Make the Task Actionable 및 §3 Avoid Giving Clues and Describing the Steps
+- 원문에서 확인한 내용: 과업은 사용자 목표와 현실적인 상황에서 출발해야 한다. 클릭 순서나 화면에 쓰인 용어를 과업 설명에 넣으면 사용자가 그 용어와 경로를 스스로 이해하는지 관찰하기 어렵다.
+- 적용 조건·범위: 사용자 목표를 제시하되 정답 경로·화면 용어를 미리 가르치지 않는 검토 시나리오 구성
+- 예외·한계: 사람이 실제로 수행하는 사용성 테스트 지침이다. 에이전트의 예상 행동을 실제 참여자 관측이나 성공률로 취급하는 근거가 아니다.
+- 운영상 적용 해석: 과업 목표를 먼저 정하고 정답 경로를 누설하지 않는 점검 요청을 만든다. 익숙한 표준 용어까지 억지로 피하지 않는다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.
+
+<a id="src-077"></a>
+
+## SRC-077 · Avoid Leading Questions to Get Better Insights from Participants
+
+- 원문: [Avoid Leading Questions to Get Better Insights from Participants](https://www.nngroup.com/articles/leading-questions/)
+- 발행 주체·자료 성격: Nielsen Norman Group — Amy Schade · 사용자 조사 진행자의 질문·편향 지침
+- 확인 위치: 도입부 Question 1–3 분석; 링크를 button이라고 부른 사례; What Makes a Question Leading의 인터페이스 명칭·감정 추정 항목
+- 원문에서 확인한 내용: 진행자의 해석이나 답을 질문에 넣으면 응답과 이후 행동이 달라질 수 있다. 사용자가 겪은 문제를 단정하거나 인터페이스 요소의 정체를 먼저 알려주지 않아야 한다.
+- 적용 조건·범위: 개발자·평가자가 알고 있는 의미나 기대 답을 사용자 이해의 증거로 섞지 않는 검토
+- 예외·한계: 실제 참여자에게 질문하는 방법을 설명한다. 숨겨진 맥락을 분리하는 에이전트 검토 절차는 이를 적용한 설계이며, 문서에 명시된 AI 평가 방법이 아니다.
+- 운영상 적용 해석: 사용자에게 노출되지 않은 해설을 독립 검토 입력에서 분리한다. 이는 원문 원칙을 적용한 절차이며 AI의 독립성을 보증하지 않는다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.
+
+<a id="src-078"></a>
+
+## SRC-078 · Memory Recognition and Recall in User Interfaces
+
+- 원문: [Memory Recognition and Recall in User Interfaces](https://www.nngroup.com/articles/recognition-and-recall/)
+- 발행 주체·자료 성격: Nielsen Norman Group — Raluca Budiu · 사용자 인터페이스의 기억·재인 설계 해설
+- 확인 위치: Recognition vs. Recall; Recognition in User Interfaces; Promote Recognition in User Interfaces 도입부
+- 원문에서 확인한 내용: 주어진 단서로 알아보는 일은 기억에서 답을 꺼내는 일보다 쉽다. 사용자가 목표에 필요한 정보와 기능을 화면에서 보고 접근할 수 있게 하여 기억 부담을 줄인다.
+- 적용 조건·범위: 현재 화면의 단서와 재접근 가능한 안내로 대상·선택·행동을 알아볼 수 있는지 검토
+- 예외·한계: 모든 앞선 정보를 매 화면에 반복하거나 사용자의 기존 지식을 전부 배제하라는 지침이 아니다. 개별 문구를 사용자가 이해했다는 실험 증거도 아니다.
+- 운영상 적용 해석: 앞선 노출을 기억·이해의 증거로 삼지 않고 현재 단서와 재접근 경로를 확인한다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.
+
+<a id="src-079"></a>
+
+## SRC-079 · Using moderated usability testing
+
+- 원문: [Using moderated usability testing](https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing)
+- 발행 주체·자료 성격: GOV.UK Service Manual — User research community · 정부 서비스 사용성 테스트 운영 지침
+- 확인 위치: 도입부; Plan the sessions의 actual or likely users; Design the tasks; Run a session의 clear, neutral instructions 및 mostly just watch and listen
+- 원문에서 확인한 내용: 사용성 테스트는 실제 또는 잠재 사용자의 과업 수행을 관찰한다. 과업은 현실적인 목표를 주되 해결 방법을 암시하지 않으며, 진행자는 중립적으로 안내하고 주로 관찰한다.
+- 적용 조건·범위: 평가 목표·대상 사용자·중립 시나리오를 정하고, 관찰된 행동과 진행자의 해석을 구별하는 절차
+- 예외·한계: 참여자를 모집한 실제 연구의 지침이다. 에이전트가 화면을 따라가거나 소스를 읽는 것만으로 참여자 관측을 대체할 수 있다고 주장하지 않는다.
+- 운영상 적용 해석: 참여자를 관찰하지 않은 에이전트 점검을 실제 사용성 테스트와 구별한다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.
+
+<a id="src-080"></a>
+
+## SRC-080 · The Cognitive Walkthrough Method: A Practitioner's Guide
+
+- 원문: [The Cognitive Walkthrough Method: A Practitioner's Guide](https://www.colorado.edu/ics/sites/default/files/attached-files/93-07.pdf)
+- 발행 주체·자료 성격: University of Colorado, Institute of Cognitive Science — Cathleen Wharton, John Rieman, Clayton Lewis, Peter Polson · 원저자의 기술 보고서 CU-ICS-93-07; 1994년 책 수록 예정 원고
+- 확인 위치: 본문 p.4 한계·개발자 가정; §2.2 pp.6–7 입력 정의; §2.3 pp.8–9 단계별 네 질문; §2.4 p.10 사전 지식·학습 정보 기록. PDF 페이지 번호는 각각 7, 9–10, 11–12, 13이다.
+- 원문에서 확인한 내용: 예상 사용자의 사전 지식과 목표를 명시하고 각 단계에서 필요한 목표 형성, 행동의 발견, 행동과 기대 효과의 연결, 진행 결과의 이해를 검토한다. 개발자가 사용자 지식을 과대 가정한 부분을 드러내는 평가 방법이다.
+- 적용 조건·범위: 사용자에게 주어진 단서로 다음 행동과 결과를 이해할 수 있는지 단계별로 점검하고 사전 지식·가정을 기록하는 전문가 검토
+- 예외·한계: 탐색에 의한 학습 용이성에 초점을 둔 전문가 점검이며 실제 사용자 관측이 아니다. 원문은 네 질문을 절대 요건으로 보지 않고, 이 방법만으로 전체 사용성·중대한 오류 위험을 평가할 수 없다고 명시한다.
+- 운영상 적용 해석: 다음 행동을 하기 전의 해석·예상을 실제 결과와 분리해 기록한다. 제품 사실을 이미 읽은 검토자는 그 한계를 남긴다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.
+
+<a id="src-081"></a>
+
+## SRC-081 · 토스가 특허 낸 리서치툴, TNS (Toss Navigation Score) 제작기
+
+- 원문: [토스가 특허 낸 리서치툴, TNS (Toss Navigation Score) 제작기](https://toss.tech/article/Toss_Navigation_Score)
+- 발행 주체·자료 성격: 토스 TNS 길드 · 제품 조직의 사용성 조사 도구 제작·적용 사례
+- 확인 위치: TNS의 시작의 EVR 한계와 실제 탐색 경로; 디자인 | 사용자에게서 답을 찾다, §1 사용법을 쉽게 이해할 수 있게 하기 및 §2 테스트의 의도 정확히 전달하기
+- 원문에서 확인한 내용: 단일 화면의 클릭만으로 여러 화면에서 사용자가 헤매는 경로를 알기 어려워 실제 앱의 탐색 과정을 추적했다. 앞서 설명한 내용을 읽지 않거나 잊는 문제를 관찰하고, 정보가 필요한 순간에 단계적으로 안내했다.
+- 적용 조건·범위: 개별 화면의 문구뿐 아니라 실제 이동 경로와 안내의 노출 시점을 함께 검토하는 한국어 제품 사례
+- 예외·한계: 토스의 특정 연구 도구 사례다. 글을 모든 사용자가 읽지 않는다는 법칙이나 특정 안내 문구·점수 산식을 다른 제품에 그대로 적용하는 기준이 아니다.
+- 운영상 적용 해석: 한 화면의 문장만 보지 않고 경로와 정보 제공 순서를 검토한다. 토스의 수치나 문구를 범용 기준으로 복제하지 않는다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.
+
+<a id="src-082"></a>
+
+## SRC-082 · Help users to Start using a service
+
+- 원문: [Help users to Start using a service](https://design-system.service.gov.uk/patterns/start-using-a-service/)
+- 발행 주체·자료 성격: GOV.UK Design System · 서비스 진입점 설계 패턴
+- 확인 위치: How it works; Eligibility; Choosing a format for a start point on GOV.UK > Mainstream start points의 취업 자격 증명 사례
+- 원문에서 확인한 내용: 진입점은 서비스 목적과 이용에 앞서 필요한 정보를 충분히 전달해야 한다. 더 넓은 절차를 이해해야 하는 경우 진입점을 다중 페이지 안내 안에 두어 필요한 맥락을 건너뛰어 잘못 행동하는 일을 줄인다.
+- 적용 조건·범위: 사용자에게 필요한 사전 맥락이 없는 문제를 진입점·안내 순서·준비 정보의 배치로 해결하는 근거
+- 예외·한계: GOV.UK 서비스 패턴이다. 모든 제품에 별도 시작 페이지를 강제하지 않는다. 복잡한 자격 조건은 앞에서 길게 설명하기보다 서비스 안의 질문으로 처리하고, 준비 정보가 많으면 별도 페이지로 나눌 수 있다고 명시한다.
+- 운영상 적용 해석: 선행 맥락 누락을 흐름 문제로 기록하고 최초로 필요한 단계의 진입·안내 구성을 제안한다. 현재 문구의 설명 추가로 해결 처리하지 않는 것은 사용자 요구를 반영한 적용 절차다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.
+
+<a id="src-083"></a>
+
+## SRC-083 · Onboarding Tutorials vs. Contextual Help
+
+- 원문: [Onboarding Tutorials vs. Contextual Help](https://www.nngroup.com/articles/onboarding-tutorials/)
+- 발행 주체·자료 성격: Nielsen Norman Group — Page Laubheimer · 상황에 맞는 안내의 노출 시점·재접근·점진적 정보 공개 지침
+- 확인 위치: Tutorials: Disruptive, Often Skipped, and Easily Forgotten; What Works: Pull Revelations; Guidelines for Implementing Pull Revelations §1–5
+- 원문에서 확인한 내용: 안내는 시스템 편의가 아니라 사용자에게 필요한 시점에 제시해야 한다. 단계별 진행에서 정보를 기억하게 만들지 말고 해당 단계와 함께 제공하며, 상세 설명은 필요에 따라 펼치고 다시 찾을 수 있게 한다. 알맞은 시점을 정하려면 기능에 이르는 사용자 여정을 조사해야 한다.
+- 적용 조건·범위: 안내 문구의 양만 늘리지 않고 노출 시점·단계 구성·재접근 경로를 검토하는 근거
+- 예외·한계: 모든 설명을 앞당기거나 모든 화면에 도움말을 추가하라는 뜻이 아니다. 사용자 연구·과업 분석이 필요하며, 새로운 상호작용의 튜토리얼은 도움이 될 수 있다는 예외도 명시한다.
+- 운영상 적용 해석: 단계와 안내 시점을 함께 판단하되 불필요한 사전 교육이나 설명의 일괄 추가를 피한다.
+- 확인 상태: `passage-checked` · 2026-10-21. 기록한 구절을 확인했으며 해당 제품이나 사용자 이해를 검증한 결과는 아니다.

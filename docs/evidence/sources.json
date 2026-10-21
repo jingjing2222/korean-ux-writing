@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "3.1.0",
   "sources": [
     {
       "id": "SRC-001",
@@ -1274,6 +1274,142 @@
         "status": "passage-checked",
         "checked_on": "2026-10-21",
         "note": "기록한 본문 구절을 직접 확인했다. 사례·직무 철학·저자 제안을 독립적인 사용성 실험 결과로 취급하지 않는다."
+      }
+    },
+    {
+      "id": "SRC-076",
+      "title": "Turn User Goals into Task Scenarios for Usability Testing",
+      "url": "https://www.nngroup.com/articles/task-scenarios-usability-testing/",
+      "publisher": "Nielsen Norman Group — Marieke McCloskey",
+      "kind": "사용성 테스트 과업 작성 지침",
+      "language": "en",
+      "locator": "What Users Need To Be Able To Do; Engage Users with Task Scenarios, §2 Make the Task Actionable 및 §3 Avoid Giving Clues and Describing the Steps",
+      "claim": "과업은 사용자 목표와 현실적인 상황에서 출발해야 한다. 클릭 순서나 화면에 쓰인 용어를 과업 설명에 넣으면 사용자가 그 용어와 경로를 스스로 이해하는지 관찰하기 어렵다.",
+      "scope": "사용자 목표를 제시하되 정답 경로·화면 용어를 미리 가르치지 않는 검토 시나리오 구성",
+      "limitations": "사람이 실제로 수행하는 사용성 테스트 지침이다. 에이전트의 예상 행동을 실제 참여자 관측이나 성공률로 취급하는 근거가 아니다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "저자·날짜(2014-01-12)와 해당 소제목의 본문을 직접 확인했다."
+      }
+    },
+    {
+      "id": "SRC-077",
+      "title": "Avoid Leading Questions to Get Better Insights from Participants",
+      "url": "https://www.nngroup.com/articles/leading-questions/",
+      "publisher": "Nielsen Norman Group — Amy Schade",
+      "kind": "사용자 조사 진행자의 질문·편향 지침",
+      "language": "en",
+      "locator": "도입부 Question 1–3 분석; 링크를 button이라고 부른 사례; What Makes a Question Leading의 인터페이스 명칭·감정 추정 항목",
+      "claim": "진행자의 해석이나 답을 질문에 넣으면 응답과 이후 행동이 달라질 수 있다. 사용자가 겪은 문제를 단정하거나 인터페이스 요소의 정체를 먼저 알려주지 않아야 한다.",
+      "scope": "개발자·평가자가 알고 있는 의미나 기대 답을 사용자 이해의 증거로 섞지 않는 검토",
+      "limitations": "실제 참여자에게 질문하는 방법을 설명한다. 숨겨진 맥락을 분리하는 에이전트 검토 절차는 이를 적용한 설계이며, 문서에 명시된 AI 평가 방법이 아니다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "저자·날짜(2017-12-17)와 질문 분석·링크 사례·금지 추정 항목을 직접 확인했다."
+      }
+    },
+    {
+      "id": "SRC-078",
+      "title": "Memory Recognition and Recall in User Interfaces",
+      "url": "https://www.nngroup.com/articles/recognition-and-recall/",
+      "publisher": "Nielsen Norman Group — Raluca Budiu",
+      "kind": "사용자 인터페이스의 기억·재인 설계 해설",
+      "language": "en",
+      "locator": "Recognition vs. Recall; Recognition in User Interfaces; Promote Recognition in User Interfaces 도입부",
+      "claim": "주어진 단서로 알아보는 일은 기억에서 답을 꺼내는 일보다 쉽다. 사용자가 목표에 필요한 정보와 기능을 화면에서 보고 접근할 수 있게 하여 기억 부담을 줄인다.",
+      "scope": "현재 화면의 단서와 재접근 가능한 안내로 대상·선택·행동을 알아볼 수 있는지 검토",
+      "limitations": "모든 앞선 정보를 매 화면에 반복하거나 사용자의 기존 지식을 전부 배제하라는 지침이 아니다. 개별 문구를 사용자가 이해했다는 실험 증거도 아니다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "저자·날짜(2024-01-15)와 재인·회상 구분, 화면 정보·기능을 보이게 하는 설명을 직접 확인했다."
+      }
+    },
+    {
+      "id": "SRC-079",
+      "title": "Using moderated usability testing",
+      "url": "https://www.gov.uk/service-manual/user-research/using-moderated-usability-testing",
+      "publisher": "GOV.UK Service Manual — User research community",
+      "kind": "정부 서비스 사용성 테스트 운영 지침",
+      "language": "en",
+      "locator": "도입부; Plan the sessions의 actual or likely users; Design the tasks; Run a session의 clear, neutral instructions 및 mostly just watch and listen",
+      "claim": "사용성 테스트는 실제 또는 잠재 사용자의 과업 수행을 관찰한다. 과업은 현실적인 목표를 주되 해결 방법을 암시하지 않으며, 진행자는 중립적으로 안내하고 주로 관찰한다.",
+      "scope": "평가 목표·대상 사용자·중립 시나리오를 정하고, 관찰된 행동과 진행자의 해석을 구별하는 절차",
+      "limitations": "참여자를 모집한 실제 연구의 지침이다. 에이전트가 화면을 따라가거나 소스를 읽는 것만으로 참여자 관측을 대체할 수 있다고 주장하지 않는다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "해당 절의 참가자·과업·진행 지침을 직접 확인했다."
+      }
+    },
+    {
+      "id": "SRC-080",
+      "title": "The Cognitive Walkthrough Method: A Practitioner's Guide",
+      "url": "https://www.colorado.edu/ics/sites/default/files/attached-files/93-07.pdf",
+      "publisher": "University of Colorado, Institute of Cognitive Science — Cathleen Wharton, John Rieman, Clayton Lewis, Peter Polson",
+      "kind": "원저자의 기술 보고서 CU-ICS-93-07; 1994년 책 수록 예정 원고",
+      "language": "en",
+      "locator": "본문 p.4 한계·개발자 가정; §2.2 pp.6–7 입력 정의; §2.3 pp.8–9 단계별 네 질문; §2.4 p.10 사전 지식·학습 정보 기록. PDF 페이지 번호는 각각 7, 9–10, 11–12, 13이다.",
+      "claim": "예상 사용자의 사전 지식과 목표를 명시하고 각 단계에서 필요한 목표 형성, 행동의 발견, 행동과 기대 효과의 연결, 진행 결과의 이해를 검토한다. 개발자가 사용자 지식을 과대 가정한 부분을 드러내는 평가 방법이다.",
+      "scope": "사용자에게 주어진 단서로 다음 행동과 결과를 이해할 수 있는지 단계별로 점검하고 사전 지식·가정을 기록하는 전문가 검토",
+      "limitations": "탐색에 의한 학습 용이성에 초점을 둔 전문가 점검이며 실제 사용자 관측이 아니다. 원문은 네 질문을 절대 요건으로 보지 않고, 이 방법만으로 전체 사용성·중대한 오류 위험을 평가할 수 없다고 명시한다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "대학 원본은 스캔 PDF다. PDF 1–15쪽을 렌더링·OCR하고 본문 p.4, p.6, p.9 원본 이미지를 직접 대조했다. 표지의 보고서 번호와 1994년 출판 예정 문구도 확인했다."
+      }
+    },
+    {
+      "id": "SRC-081",
+      "title": "토스가 특허 낸 리서치툴, TNS (Toss Navigation Score) 제작기",
+      "url": "https://toss.tech/article/Toss_Navigation_Score",
+      "publisher": "토스 TNS 길드",
+      "kind": "제품 조직의 사용성 조사 도구 제작·적용 사례",
+      "language": "ko",
+      "locator": "TNS의 시작의 EVR 한계와 실제 탐색 경로; 디자인 | 사용자에게서 답을 찾다, §1 사용법을 쉽게 이해할 수 있게 하기 및 §2 테스트의 의도 정확히 전달하기",
+      "claim": "단일 화면의 클릭만으로 여러 화면에서 사용자가 헤매는 경로를 알기 어려워 실제 앱의 탐색 과정을 추적했다. 앞서 설명한 내용을 읽지 않거나 잊는 문제를 관찰하고, 정보가 필요한 순간에 단계적으로 안내했다.",
+      "scope": "개별 화면의 문구뿐 아니라 실제 이동 경로와 안내의 노출 시점을 함께 검토하는 한국어 제품 사례",
+      "limitations": "토스의 특정 연구 도구 사례다. 글을 모든 사용자가 읽지 않는다는 법칙이나 특정 안내 문구·점수 산식을 다른 제품에 그대로 적용하는 기준이 아니다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "발행일(2025-07-04)과 실제 경로 추적, 인트로·문제·앱 전환, 필요한 순간 안내에 관한 본문을 직접 확인했다."
+      }
+    },
+    {
+      "id": "SRC-082",
+      "title": "Help users to Start using a service",
+      "url": "https://design-system.service.gov.uk/patterns/start-using-a-service/",
+      "publisher": "GOV.UK Design System",
+      "kind": "서비스 진입점 설계 패턴",
+      "language": "en",
+      "locator": "How it works; Eligibility; Choosing a format for a start point on GOV.UK > Mainstream start points의 취업 자격 증명 사례",
+      "claim": "진입점은 서비스 목적과 이용에 앞서 필요한 정보를 충분히 전달해야 한다. 더 넓은 절차를 이해해야 하는 경우 진입점을 다중 페이지 안내 안에 두어 필요한 맥락을 건너뛰어 잘못 행동하는 일을 줄인다.",
+      "scope": "사용자에게 필요한 사전 맥락이 없는 문제를 진입점·안내 순서·준비 정보의 배치로 해결하는 근거",
+      "limitations": "GOV.UK 서비스 패턴이다. 모든 제품에 별도 시작 페이지를 강제하지 않는다. 복잡한 자격 조건은 앞에서 길게 설명하기보다 서비스 안의 질문으로 처리하고, 준비 정보가 많으면 별도 페이지로 나눌 수 있다고 명시한다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "본문의 서비스 이해·필요 준비·복잡한 조건 및 단독 시작 페이지로 맥락을 놓칠 수 있는 사례를 직접 확인했다."
+      }
+    },
+    {
+      "id": "SRC-083",
+      "title": "Onboarding Tutorials vs. Contextual Help",
+      "url": "https://www.nngroup.com/articles/onboarding-tutorials/",
+      "publisher": "Nielsen Norman Group — Page Laubheimer",
+      "kind": "상황에 맞는 안내의 노출 시점·재접근·점진적 정보 공개 지침",
+      "language": "en",
+      "locator": "Tutorials: Disruptive, Often Skipped, and Easily Forgotten; What Works: Pull Revelations; Guidelines for Implementing Pull Revelations §1–5",
+      "claim": "안내는 시스템 편의가 아니라 사용자에게 필요한 시점에 제시해야 한다. 단계별 진행에서 정보를 기억하게 만들지 말고 해당 단계와 함께 제공하며, 상세 설명은 필요에 따라 펼치고 다시 찾을 수 있게 한다. 알맞은 시점을 정하려면 기능에 이르는 사용자 여정을 조사해야 한다.",
+      "scope": "안내 문구의 양만 늘리지 않고 노출 시점·단계 구성·재접근 경로를 검토하는 근거",
+      "limitations": "모든 설명을 앞당기거나 모든 화면에 도움말을 추가하라는 뜻이 아니다. 사용자 연구·과업 분석이 필요하며, 새로운 상호작용의 튜토리얼은 도움이 될 수 있다는 예외도 명시한다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "저자·날짜(2023-02-12)와 시점, 재접근, 단계별 안내, 점진적 공개, 여정 이해의 다섯 지침을 직접 확인했다."
       }
     }
   ]
