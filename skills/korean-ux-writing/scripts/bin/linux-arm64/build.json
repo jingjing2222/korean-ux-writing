@@ -1,7 +1,7 @@
 {
-  "version": "3.0.1",
+  "version": "3.2.0",
   "target": "linux-arm64",
   "compiler": "scriptc@0.4.0",
-  "sha256": "69752f36eaa34972002dd319f41003e59d398212b4251dae2be42b9248199c9d",
-  "sourceSha256": "7610125856c80ae54e9cd54f3f000ca4ba7e06658f27eb2b58edf4172b2f1a73"
+  "sha256": "433738fdf9b588da0bdbd2ad65d1512039f867227b177f3479ede487644e15d7",
+  "sourceSha256": "c1d4450e150e312a8d6f0d34744c34dcae53ec60da0730248e03d3b805482835"
 }

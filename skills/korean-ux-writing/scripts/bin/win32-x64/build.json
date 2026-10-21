@@ -1,7 +1,7 @@
 {
-  "version": "3.0.1",
+  "version": "3.2.0",
   "target": "win32-x64",
   "compiler": "scriptc@0.4.0",
-  "sha256": "15331555c916355b0e3d5c91b6d0f8c226bf4414e1f26809da77d069798ac917",
-  "sourceSha256": "7610125856c80ae54e9cd54f3f000ca4ba7e06658f27eb2b58edf4172b2f1a73"
+  "sha256": "7090fc62683254dfd27d761908b701aa83740807ebcf81712bb5e5e874d07df9",
+  "sourceSha256": "c1d4450e150e312a8d6f0d34744c34dcae53ec60da0730248e03d3b805482835"
 }

@@ -23,6 +23,15 @@ context/node consistency, fit/status consistency, diagnosis resolution, and reje
 `--diagnosis-only` accepts a report before revision decisions exist, continues to
 validate context and diagnosis, and never emits a final completion claim.
 
+The checkpoint suite exercises the native stage handoff: invalid diagnoses and
+post-edit observations produce no review directory; preparation cannot overwrite
+an existing review; decision IDs and open findings are copied without inventing
+judgments. Final checks reject changes to saved originals, diagnostic reasons or
+pre-action expectations, dropped findings, invalid checkpoint references and
+missing per-path rechecks. Valid partial reviews and recorded finding resolutions
+remain possible. These tests check record preservation, not semantic correctness
+or an agent's actual work order.
+
 For an independent skill evaluation, copy `fixtures/subscription/` to a temporary
 workspace. Give a fresh agent only the installed skill, that fixture, and this task:
 
@@ -30,10 +39,10 @@ workspace. Give a fresh agent only the installed skill, that fixture, and this t
 > flow and diagnose each original against the installed translationese criteria
 > and exceptions. Start with the actual UI intent and whether its Korean vocabulary
 > and word combinations express that intent naturally in context; grammatical
-> correctness alone is insufficient. Before the first copy edit, save diagnosis.json and check it with
-> --diagnosis-only. Then improve the copy with separate UX and Korean-language
-> reasons, and produce a final audit that retains the original strings and refers
-> to the diagnostic snapshot. Preserve product behavior and report what you cannot verify.
+> correctness alone is insufficient. Before the first copy edit, save diagnosis.json
+> and run kuw prepare into a new review directory. Then improve the copy with
+> separate UX and Korean-language reasons and finish the generated audit with
+> --require-checkpoint. Preserve product behavior and report what you cannot verify.
 
 These are raw React/TypeScript source fixtures, not a bundled application. A source
 review needs no dependency installation. Do not claim that rendering was tested.
@@ -176,6 +185,74 @@ terms and license conditions, and review its own replacements by the same test.
 Repeated generic keep reasons or compliance with internal procedure are not
 evidence that the wording helps the reader. This is an agent evaluation, not an
 observed participant study.
+
+### Project guide regression
+
+Use [fixtures/project-guide/](fixtures/project-guide/) as a concrete documentation
+case. Copy only its `README.md` and `behavior.ts` to an isolated workspace and give
+a fresh agent the installed skill, pinned source evidence, and this request:
+
+> 대시보드 프로젝트를 만들어 개발하려는 개발자가 읽을 README의 한국어를
+> 검토하고 다듬어 줘. 관련 동작은 behavior.ts로 확인할 수 있어. 명령과 동작은
+> 바꾸지 말고, 문구 수정으로 해결하지 못한 문제가 있으면 알려 줘.
+
+The TypeScript file is a pure source model, not a CLI or browser application. It
+establishes fixture behavior only. Do not claim installation, rendering or real
+participant testing. The fixture is synthetic; it is neither a writing authority
+nor a record of a real user's behavior. Do not give the following rubric to the
+agent or include it in the installed skill.
+
+`pnpm test` runs [the scenario tests](../tests/project-guide.test.ts) to preserve
+the fixture's creation conditions, edit-then-add failure, replacement boundaries,
+launch timing and export controls. These tests check the supplied model, not the
+real product or the quality of an agent's diagnosis. The semantic assessment below
+still requires review of the agent's actual artifacts.
+
+Inspect the actual diagnosis, final document and unresolved findings:
+
+- Trace the promise of adding an example later through the instruction to edit
+  the entry file. The first addition rejects that edited state. Identify the
+  initial example choice as a point needing the condition, as well as the later
+  command. Moving the warning immediately above that command alone is partial.
+- Distinguish the creation example involving Git from the actual directory
+  condition. Empty directories work without Git; other files block creation.
+  Preserve `.git` and command text, and do not turn examples into universal
+  forbidden wording.
+- Make the preserved and replaced regions identifiable from actual markers.
+  Renaming “관리 영역” without explaining the boundary or the effect on edits
+  inside it does not resolve the issue. Preserve marker spelling and avoid
+  inventing an automatic merge or recovery path. A proposal for a new example
+  is different from an authorized, applied addition.
+- Distinguish creating the starter page from starting the development server and
+  opening the browser. Check the proposed wording together with the following
+  command; do not add a separate launch step the model does not require.
+- Keep the accurate CSR terminology, the saved-result requirement already
+  presented before export, and the explicitly optional filename example.
+  Rephrasing for a specific reason is allowed; labelling these as unexplained
+  jargon, late prerequisites or mandatory steps is a false positive.
+- Recheck revised and retained copy against the same conditions. Preserve
+  commands, paths, foreign-language spans and product behavior. Any unapplied
+  flow changes and unverified runtime checks remain explicit.
+
+For a before/after comparison, give separate fresh agents identical copies and
+the same request, changing only the skill snapshot. Record findings and false
+positives from their actual artifacts outside the repository. A single run may
+find the issues with either snapshot; it does not establish a detection rate or
+prove that a past miss was caused by missing instructions. Mechanical `pnpm test`
+checks report invariants, not these semantic outcomes.
+
+For the staged skill, also inspect the actual sequence of file reads and writes:
+the agent reads the entrypoint and context guide, records the reader's task and
+paths with original copy and product facts, then loads diagnosis criteria and the
+audit contract. It saves and checks diagnosis before loading revision guidance
+and editing copy. Verification returns to the original task, conditions and
+unresolved questions. Do not count a report claiming this order as proof; inspect
+the tool trace. The diagnosis handoff uses `kuw prepare`, and final validation uses
+`--require-checkpoint`; deleting the references is not a valid workaround.
+Bulk-reading all stage guides before context discovery fails this
+workflow check even if the final wording is good. Reusing a valid prior context
+record is allowed, with its version and scope checked instead of a fabricated
+fresh walkthrough.
 
 ## Korean-only editing scope
 

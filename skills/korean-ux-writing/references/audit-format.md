@@ -24,10 +24,16 @@ diagnosis. Keep it outside this report's Korean-only completion claim.
 
 ## Before the first copy edit
 
+Read this contract in the diagnosis phase, after the context record exists.
+Carry the original readings, evidence and unknowns into the report; do not invent
+a walkthrough to fill its fields. `context.json` is a working handoff, not a new
+native schema. Record its location as optional provenance such as `context_ref`.
+The validator does not read that snapshot or enforce stage-loading chronology.
+
 Follow [the user-perspective review](user-perspective.md) before judging copy.
 Save `user-perspective.json` and link it as `user_perspective_ref` in the diagnosis
 and final audit. Record what this user could know on this entry path and the
-pre-action expectation separately from the actual outcome. Native tool 3.0.1
+pre-action expectation separately from the actual outcome. Native tool 3.1.0
 requires a readable, structured companion in both modes and checks its declared
 coverage and links. Interpretation, observation truth and review order still need
 manual comparison. It does not replace the per-usage diagnosis below.
@@ -38,28 +44,44 @@ site with that meaning. Save the completed review as `diagnosis.json`, with
 `complete: false`:
 
 ```sh
-/path/to/korean-ux-writing/scripts/kuw audit /path/to/diagnosis.json --diagnosis-only
+/path/to/korean-ux-writing/scripts/kuw prepare /path/to/diagnosis.json --out /path/to/revision-1
 ```
 
-This validates context, funnel, inventory, meaning contexts and diagnosis without
-requiring revision decisions or `unresolved`. It does not authorize a rewrite.
-Preserve this snapshot, keep the same originals and IDs in the final report, and
-record its location in `diagnosis_ref`.
+This validates context, funnel, inventory, meaning contexts and diagnosis before
+creating a new directory. Decisions, additions and post-edit `recheck` records
+must still be absent or empty. It does not authorize a rewrite or grade copy.
+
+The directory contains `checkpoint.json` (the diagnosis and its companion), a
+working `user-perspective.json`, and `audit.json`. The tool copies originals,
+diagnoses and usage IDs, generates decision rows with `id`, `before`, empty basis
+arrays and usage-review IDs, and carries open findings into `unresolved`.
+It leaves status, revised wording and judgment explanations for the agent.
+The draft is deliberately incomplete and cannot pass the final audit until reviewed.
+The source files stay unchanged; an existing output directory is never overwritten.
+
+The generated report includes `checkpoint_ref` and `checkpoint_sha256`. Keep both
+fields and the saved checkpoint unchanged. The working companion is where later
+rechecks and finding resolutions belong. `kuw audit diagnosis.json --diagnosis-only`
+remains available to inspect a draft, but does not create this handoff.
 
 If new evidence changes a diagnosis, retain the old snapshot and explain the new
 evidence in a new snapshot. If a later discovery requires splitting a copy ID,
-retain an explicit old-to-new mapping and every original occurrence. Revalidate
-the new diagnosis before dependent edits. The validator does not read snapshots
-or prove that diagnosis preceded editing.
+retain an explicit old-to-new mapping and every original occurrence. Run `prepare`
+on the new diagnosis into a new directory before dependent edits. Cross-checkpoint
+mapping and the reason for new evidence still need substantive review.
 
 After revision, run:
 
 ```sh
-/path/to/korean-ux-writing/scripts/kuw audit /path/to/audit.json --require-complete
+/path/to/korean-ux-writing/scripts/kuw audit /path/to/revision-1/audit.json --require-checkpoint --require-complete
 ```
 
-Without `--require-complete`, a well-formed partial report can pass. Failures exit
-with status 1. `--diagnosis-only` and `--require-complete` cannot be combined. Add
+For partial results, omit only `--require-complete`; retain `--require-checkpoint`.
+The latter rejects a report whose checkpoint reference was removed. A reference
+present in any final audit is checked even without that flag. Legacy standalone
+version 2 reports can still be inspected without the flag; that is not a staged
+review completion check. Failures exit with status 1. `--diagnosis-only` cannot be
+combined with either requirement flag. Add
 `--json` for `{valid, complete, mode, errors, limitation}`. Diagnostic output always
 has `complete: false`. Final output is complete only if the input claims it and
 the declared contract passes; this is not independent quality certification.
@@ -74,6 +96,7 @@ referenced ID must exist; every required explanation must be nonempty.
 | `version` | Integer `2`. Version 1 is rejected; migration requires a real contextual review, not just changing this number. |
 | `complete` | Boolean; false while coverage, context or product facts remain unresolved. |
 | `user_perspective_ref` | Required relative `.json` path below this report's directory, e.g. `user-perspective.json` or `review/user-perspective.json`. The CLI resolves it relative to the report, independent of its working directory. Use forward slashes; absolute paths, URLs, `.`/`..` components and symlink escapes are rejected. |
+| `checkpoint_ref`, `checkpoint_sha256` | Generated by `prepare`; the local checkpoint path follows the same boundary rules as the companion, and the SHA-256 covers its exact bytes. Required with `--require-checkpoint`. |
 | `diagnostic_patterns_reviewed` | Every installed `translationese.json` pattern ID exactly once. Records catalog review, not a keyword search. |
 | `scope.files` | Unique project-relative files needed to understand all affected copy and its funnel, including routes, shared resources, validation and service adapters. |
 | `scope.routes`, `scope.states` | Unique routes and states. All must have declared nodes before completion. Distinguish conditional, loading, failure and success states. |
@@ -95,8 +118,33 @@ referenced ID must exist; every required explanation must be nonempty.
 | `unresolved` | `[{id, reason, evidence: [evidence ID]}]`. Include missing business facts, inaccessible screens, unverified behavior and unresolved flow findings from the user-perspective review. |
 
 `decisions` and `unresolved` are required only for the final audit. The tool reads
-its adjacent installed rule and pattern catalogs. `diagnosis_ref` and any
-old-to-new mappings are provenance fields that require manual comparison.
+its adjacent installed rule and pattern catalogs. Legacy `diagnosis_ref` and any
+old-to-new mappings remain provenance; they do not substitute for `checkpoint_ref`.
+
+## Checkpoint comparison
+
+Checkpoint version 1 embeds the pre-edit version 2 `diagnosis` and version 1
+`user_perspective`. The tool revalidates both against the installed catalogs and
+compares the final report with them. Inventory (including protected tokens and
+usage sites), diagnostic catalog review and diagnoses must stay unchanged.
+Existing meaning contexts, evidence, funnel nodes and edges must be retained;
+new records for authorized flow additions may be appended.
+Scope files, routes and states cannot shrink; changed exclusions require
+a new diagnosis. Existing findings must
+remain, though their proposal, applied scope, remaining work and status may change.
+Original method, task, reviewer knowledge and paths are preserved exactly.
+Object key order does not matter; sequence order does.
+
+For a complete report, each original path needs a `recheck` with its
+`original_path_id`. Multiple rechecks may refer to one original path. New paths
+need no invented original ID. An unknown original ID fails even in a partial
+report; a partial report may leave rechecks unfinished and record the limitation.
+
+These are record comparisons, not proof that the agent read guides in order,
+saved expectations before seeing implementation, applied the patch, or correctly
+judged the reader's understanding. A locally stored hash detects a changed file
+against the report's recorded digest; it is not tamper-proof provenance. Review
+actual tool traces and source diffs for those claims.
 
 ## User-perspective companion — version 1
 
@@ -112,7 +160,7 @@ not invent observations to fill an array. Required explanations are nonempty.
 | `reviewer_knowledge` | Nonempty explanation of internal information known at the start and materials supplied to the reviewer. Disclose knowledge of outcomes before the walkthrough. |
 | `paths` | Preserved pre-edit paths, each `{id, entry_node_id, steps: [step]}`. Path IDs must be unique across both collections. |
 | Step | `{id, node_id, occurrence_ids: [occurrence ID], available_information: [{detail, ref}], before_action, after_action}`. Step IDs are unique within a path. `before_action` separately records the goal, finding the action, choice differences, expected result and unknowns. `after_action` separately records the actual result and differences, including anything already known beforehand. Explain passive states or unperformed actions truthfully. |
-| `recheck` | Paths with the same shape, recording the task after changes. Append these instead of overwriting pre-edit steps. New copy appears only here. |
+| `recheck` | Paths with the same shape, recording the task after changes. Set `original_path_id` to the original path being rechecked; omit it only for a new path. Append these instead of overwriting pre-edit steps. New copy appears only here. |
 | `ux_findings` | `[{id, type, node_ids: [node ID], occurrence_ids: [occurrence ID], missing_context, first_needed, facts: [evidence ID], ux: [basis], proposal, applied_scope, remaining, status}]`. Type is `copy`, `flow` or `mixed`. Status is `open` or `resolved`. |
 | `limitations` | Unique strings describing unverified review scope. A nonempty array prevents completion. Internal knowledge and a nonparticipant method must be disclosed, but do not by themselves prevent a complete expert review. |
 
@@ -135,9 +183,9 @@ recheck coverage at its final location, including text retained with `keep`.
 In a partial report, an original usage absent from `paths` must have an
 `uncertain` context diagnosis and remain blocked or excluded in the final audit.
 
-Those automated checks aggregate occurrence coverage and the union of recorded
-edges; they do not compare the complete set of pre-edit and final paths. Manually
-confirm that every affected current path was rechecked, including distinct
+The ordinary contract checks aggregate occurrence coverage and recorded edges.
+Checkpoint mode also requires a recheck link for every original path before
+completion. Confirm that each linked recheck actually follows that task, including distinct
 actions between the same nodes. A recheck on one path cannot stand in for another
 unless their available information and consequences remain equivalent after the
 change and that equivalence is recorded. Keep any unverified path in `limitations`

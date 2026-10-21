@@ -1,5 +1,13 @@
 # Working on this skill
 
+Automate every mechanically decidable check in scripts; reserve agent work for contextual understanding, meaning, and editorial judgment. Do not make the agent repeatedly perform checks that code can enforce. Keep instructions focused on the remaining judgment and on when to run the tools.
+
+Keep every code file at 200 lines or fewer, including scripts and tests. Count physical lines, including comments and blank lines, and enforce the limit in repository validation. Split larger files by responsibility; do not compress code onto fewer lines to bypass the limit.
+
+When an existing check misses a failure, first capture it as a reproducible regression test, then structure or refactor the implementation so the check can detect it and the test passes. Make inputs, intermediate results, and invariants explicit where that enables automation. Test observable behavior, including valid counterexamples, rather than matching instruction wording or implementation details. Run these checks through the repository's normal test and validation commands.
+
+For failures that still require judgment, keep a concrete behavioral evaluation fixture and assess the agent's actual decisions and artifacts. Automate the decidable parts of that evaluation; do not substitute keyword matches, self-reported compliance, or schema validity for evidence of understanding. State what each automated check proves and what remains for substantive review.
+
 Read `docs/evidence/README.md` before changing writing rules. UX rules govern what a funnel must communicate; Korean rules govern how to express that meaning. Product code establishes facts, not writing standards.
 
 Never promote an invented preference or another agent skill into a writing rule. Preserve source scope, exceptions, and verification limits. Keep the full source evidence in `docs/evidence/`, outside `skills/`.

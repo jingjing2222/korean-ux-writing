@@ -2,7 +2,7 @@
 
 The plugin includes native executables built from TypeScript with scriptc 0.4.0.
 Users do not need Node.js, Python, npm packages or a WebAssembly runner to execute
-the audit and evidence commands.
+the preparation, audit and evidence commands.
 
 On macOS and Linux, `<skill-directory>/scripts/kuw` selects the bundled executable
 for the host. On Windows x64, use `<skill-directory>\scripts\kuw.cmd` or invoke the
@@ -21,7 +21,11 @@ musl/Alpine are not covered by this package. Do not install a compiler or downlo
 an unpinned replacement just to bypass a missing executable. Record the tool
 limitation and continue only the review steps that can be verified.
 
-`kuw audit` loads the rule and diagnostic catalogs next to the installed skill.
+`kuw prepare` validates a pre-edit diagnosis and creates a new revision directory
+with a saved checkpoint, working companion and decision scaffolding. It refuses
+to overwrite an existing directory. `kuw audit --require-checkpoint` compares the
+final report with that checkpoint as well as checking the report contract.
+Both commands load the rule and diagnostic catalogs next to the installed skill.
 `kuw evidence` reads its pinned source lock and verifies the registry before
 writing it into the reviewed project. A network connection is needed for that
 fetch unless `--source` points to a local file with the same pinned hash.

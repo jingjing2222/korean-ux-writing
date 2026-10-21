@@ -1,6 +1,6 @@
 {
   "name": "korean-ux-writing",
-  "version": "3.1.2",
+  "version": "3.2.0",
   "description": "Review Korean UI copy in the context of the entire user journey, resolve meaning problems, then refine the wording.",
   "author": {
     "name": "jingjing2222",
@@ -18,13 +18,17 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Korean UX Writing",
-    "shortDescription": "Review Korean UI copy in context",
-    "longDescription": "Read the whole user journey, check whether Korean UI copy conveys the intended meaning, and refine it using published UX and Korean-language references.",
+    "shortDescription": "Polish Korean UI copy",
+    "longDescription": "For teams reviewing Korean product interfaces: read the user journey, check what users can understand before acting, and refine existing Korean UI copy using published UX and Korean-language references. Preserve other languages and foreign-language spans. Report missing context and unresolved flow problems separately from completed copy edits. Requires desktop access to the product files; includes native audit tools for macOS, Linux, and Windows. Agent walkthroughs are not participant usability tests.",
     "developerName": "jingjing2222",
     "category": "Productivity",
     "websiteURL": "https://github.com/jingjing2222/korean-ux-writing",
     "defaultPrompt": [
       "프론트엔드의 전체 사용자 흐름을 읽고 한국어 문구가 목적과 실제 동작에 맞는지 검토한 뒤 다듬어 줘."
-    ]
-  }
+    ],
+    "capabilities": [],
+    "logo": "./assets/icon.svg",
+    "composerIcon": "./assets/icon.svg"
+  },
+  "requires_local_executor": true
 }
