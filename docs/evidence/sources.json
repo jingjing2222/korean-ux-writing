@@ -166,10 +166,10 @@
         "checked_on": "2026-10-21",
         "note": "조사 과정에서 locator에 적은 본문 구절과 사례를 확인했다. 문서 전체의 검증·독립 실험 결과·인간 승인 상태를 의미하지 않는다."
       },
-      "locator": "후반부의 효과적인 UX Writing 설명과 UT에서 라이브러리·홈 명칭을 비교한 부분",
-      "claim": "직접 진행한 사용성 관찰에서 직역한 어색한 표현, 한국에서 잘 쓰이지 않는 표현, 의도와 다른 의미의 용어를 지적하고 대상 사용자의 친숙도를 고려한다.",
+      "locator": "pxd 사용성 테스트 결과 목록; 마지막 문단의 라이브러리·홈 비교",
+      "claim": "같은 외래어도 사용자 경험에 따라 기능 이해가 달랐다는 관찰을 제시하며, 서비스 목적과 대상자의 익숙한 경험에 맞는 용어 선택을 논의한다.",
       "scope": "탐색 명칭과 기능 이름을 이해하는 사용자의 맥락.",
-      "limitations": "라이브러리와 홈의 반응이 달랐고 콘텐츠 앱 친숙도에 따른 차이도 있었다. 특정 외래어의 금지나 모든 사용자에 대한 결론으로 확대하지 않는다. 표본·과업 상세 수치는 공개되지 않았다."
+      "limitations": "표본 수와 실험 설계가 공개되지 않은 실무 사례다. 라이브러리 금지·홈 무조건 유지처럼 치환 규칙으로 만들지 않는다."
     },
     {
       "id": "SRC-011",
@@ -234,10 +234,10 @@
         "checked_on": "2026-10-21",
         "note": "조사 과정에서 locator에 적은 본문 구절과 사례를 확인했다. 문서 전체의 검증·독립 실험 결과·인간 승인 상태를 의미하지 않는다."
       },
-      "locator": "포괄적으로 쓰지 않는다는 설명과 오류 안내·서술어 사례",
-      "claim": "포괄적인 오류 안내와 의미가 약한 표현 대신 상황과 행동을 정확하게 전달하는 UI 텍스트를 논의한다.",
+      "locator": "포괄적 오류 설명; 명확한 표현으로 정보를 설명한다의 두 번째 A/B 예시와 이어지는 문단",
+      "claim": "비문이나 거짓이 아니어도 시스템 상태보다 사용자가 시도한 행동과 가능한 후속 행동을 정확히 설명하는 표현이 필요하다고 논의한다.",
       "scope": "오류 메시지와 동작·상태를 전달하는 UI 문장.",
-      "limitations": "글의 보안 예외 설명에는 저자의 추측이 포함되어 있다. 보안 정책의 사실 근거로 사용하지 않는다."
+      "limitations": "보안 예외에는 저자의 추측이 포함되어 있다. 오류 원인·복구 가능성을 별도 검증하며, 해지·해제를 영구·일시의 보편 정오표로 확대하지 않는다."
     },
     {
       "id": "SRC-015",
@@ -997,12 +997,12 @@
       "verification": {
         "status": "passage-checked",
         "checked_on": "2026-10-21",
-        "note": "기록한 원문 구절을 확인했다. 전체 문서 검증이나 인간 승인을 뜻하지 않는다."
+        "note": "공식 Learn 색인에서 Korean 링크를 확인하고 PDF를 새로 내려받아 핵심 구절과 표의 열·쪽 번호를 확인했다. 세부 패시지와 적용 해석은 intent-first.md에 분리했다."
       },
-      "locator": "55쪽 PDF의 5쪽 §2.1·2.1.1, 9~10쪽 §2.1.4, 26쪽 §4.1.6, 32~33쪽 §5",
-      "claim": "단어별 대응을 피하고 페이지 전체의 의도와 사용자의 과업을 이해한 뒤 한국어로 재구성하도록 한다. 익숙한 표현과 현지 언어 관습을 고려한다.",
+      "locator": "55쪽 PDF의 §2.1·2.1.1 p5, §2.1.3 pp8–9, §2.1.4 pp9–10, §4.1.6 p26, §5 pp32–33, §5.4.2 pp38–39",
+      "claim": "독자·과업·전체 의도를 이해하고 실제 페이지에서 맥락을 확인한 뒤, 단어별 대응에 매이지 않는 한국어로 재구성하도록 한다.",
       "scope": "Microsoft 제품의 한국어 UI·문서 지역화. 공식 Learn의 한국어 가이드 링크로 확인.",
-      "limitations": "Microsoft의 브랜드 말투·용어를 다른 제품의 의무로 삼지 않는다. 개작은 의미·조건 변경의 허가가 아니다."
+      "limitations": "Microsoft의 말투·용어를 보편 규범으로 강제하지 않는다. 의미 보존·용어 일관성을 함께 요구하며, 자연스러운 개작이 기능·조건 변경을 허용하지 않는다."
     },
     {
       "id": "SRC-060",
@@ -1105,6 +1105,176 @@
       "claim": "문자열 용도·시점·위치와 UI 요소의 문맥을 제공하고 바꾸면 안 되는 코드·자리표시자·이름을 구분하도록 한다.",
       "scope": "Android 리소스의 지역화 맥락과 보존 정보.",
       "limitations": "한국어의 특정 어휘를 정답으로 정하는 지침은 아니다."
+    },
+    {
+      "id": "SRC-066",
+      "title": "Contextual Metadata",
+      "url": "https://learn.microsoft.com/en-us/globalization/internationalization/contextual-metadata",
+      "publisher": "Microsoft",
+      "kind": "공식 지역화 지침",
+      "language": "en",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "공식 원문의 기록한 절을 직접 확인했다. 전체 문서 검증이나 인간 승인을 뜻하지 않는다."
+      },
+      "locator": "도입부; Metadata that provides context for the text of the string; Metadata that provides context for placeholders and variables within the string; Choosing when to add context",
+      "claim": "표시 위치·역할·발생 조건·다른 선택지와의 관계·변수의 의미를 제공하면 번역의 모호함을 줄일 수 있다.",
+      "scope": "맥락 메타데이터가 번역 판단에 필요한 정보의 종류를 제시한다.",
+      "limitations": "맥락 설명은 잘못된 원문의 대체물이 아니며, 한국어 개별 표현의 정답을 제공하지 않는다."
+    },
+    {
+      "id": "SRC-067",
+      "title": "Externalize localizable resources",
+      "url": "https://learn.microsoft.com/en-us/globalization/internationalization/externalize-resources",
+      "publisher": "Microsoft",
+      "kind": "공식 지역화 지침",
+      "language": "en",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "공식 원문의 기록한 절을 직접 확인했다. 전체 문서 검증이나 인간 승인을 뜻하지 않는다."
+      },
+      "locator": "Avoid repurposing strings; Provide context for localizable resources; Nonlocalizable text",
+      "claim": "문자열 자체만으로 의미를 결정할 수 없다. 같은 원문과 공용 리소스도 사용 맥락에 따라 번역을 달리해야 할 수 있다.",
+      "scope": "공유 리소스의 모든 사용처, 문장과 버튼의 관계, 화면 발생 조건을 읽어야 하는 근거다.",
+      "limitations": "모든 공유 문자열을 분리하라는 뜻은 아니다. 내부 식별자와 표시 문구를 구분해야 하며, 한국어 통상성을 직접 입증하지 않는다."
+    },
+    {
+      "id": "SRC-068",
+      "title": "How to perform localization testing",
+      "url": "https://learn.microsoft.com/en-us/globalization/testing/how-to-perform-localization-testing",
+      "publisher": "Microsoft",
+      "kind": "공식 지역화 지침",
+      "language": "en",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "공식 원문의 기록한 절을 직접 확인했다. 전체 문서 검증이나 인간 승인을 뜻하지 않는다."
+      },
+      "locator": "Linguistic validation 평가 표; In-context review; Problems found by ICR",
+      "claim": "문법·의도 정확성·문맥 적합성·독자에 맞는 어휘를 별도로 검토하며, 실제 앱에서의 검토로 문자열만 읽을 때 놓친 문제를 찾는다.",
+      "scope": "문법이 맞아도 문맥·어휘·문화 적합성이 별개로 실패할 수 있으며, 수정 후 실제 UI 검토가 필요하다는 근거다.",
+      "limitations": "원어민 검토와 제품 맥락 안내를 권장한다. AI 판정의 완전성이나 실제 사용자 검증을 보장하지 않는다."
+    },
+    {
+      "id": "SRC-069",
+      "title": "Stop making assumptions about language: How user research can support better language choices",
+      "url": "https://www.microsoft.com/en-us/research/articles/stop-making-assumptions-about-language-how-user-research-can-support-better-language/",
+      "publisher": "Microsoft",
+      "kind": "제품 사용자 연구 보고",
+      "language": "en",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "공식 원문의 기록한 절을 직접 확인했다. 전체 문서 검증이나 인간 승인을 뜻하지 않는다."
+      },
+      "locator": "The role of language in product design; When less isn’t more; The importance of proximity; 2020-09-09, Sheila O’Hara·Holly Ambler·Veronika Hanson",
+      "claim": "관리 제품 조사에서 내부 용어와 사용자 과업 이해의 차이, 모호한 라벨이 행동 선택에 미치는 영향을 보고한다. 명확하다면 더 긴 라벨이 선호될 수 있다.",
+      "scope": "표면적인 짧음·문법·작성자 직관보다 사용자 과업 모델과 의미 구분을 확인해야 하는 UX 근거다.",
+      "limitations": "영어권 IT 관리자 대상 제품 연구다. 한국어의 통상성이나 대상 제품 사용자의 이해를 직접 입증하지 않는다."
+    },
+    {
+      "id": "SRC-070",
+      "title": "Map and understand a user's whole problem",
+      "url": "https://www.gov.uk/service-manual/design/map-a-users-whole-problem",
+      "publisher": "GOV.UK Design community",
+      "kind": "공공서비스 설계 지침",
+      "language": "en",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "공식 원문의 기록한 절을 직접 확인했다. 전체 문서 검증이나 인간 승인을 뜻하지 않는다."
+      },
+      "locator": "도입부; Work out who else is involved in delivering a user journey; Understand the journey from the user’s point of view; Work out what you need to change",
+      "claim": "개별 서비스가 더 큰 사용자 과업의 일부임을 이해하고, 조직·채널을 넘는 흐름의 단절과 혼란을 확인하도록 한다.",
+      "scope": "여러 서비스와 접점에 걸친 사용자 여정의 조사·설계.",
+      "limitations": "한국어 표현 지침은 아니다. 실제 사용자 조사·협업을 전제로 하며, 코드에서 읽은 흐름을 조사 결과로 포장하는 근거가 아니다."
+    },
+    {
+      "id": "SRC-071",
+      "title": "Learning about users and their needs",
+      "url": "https://www.gov.uk/service-manual/user-research/start-by-learning-user-needs",
+      "publisher": "GOV.UK User research community",
+      "kind": "공공서비스 사용자 연구 지침",
+      "language": "en",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "공식 원문의 기록한 절을 직접 확인했다. 전체 문서 검증이나 인간 승인을 뜻하지 않는다."
+      },
+      "locator": "Researching users and their needs; Writing user needs; Validating user needs",
+      "claim": "사용자 목적을 당사자가 알아들을 말로 쓰고, 가정과 실제 사용자 연구 근거를 구분하며 문제와 원하는 결과를 확인하도록 한다.",
+      "scope": "사용자 요구를 발견·기록·검증하는 절차.",
+      "limitations": "문구별 한국어 정답을 제공하지 않는다. 에이전트의 코드 독해나 상상한 사용자 발화를 실제 인터뷰·사용성 평가로 취급하지 않는다."
+    },
+    {
+      "id": "SRC-072",
+      "title": "Work as a Samsung Designer — UX Writing",
+      "url": "https://design.samsung.com/kr/contents/design-career-1/ux-writing.html",
+      "publisher": "삼성전자 Samsung Design / 김지혜 Mobile eXperience사업부 UX팀",
+      "kind": "제품 조직 공식 직무 인터뷰",
+      "language": "ko",
+      "locator": "직무 소개 두 번째 문단; designer's interview의 '어떤 일을 담당하고 있나요?'와 '이 직무에 도전하려는 사람이 갖춰야 할 역량은 무엇인가요?' 답변",
+      "claim": "기획 의도·기능·맥락을 이해한 뒤 텍스트의 시점·위치·내용을 판단하며, 사용성을 고려하는 UX 라이팅과 단순 교정을 구분한다.",
+      "scope": "문구를 쓰기 전에 제품 이해와 정보 배치 판단이 필요하다는 선행 순서; 상황별 기능명·행동명",
+      "limitations": "삼성의 직무 철학이며 특정 한국어 어휘의 정오표가 아니다. 전체를 본다는 설명을 특정 퍼널 그래프 구현 지시로 해석하지 않는다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "기록한 본문 구절을 직접 확인했다. 사례·직무 철학·저자 제안을 독립적인 사용성 실험 결과로 취급하지 않는다."
+      }
+    },
+    {
+      "id": "SRC-073",
+      "title": "UX 라이팅, 배민은 이렇게 시작했어요",
+      "url": "https://bcut.baemin.com/6287/",
+      "publisher": "우아한형제들 B컷 / UX 라이터 유다정, 인터뷰 문민지·전정원",
+      "kind": "제품 조직의 직접 개선 사례",
+      "language": "ko",
+      "locator": "문민지 인터뷰 '프로덕트 디자이너가 UX 라이팅을 했을 때 강점은 뭐예요?'의 함께주문 사례; 전정원 인터뷰 'UX 라이팅 작업에서 뭐가 가장 어려웠나요?'의 고객 본인 확인 의무 사례",
+      "claim": "함께주문의 대표 주문자에게 필요한 정보를 기준으로 문구의 관점을 바꿨다. 본인 확인 진입 전 안내에서는 이후 절차와 실제로 측정한 시간을 반영했다.",
+      "scope": "퍼널에서 그 시점에 사용자가 알고 결정해야 하는 내용을 먼저 정하는 방식; 실제 흐름으로 약속 검증",
+      "limitations": "특정 과업과 역할의 사례다. 미완료 수를 항상 보여주거나 제시된 소요 시간을 다른 제품에 재사용하는 근거가 아니다. 번역 기원 판별 근거도 아니다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "기록한 본문 구절을 직접 확인했다. 사례·직무 철학·저자 제안을 독립적인 사용성 실험 결과로 취급하지 않는다."
+      }
+    },
+    {
+      "id": "SRC-074",
+      "title": "문제 해결을 유도한다는 것의 의미",
+      "url": "https://brunch.co.kr/@joojun/173",
+      "publisher": "Joo Jun(전주경), UX 라이터·『그렇게 쓰면 아무도 안 읽습니다』 저자",
+      "kind": "실무 경험을 바탕으로 재구성한 저자 사례",
+      "language": "ko",
+      "locator": "'소중한 콘텐츠를 한 명에게라도 더 쓰게 하고 싶은 마음'의 오류 조건; '불확실한 해결을 버리고 사용자의 신뢰를 택한다'의 케이스별 경로 및 '텍스트 스타일에 대한 코멘트'",
+      "claim": "오류 분기와 사용자가 할 수 있는 일을 먼저 확인하고, 그 상황에서 해결로 이어지지 않는 업데이트·재확인 안내를 재검토하는 사례다.",
+      "scope": "표면적으로 자연스러운 한국어 동사가 실제 사용자 능력·행동·복구 결과에 맞는지 검사",
+      "limitations": "저자가 재구성한 가상 교육 사례다. 실제 서비스 관측 데이터로 취급하거나 확인·업데이트 등의 표현을 전면 금지하는 근거로 쓰지 않는다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "기록한 본문 구절을 직접 확인했다. 사례·직무 철학·저자 제안을 독립적인 사용성 실험 결과로 취급하지 않는다."
+      }
+    },
+    {
+      "id": "SRC-075",
+      "title": "쉽게 쓰는 게 UX writing이 아니다.",
+      "url": "https://brunch.co.kr/@joojun/99",
+      "publisher": "Joo Jun(전주경), UX 라이터",
+      "kind": "저자의 한국어 서비스 용어 분석",
+      "language": "ko",
+      "locator": "'자곤(Jargon)이란 무엇인가?'의 사용자별 용어 해석 및 대체 판단 문단; '오늘의 요약' 두 문단",
+      "claim": "용어의 친숙도는 사용자와 경험에 따라 다르며, 대체할 때는 사용층·대상·의미·업계 맥락을 함께 보존해야 한다고 설명한다.",
+      "scope": "사용자 집단·대상·맥락을 보존하는 한국어 어휘 선택 방법",
+      "limitations": "개별 금융 용어에 대한 결론은 저자의 비평이다. 금융 용어 정오표나 고유어 우월 규칙으로 가져오지 않고 맥락·의미 보존 방법만 참고한다.",
+      "verification": {
+        "status": "passage-checked",
+        "checked_on": "2026-10-21",
+        "note": "기록한 본문 구절을 직접 확인했다. 사례·직무 철학·저자 제안을 독립적인 사용성 실험 결과로 취급하지 않는다."
+      }
     }
   ]
 }
