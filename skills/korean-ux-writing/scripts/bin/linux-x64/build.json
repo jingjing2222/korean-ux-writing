@@ -1,0 +1,7 @@
+{
+  "version": "3.0.0",
+  "target": "linux-x64",
+  "compiler": "scriptc@0.4.0",
+  "sha256": "9fb8a558486d3c3456713b264789cd81fc3872b04a3521364435ed4098f53d7d",
+  "sourceSha256": "5ab4bdda6b2ddec6b33dca1be90d9731453c948f8b017a7bfefebf75d6ce0a54"
+}

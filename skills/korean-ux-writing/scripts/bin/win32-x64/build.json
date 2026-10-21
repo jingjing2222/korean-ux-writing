@@ -1,0 +1,7 @@
+{
+  "version": "3.0.0",
+  "target": "win32-x64",
+  "compiler": "scriptc@0.4.0",
+  "sha256": "d3ad88f08119d1e4d2af45d117e59feeb6a006f88a4e8c7447d2fa6d52af1d44",
+  "sourceSha256": "5ab4bdda6b2ddec6b33dca1be90d9731453c948f8b017a7bfefebf75d6ce0a54"
+}

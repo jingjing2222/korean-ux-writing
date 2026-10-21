@@ -2,6 +2,6 @@
   "version": "3.0.0",
   "target": "darwin-arm64",
   "compiler": "scriptc@0.4.0",
-  "sha256": "d1093f590b1074765813c0c331aa90960828ca54028e7de25517364cfb0000ed",
+  "sha256": "56d4df9e095f2c3b2477769b682193c0b7747d56b6eae218904df79756d15a0c",
   "sourceSha256": "5ab4bdda6b2ddec6b33dca1be90d9731453c948f8b017a7bfefebf75d6ce0a54"
 }
